@@ -7,6 +7,7 @@
 #include <stdint.h>
 #include <sys/stat.h>
 #include <assert.h>
+#include <iostream>
 
 // Generic interface to packages
 typedef int (*fp_t)(const uint8_t *, uint32_t);

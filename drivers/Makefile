@@ -25,7 +25,7 @@ BIN_SUFFIX=.pem
 endif
 
 # CONFIG: Enable debugging logs
-DBG_LOG=0
+DBG_LOG=1
 ifeq ($(DBG_LOG), 1)
 CONFIG_DEBUG=-DCONFIG_DEBUG
 ifeq ($(USE_DER), 1)
@@ -89,4 +89,4 @@ $(foreach l, $(LIBS), \
 )
 
 clean:
-	rm -rf *.o *.a *.der *.pem
+	rm -rf *.o *.a *.der *.pem *.dbg
