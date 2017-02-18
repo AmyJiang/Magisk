@@ -2,9 +2,8 @@ INCL=./include.sh
 source ${INCL}
 
 
-CWD=`pwd`
 BDIR=${BUILD_LIBS}/${LIBRESSL}
-PATCH=${CWD}/../patches/libressl_2.4.0_sign.patch
+PATCH=${PATCHES}/libressl_2.4.0_sign.patch
 
 echo -e "\t * Building vanilla LibreSSL"
 if [ ! -d ${BDIR} ]; then
@@ -24,8 +23,6 @@ pushd ${SRC_LIBS}/${LIBRESSL} >/dev/null
     else
         echo -e "\t\t - Skipping patch - already applied"
     fi
-    rm ${PATCH}
-
     ./configure --disable-shared --with-pic --prefix=${BDIR} \
 --exec-prefix=${BDIR} CC="clang-3.8" > /dev/null  2>&1
     echo -e "\t\t - Adding dependencies"
