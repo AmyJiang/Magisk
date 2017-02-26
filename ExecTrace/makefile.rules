@@ -1,0 +1,26 @@
+TEST_TOOL_ROOTS :=
+TEST_ROOTS :=
+TOOL_ROOTS := exectrace
+SA_TOOL_ROOTS :=
+APP_ROOTS :=
+OBJECT_ROOTS :=
+DLL_ROOTS :=
+LIB_ROOTS :=
+SANITY_SUBSET :=
+
+TOOL_CXXFLAGS +=
+TOOL_LPATH +=
+TOOL_LIBS +=
+TOOL_OBJS = \
+    $(OBJDIR)exectrace$(OBJ_SUFFIX)
+
+TEST_CPP := hello.c
+TEST_OBJ := ./test
+
+.PHONY: test
+test: $(OBJDIR)exectrace$(PINTOOL_SUFFIX)
+	$(CXX) -o $(TEST_OBJ) $(TEST_CPP)
+	$(PIN) -t $(OBJDIR)exectrace$(PINTOOL_SUFFIX) -- $(TEST_OBJ)
+
+$(OBJDIR)exectrace$(PINTOOL_SUFFIX): $(TOOL_OBJS)
+	$(LINKER) $(TOOL_LDFLAGS) $(LINK_EXE)$@ $^ $(TOOL_LPATHS) $(TOOL_LIBS)
