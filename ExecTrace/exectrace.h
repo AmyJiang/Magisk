@@ -7,8 +7,8 @@
 #include <cassert>
 #include <stdint.h>
 
-typedef uint32_t ADDR;
-const ADDR ADDR_MAX = UINT32_MAX;
+typedef uint64_t ADDR;
+const ADDR ADDR_MAX = UINT64_MAX;
 
 typedef struct {
     ADDR base;
@@ -21,13 +21,8 @@ class ExecutionTrace {
 public:
     ExecutionTrace() {}
 
-    void AddEdge(ADDR prev, ADDR next) {
-        if (trace_.size() == 0) {
-            trace_.push_back(next);
-        } else {
-            assert(trace_.back() == prev);
-            trace_.push_back(next);
-        }
+    void AddBB(ADDR bb_addr) {
+        trace_.push_back(bb_addr);
     }
 
 
@@ -44,12 +39,13 @@ public:
         }
         str << "==== Execution Trace ====\n";
         for (unsigned int i = 0; i < trace_.size(); i++) {
-            str << trace_[i];
-            for (unsigned int j = 0; i < regions_.size(); j++) {
-                if (trace_[i] >= regions_[j].base
-                    && trace_[i] - regions_[j].base < regions_[j].size) {
-                    str << "=>" << regions_[j].filename << ":" << trace_[i] - regions_[j].base;
-                    break;
+            for (unsigned int j = 0; j < regions_.size(); j++) {
+                if (trace_[i] >= regions_[j].base) {
+                    unsigned int ra = trace_[i] - regions_[j].base;
+                    if (ra < regions_[j].size) {
+                        str << regions_[j].filename << ":" << ra;
+                        break;
+                    }
                 }
             }
             str << "\n";
