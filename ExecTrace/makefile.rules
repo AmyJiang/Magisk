@@ -8,13 +8,13 @@ DLL_ROOTS :=
 LIB_ROOTS :=
 SANITY_SUBSET :=
 
-TOOL_CXXFLAGS +=
+TOOL_CXXFLAGS += -O0
 TOOL_LPATH +=
 TOOL_LIBS +=
 TOOL_OBJS = \
     $(OBJDIR)exectrace$(OBJ_SUFFIX)
 
-TEST_CPP := hello.c
+TEST_CPP := test.c
 TEST_OBJ := ./test
 
 .PHONY: test
