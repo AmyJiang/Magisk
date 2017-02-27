@@ -30,7 +30,6 @@ int main(int argc, char* argv[])
         if (file != NULL) {
             char str[BUF_LEN];
             if (fgets(str, BUF_LEN, file) != NULL) {
-                printf(str);
                 if (eval(str)) {
                     printf("Yes!\n");
                 } else {

@@ -130,7 +130,7 @@ int main(int argc, char * argv[]) {
 
     IMG_AddInstrumentFunction(ImageRoutine, 0);
 
-    // TRACE_AddInstrumentFunction(TraceRoutine, 0);
+    TRACE_AddInstrumentFunction(TraceRoutine, 0);
     RTN_AddInstrumentFunction(InstrRoutine, 0);
 
     PIN_AddFiniFunction(Fini, 0);
