@@ -34,11 +34,13 @@ public:
 
     std::string Serialize() {
         std::stringstream str;
+        /*
         str << "==== Memory Regions ====\n";
         for (unsigned int i = 0; i < regions_.size(); i++) {
             str << "Base: " << regions_[i].base << ", " << "Size: " << regions_[i].size << ", Name: " << regions_[i].filename << "\n";
         }
         str << "==== Execution Trace ====\n";
+        */
         for (unsigned int i = 0; i < trace_.size(); i++) {
             str << std::hex << trace_[i].first << ":" << std::dec << trace_[i].second;
             str << "\n";
