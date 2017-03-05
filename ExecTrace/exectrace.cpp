@@ -135,12 +135,10 @@ INT32 Usage() {
 
 int main(int argc, char * argv[]) {
     PIN_InitSymbols();
+    if (PIN_Init(argc, argv)) return Usage();
 
     string filename = KnobOutputFile.Value();
-
     outFile.open(filename.c_str());
-
-    if (PIN_Init(argc, argv)) return Usage();
 
     IMG_AddInstrumentFunction(ImageRoutine, 0);
 
