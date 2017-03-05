@@ -8,19 +8,29 @@ DLL_ROOTS :=
 LIB_ROOTS :=
 SANITY_SUBSET :=
 
-TOOL_CXXFLAGS +=
+TOOL_CXXFLAGS += -O0
 TOOL_LPATH +=
 TOOL_LIBS +=
 TOOL_OBJS = \
     $(OBJDIR)exectrace$(OBJ_SUFFIX)
 
-TEST_CPP := hello.c
+TEST_CPP := test.c
 TEST_OBJ := ./test
+TEST_INPUT := input2.txt
 
 .PHONY: test
 test: $(OBJDIR)exectrace$(PINTOOL_SUFFIX)
 	$(CXX) -o $(TEST_OBJ) $(TEST_CPP)
-	$(PIN) -t $(OBJDIR)exectrace$(PINTOOL_SUFFIX) -- $(TEST_OBJ)
+	$(PIN) -t $(OBJDIR)exectrace$(PINTOOL_SUFFIX) -- $(TEST_OBJ) $(TEST_INPUT)
+
+SORT_CPP := qsort.c
+SORT_OBJ := ./qsort
+SORT_INPUT := qsort_test.txt
+
+.PHONY: qsort 
+qsort: $(OBJDIR)exectrace$(PINTOOL_SUFFIX)
+	$(CXX) -o $(SORT_OBJ) $(SORT_CPP)
+	$(PIN) -t $(OBJDIR)exectrace$(PINTOOL_SUFFIX) -- $(SORT_OBJ) $(SORT_INPUT)
 
 $(OBJDIR)exectrace$(PINTOOL_SUFFIX): $(TOOL_OBJS)
 	$(LINKER) $(TOOL_LDFLAGS) $(LINK_EXE)$@ $^ $(TOOL_LPATHS) $(TOOL_LIBS)

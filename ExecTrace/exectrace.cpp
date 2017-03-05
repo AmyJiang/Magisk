@@ -44,24 +44,37 @@ VOID ImageRoutine(IMG img, VOID *v) {
 }
 
 
-BOOL ValidAddr(ADDRINT bb_addr) {
+BOOL ValidAddr(ADDRINT addr) {
     for (unsigned int i = 0; i < regions.size(); i++) {
-        if (bb_addr >= regions[i].first && bb_addr < regions[i].second) {
+        if (addr >= regions[i].first && addr <= regions[i].second) {
             return true;
         }
     }
     return false;
 }
 
+VOID PIN_FAST_ANALYSIS_CALL handle_bb(UINT32 num_instr, ADDRINT address) {
+    execution_trace.AddBB(address, num_instr);
+}
+
 VOID TraceRoutine(TRACE trace, VOID *v) {
+    if (!ValidAddr(TRACE_Address(trace))) return;
+
     for (BBL bbl = TRACE_BblHead(trace); BBL_Valid(bbl); bbl = BBL_Next(bbl)) {
-        ADDRINT bb_current = BBL_Address(bbl);
-        if (!ValidAddr(bb_current)) continue;
-        execution_trace.AddBB(bb_current);
+        BBL_InsertCall(
+            bbl,
+            IPOINT_ANYWHERE,
+            (AFUNPTR)handle_bb,
+            IARG_FAST_ANALYSIS_CALL,
+            IARG_UINT32,
+            BBL_NumIns(bbl),
+            IARG_ADDRINT,
+            BBL_Address(bbl),
+            IARG_END
+        );
     }
 }
 
-/*
 const char * StripPath(const char * path) {
     const char * file = strrchr(path,'/');
     if (file)
@@ -70,35 +83,46 @@ const char * StripPath(const char * path) {
         return path;
 }
 
-typedef struct {
+typedef struct RtnSum {
     string _name;
     string _image;
     ADDRINT _address;
-    RTN _rtn;
+    struct RtnSum *_next;
 } RTN_SUM;
 
+RTN_SUM *RtnList = 0;
+
+void printproc(RTN_SUM* rc) {
+    std::cout << rc->_image << ": " << rc->_name << std::endl;
+}
 
 VOID InstrRoutine(RTN rtn, VOID *v) {
-    string image =  StripPath(IMG_Name(SEC_Img(RTN_Sec(rtn))).c_str());
-    if (image != "test") return;
+    if (!ValidAddr(RTN_Address(rtn))) return;
 
+    string image =  StripPath(IMG_Name(SEC_Img(RTN_Sec(rtn))).c_str());
     RTN_SUM* rc = new RTN_SUM;
     rc->_name = RTN_Name(rtn);
     rc->_image = image;
     rc->_address = RTN_Address(rtn);
+    rc->_next = RtnList;
+    RtnList = rc;
+
     RTN_Open(rtn);
     RTN_InsertCall(rtn, IPOINT_BEFORE, (AFUNPTR)printproc, IARG_PTR, rc, IARG_END);
     RTN_Close(rtn);
-
-    delete rc;
 }
-*/
 
 VOID Fini(INT32 code, VOID *v) {
     std::cout << "[Finished Routine]\n";
     string trace = execution_trace.Serialize();
     outFile << trace << "\n";
     outFile.close();
+
+    while (RtnList) {
+        RTN_SUM* tmp = RtnList;
+        RtnList = RtnList->_next;
+        delete tmp;
+    }
 }
 
 
@@ -121,8 +145,7 @@ int main(int argc, char * argv[]) {
     IMG_AddInstrumentFunction(ImageRoutine, 0);
 
     TRACE_AddInstrumentFunction(TraceRoutine, 0);
-    // ???
-    // RTN_AddInstrumentFunction(InstrRoutine, 0);
+    RTN_AddInstrumentFunction(InstrRoutine, 0);
 
     PIN_AddFiniFunction(Fini, 0);
 
