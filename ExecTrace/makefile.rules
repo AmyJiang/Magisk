@@ -16,12 +16,21 @@ TOOL_OBJS = \
 
 TEST_CPP := test.c
 TEST_OBJ := ./test
-TEST_INPUT := input.txt
+TEST_INPUT := input2.txt
 
 .PHONY: test
 test: $(OBJDIR)exectrace$(PINTOOL_SUFFIX)
 	$(CXX) -o $(TEST_OBJ) $(TEST_CPP)
 	$(PIN) -t $(OBJDIR)exectrace$(PINTOOL_SUFFIX) -- $(TEST_OBJ) $(TEST_INPUT)
+
+SORT_CPP := qsort.c
+SORT_OBJ := ./qsort
+SORT_INPUT := qsort_test.txt
+
+.PHONY: qsort 
+qsort: $(OBJDIR)exectrace$(PINTOOL_SUFFIX)
+	$(CXX) -o $(SORT_OBJ) $(SORT_CPP)
+	$(PIN) -t $(OBJDIR)exectrace$(PINTOOL_SUFFIX) -- $(SORT_OBJ) $(SORT_INPUT)
 
 $(OBJDIR)exectrace$(PINTOOL_SUFFIX): $(TOOL_OBJS)
 	$(LINKER) $(TOOL_LDFLAGS) $(LINK_EXE)$@ $^ $(TOOL_LPATHS) $(TOOL_LIBS)
