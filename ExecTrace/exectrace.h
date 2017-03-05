@@ -6,6 +6,7 @@
 #include <sstream>
 #include <cassert>
 #include <stdint.h>
+#include <iomanip>
 
 typedef uint64_t ADDR;
 const ADDR ADDR_MAX = UINT64_MAX;
@@ -21,8 +22,8 @@ class ExecutionTrace {
 public:
     ExecutionTrace() {}
 
-    void AddBB(ADDR bb_addr) {
-        trace_.push_back(bb_addr);
+    void AddBB(ADDR bb_addr, uint32_t size) {
+        trace_.push_back(std::make_pair(bb_addr, size));
     }
 
 
@@ -39,22 +40,14 @@ public:
         }
         str << "==== Execution Trace ====\n";
         for (unsigned int i = 0; i < trace_.size(); i++) {
-            for (unsigned int j = 0; j < regions_.size(); j++) {
-                if (trace_[i] >= regions_[j].base) {
-                    unsigned int ra = trace_[i] - regions_[j].base;
-                    if (ra < regions_[j].size) {
-                        str << regions_[j].filename << ":" << ra;
-                        break;
-                    }
-                }
-            }
+            str << std::hex << trace_[i].first; //":" << trace_[i].second;
             str << "\n";
         }
         return str.str();
     }
 
 private:
-    std::vector<ADDR> trace_;
+    std::vector<std::pair<ADDR, uint32_t> > trace_;
     std::vector<MemoryRegion> regions_;
 };
 

@@ -20,6 +20,7 @@ int eval( char* str ) {
         ret = 1;
     }
 
+    printf("Ret=%d\n", ret);
     return ret;
 }
 
@@ -30,10 +31,12 @@ int main(int argc, char* argv[])
         if (file != NULL) {
             char str[BUF_LEN];
             if (fgets(str, BUF_LEN, file) != NULL) {
+                for (int i = 0; i < 20; i++ ) {
                 if (eval(str)) {
                     printf("Yes!\n");
                 } else {
                     printf("No!\n");
+                }
                 }
             }
             fclose(file);

@@ -44,20 +44,34 @@ VOID ImageRoutine(IMG img, VOID *v) {
 }
 
 
-BOOL ValidAddr(ADDRINT bb_addr) {
+BOOL ValidAddr(ADDRINT addr) {
     for (unsigned int i = 0; i < regions.size(); i++) {
-        if (bb_addr >= regions[i].first && bb_addr < regions[i].second) {
+        if (addr >= regions[i].first && addr <= regions[i].second) {
             return true;
         }
     }
     return false;
 }
 
+VOID PIN_FAST_ANALYSIS_CALL handle_bb(UINT32 num_instr, ADDRINT address) {
+    execution_trace.AddBB(address, num_instr);
+}
+
 VOID TraceRoutine(TRACE trace, VOID *v) {
+    if (!ValidAddr(TRACE_Address(trace))) return;
+
     for (BBL bbl = TRACE_BblHead(trace); BBL_Valid(bbl); bbl = BBL_Next(bbl)) {
-        ADDRINT bb_current = BBL_Address(bbl);
-        if (!ValidAddr(bb_current)) continue;
-        execution_trace.AddBB(bb_current);
+        BBL_InsertCall(
+            bbl,
+            IPOINT_ANYWHERE,
+            (AFUNPTR)handle_bb,
+            IARG_FAST_ANALYSIS_CALL,
+            IARG_UINT32,
+            BBL_NumIns(bbl),
+            IARG_ADDRINT,
+            BBL_Address(bbl),
+            IARG_END
+        );
     }
 }
 
