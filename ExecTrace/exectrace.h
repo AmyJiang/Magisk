@@ -40,7 +40,7 @@ public:
         }
         str << "==== Execution Trace ====\n";
         for (unsigned int i = 0; i < trace_.size(); i++) {
-            str << std::hex << trace_[i].first; //":" << trace_[i].second;
+            str << std::hex << trace_[i].first << ":" << std::dec << trace_[i].second;
             str << "\n";
         }
         return str.str();
