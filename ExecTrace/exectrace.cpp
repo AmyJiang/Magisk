@@ -24,7 +24,7 @@ static const std::string blacklisted_imgs_[] = {
 static std::vector<std::string>  blacklisted_imgs(blacklisted_imgs_, blacklisted_imgs_+sizeof(blacklisted_imgs_) / sizeof(std::string));
 
 ExecutionTrace execution_trace;
-std::vector<std::pair<ADDRINT, ADDRINT>> regions;
+std::vector<std::pair<ADDRINT, ADDRINT> > regions;
 
 
 VOID ImageRoutine(IMG img, VOID *v) {
