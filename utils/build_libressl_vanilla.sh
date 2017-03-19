@@ -22,7 +22,7 @@ pushd ${SRC_LIBS}/${LIBRESSL} >/dev/null
     patch -p1 -N --dry-run --silent < ${PATCH} >/dev/null 2>&1
     if [ $? -eq 0 ]; then
         echo -e "\t\t - Applying patch"
-    #    patch -p1 < ${PATCH} >/dev/null 2>&1
+        patch -p1 < ${PATCH} >/dev/null 2>&1
     else
         echo -e "\t\t - Skipping patch - already applied"
     fi

@@ -33,7 +33,7 @@ pushd ${SRC_LIBS} >/dev/null
 popd > /dev/null
 
 #./build_openssl_vanilla.sh
-#./build_libressl_vanilla.sh
-./build_nqsb_vanilla.sh
+./build_libressl_vanilla.sh
+#./build_nqsb_vanilla.sh
 
 
