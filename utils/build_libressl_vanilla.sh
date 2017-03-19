@@ -11,6 +11,8 @@ if [ ! -d ${BDIR} ]; then
     mkdir -p ${BDIR}
 fi
 
+
+DF="-DFUZZER_DISABLE_SIGNCHECK -g -ggdb3"
 pushd ${SRC_LIBS}/${LIBRESSL} >/dev/null
     echo -e "\t\t - Configuring"
     # clean up just in case
@@ -20,12 +22,12 @@ pushd ${SRC_LIBS}/${LIBRESSL} >/dev/null
     patch -p1 -N --dry-run --silent < ${PATCH} >/dev/null 2>&1
     if [ $? -eq 0 ]; then
         echo -e "\t\t - Applying patch"
-        patch -p1 < ${PATCH} >/dev/null 2>&1
+    #    patch -p1 < ${PATCH} >/dev/null 2>&1
     else
         echo -e "\t\t - Skipping patch - already applied"
     fi
     ./configure --disable-shared --with-pic --prefix=${BDIR} \
---exec-prefix=${BDIR} > /dev/null  2>&1
+--exec-prefix=${BDIR} CFLAGS="$DF"> /dev/null  2>&1
     echo -e "\t\t - Adding dependencies"
     echo -e "\t\t - Compiling"
     make -j10 > /dev/null  2>&1

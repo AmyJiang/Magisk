@@ -4,5 +4,6 @@ PATCHES=/home/amy/Documents/Spring2017/OS/magisk/patches
 
 OPENSSL=openssl
 LIBRESSL=libressl
+NQSB=nqsb
 
 

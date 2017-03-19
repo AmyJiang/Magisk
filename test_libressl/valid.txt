@@ -1,0 +1,75 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            62:dd:4c:71:00:02:00:00:12:aa
+    Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=US, ST=CA, L=San Francisco, O=Bechtel Corporation, OU=Information Security, CN=IEXTCA-SSL.ibechtel.com
+        Validity
+            Not Before: Sep 18 14:43:03 2015 GMT
+            Not After : Sep 17 14:43:03 2017 GMT
+        Subject: C=US, ST=CA, L=San Francisco, O=Bechtel Corporation, OU=IS&T, CN=MSAN.becpsn.com
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:d9:c9:8f:11:2c:09:56:3d:07:48:07:d1:81:86:
+                    12:c1:d5:1b:a0:88:e1:12:ea:95:29:2b:b4:20:bb:
+                    fb:6a:fe:8e:99:a8:5d:fe:5b:d9:e4:45:87:f5:26:
+                    96:67:c6:3a:a0:40:fe:63:02:06:29:ae:5d:df:c7:
+                    fe:fd:92:88:42:93:cb:34:c9:77:c6:2d:e5:b3:6f:
+                    30:66:f9:5c:c3:d3:5e:9e:47:07:e5:21:20:f2:ad:
+                    97:12:1d:a4:a4:c7:dc:7c:e8:e0:bc:86:e0:bd:14:
+                    11:9b:62:7b:c4:56:99:74:1f:fe:15:54:b4:28:0f:
+                    8e:06:13:a5:de:b3:ab:76:9c:ea:49:66:39:64:0d:
+                    7a:4c:b0:07:5e:5f:41:2e:83:e1:3c:d4:29:1f:14:
+                    81:b9:03:d5:c3:c8:b9:b0:f2:0c:63:3b:45:50:b9:
+                    7a:3b:75:e8:85:23:06:b9:5e:38:98:52:97:09:70:
+                    b6:64:13:8e:54:4e:b2:5b:9f:ce:c3:96:4e:6b:23:
+                    dc:5f:b4:90:00:e2:fb:73:87:e1:00:4e:61:38:89:
+                    e4:8b:be:ef:04:26:d2:02:5a:d3:3e:73:e5:bf:55:
+                    a1:12:89:a0:66:7d:7d:bd:b3:de:14:ce:08:1a:c0:
+                    4e:c3:26:be:51:78:15:d4:e2:c8:3d:4f:82:bd:db:
+                    19:e3
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Key Usage: 
+                Digital Signature, Key Encipherment
+            1.3.6.1.4.1.311.21.7: 
+                0/.'+.....7.....x...f...........S.L...6......d...
+            X509v3 Subject Key Identifier: 
+                8D:17:B9:2B:ED:8E:93:41:F8:D9:C9:C4:38:9E:9D:B0:04:72:F2:F8
+            X509v3 Authority Key Identifier: 
+                keyid:D9:44:EB:2D:3C:C0:9F:CA:19:3E:3C:6E:23:A0:EF:96:27:9F:DB:42
+
+            X509v3 CRL Distribution Points: 
+
+                Full Name:
+                  URI:http://certauth.bechtel.com/certdata/IEXTCA-SSL.ibechtel.com(2).crl
+
+            Authority Information Access: 
+                CA Issuers - URI:http://certauth.bechtel.com/certdata/IEXTCA-SSL.ibechtel.com_IEXTCA-SSL.ibechtel.com(2).crt
+
+            X509v3 Extended Key Usage: 
+                TLS Web Server Authentication
+            1.3.6.1.4.1.311.21.10: 
+                0.0
+..+.......
+            X509v3 Subject Alternative Name: 
+                DNS:*.apac.staging.becpsn.com, DNS:*.apac.qa.becpsn.com, DNS:*.apac.dev.becpsn.com, DNS:*.apac.becpsn.com, DNS:*.eams.staging.becpsn.com, DNS:*.eams.qa.becpsn.com, DNS:*.eams.dev.becpsn.com, DNS:*.eams.becpsn.com, DNS:*.amers.staging.becpsn.com, DNS:*.amers.qa.becpsn.com, DNS:*.amers.dev.becpsn.com, DNS:*.amers.becpsn.com, DNS:*.staging.becpsn.com, DNS:*.qa.becpsn.com, DNS:*.dev.becpsn.com, DNS:*.becpsn.com
+    Signature Algorithm: sha256WithRSAEncryption
+         24:af:6f:43:26:70:05:1c:0d:3e:1c:fe:42:65:9b:8c:f0:cd:
+         31:89:2f:55:ae:b4:a9:0e:94:a2:8d:32:38:65:c8:e3:32:30:
+         47:ae:05:1c:b0:dc:2b:47:b0:4e:56:8e:01:93:ac:47:ac:1c:
+         2d:f5:8a:be:35:15:66:e8:45:fc:06:bd:98:a3:59:06:0b:20:
+         8b:6c:f5:aa:08:79:16:9b:0a:08:e1:9e:eb:98:f7:82:4b:54:
+         03:f5:22:60:f3:8e:3a:cb:1d:62:7a:65:a9:35:df:cf:3f:2b:
+         5b:0f:96:8b:70:af:bf:9e:23:5f:1e:60:64:26:22:be:c6:ed:
+         5e:a0:37:dd:db:df:23:3e:c9:4d:c8:4a:23:bb:5b:87:7e:65:
+         d5:32:9a:5c:a6:ca:1a:7b:df:08:65:d8:13:c6:9b:7e:a7:5e:
+         cc:21:38:6a:3b:ae:6f:e7:73:74:56:18:b2:d6:39:a0:dd:ae:
+         1e:8d:2d:e9:b2:54:45:71:8c:cc:d4:ed:8c:ce:3d:4d:d8:cd:
+         68:25:8d:0e:ce:d2:58:18:8a:1b:80:b9:a7:c8:fe:99:9a:df:
+         03:a7:6b:23:1d:bf:b8:f6:45:33:44:d1:9e:c5:be:76:a4:ff:
+         d3:e1:83:65:56:31:6d:3c:aa:c6:ab:55:d3:4e:94:60:3f:ae:
+         5d:0c:18:ed
