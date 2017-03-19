@@ -29,6 +29,9 @@ std::vector<std::pair<ADDRINT, ADDRINT> > regions;
 
 VOID ImageRoutine(IMG img, VOID *v) {
     std::string name = IMG_Name(img);
+    if (!IMG_IsMainExecutable(img)) {
+        return;
+    }
     if (std::find(blacklisted_imgs.begin(), blacklisted_imgs.end(), name) != blacklisted_imgs.end()) {
         return;
     }

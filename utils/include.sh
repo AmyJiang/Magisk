@@ -4,5 +4,6 @@ PATCHES=~/Documents/magisk/patches
 
 OPENSSL=openssl
 LIBRESSL=libressl
+NQSB=nqsb
 
 
