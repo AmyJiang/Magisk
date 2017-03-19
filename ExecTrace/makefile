@@ -8,7 +8,7 @@
 ifdef PIN_ROOT
 CONFIG_ROOT := $(PIN_ROOT)/source/tools/Config
 else
-CONFIG_ROOT := ../Config
+CONFIG_ROOT := $(HOME)/pin-3.2-81205-gcc-linux/Config
 endif
 include $(CONFIG_ROOT)/makefile.config
 include makefile.rules
