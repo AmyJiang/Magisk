@@ -1,7 +1,7 @@
 Magisk
 ===========================
 
-## Dependenocy:
+## Dependency:
 
 ### Pin-3.2
 
