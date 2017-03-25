@@ -40,9 +40,9 @@ Usage of ./bin/debugger:
 ```
 
 ### Running
-*   make test` runs `../bin/debugger -procs 5 -bin $(TEST_OBJ) -pin $(PIN) -inputdir $(INPUT_DIR)`.
+*   `make test` runs `../bin/debugger -procs 5 -bin $(TEST_OBJ) -pin $(PIN) -inputdir $(INPUT_DIR)`.
 
-*   The debugger runs the test binary with input files from `$(INPUT\_DIR)` and
+*   The debugger runs the test binary with input files from `$(INPUT_DIR)` and
     builds the execution traces into an in-memory prefix tree.
 
 *   To query the first divering point of a diff-inducing input, paste the
