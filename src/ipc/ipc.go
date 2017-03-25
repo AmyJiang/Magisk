@@ -1,9 +1,11 @@
 package ipc
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"os"
+	"os/exec"
 	"syscall"
 )
 
@@ -122,4 +124,13 @@ func (command *Command) Close() error {
 	default:
 		return nil
 	}
+}
+
+func RunCommand(bin []string) (string, error) {
+	var buf bytes.Buffer
+	cmd := exec.Command(bin[0], bin[1:]...)
+	cmd.Stderr = ioutil.Discard
+	cmd.Stdout = &buf
+	err := cmd.Run()
+	return string(buf.Bytes()), err
 }

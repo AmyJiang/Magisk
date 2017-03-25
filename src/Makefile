@@ -1,8 +1,6 @@
-#TEST_OBJ=../test_simple/test
 TEST_OBJ=../test_libressl/test_libressl
 PIN=/home/amy/repos/pin-3.2-81205-gcc-linux/pin
-INPUT_DIR=../test_libressl/input
-#INPUT_DIR=../test_simple/input
+INPUT_DIR=../test_libressl/corpora
 
 all:
 		$(MAKE) pintool
