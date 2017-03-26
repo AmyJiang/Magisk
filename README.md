@@ -49,9 +49,9 @@ Usage of ./bin/debugger:
     path of this input to debugger stdin. The debugger wil then output the address of the first diverging point.
 
 ### Testing
-*   Inputs:
+*   Inputs: `test_libressl/corpora`
 
-*   Diff-inducing inputs to check:
+*   Diff-inducing inputs to check: `test_libressl/out`
 
 
 
