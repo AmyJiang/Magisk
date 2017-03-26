@@ -65,8 +65,8 @@ Usage of ./bin/debugger:
         * (6): sha1 hash of the input certificate (you can use this value to
           find the input before mutation in `test_libressl/input`)
 
-* One way to test is to use `test_libressl/corpora` as input directory and check
-  the files in`test_libressl/diffs'. Currently there are 43 diffs: OpenSSL
+* One way to test is to use `test_libressl/input` as input directory and check
+  the files in`test_libressl/diffs`. Currently there are 43 diffs: OpenSSL
   validates all of them, but LibreSSL rejects and outputs 4 kinds of error code:
   0x14, 0x6, 0xd, 0xe. // Hidy & JiaYan: can you each check on two kinds of
   error?
