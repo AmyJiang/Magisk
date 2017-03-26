@@ -49,22 +49,24 @@ Usage of ./bin/debugger:
     path of this input to debugger stdin. The debugger wil then output the address of the first diverging point.
 
 ### Testing
-*   Inputs: `test_libressl/corpora`
+*   Original corpus: `test_libressl/corpora`
 
-*   Diff-inducing inputs to check: `test_libressl/out`
+*   Normal inputs: `test_libressl/input`
+    * Format: `(1)_BeforeMutationWas_(2)`
+        * (1) is the hash of the certificate after mutation
+        * (2) is the hash of the certificate before mutation (e.g. this file)
 
+*   Diff-inducing inputs to check (OpenSSL vs LibreSsl): `test_libressl/diffs`
+    * Filename format: `(1)_(2)_(3)_(4)_(5)_(6)`
+        * (1), (2) are output from OpenSSL and LibreSSL on the same input
+          certificate
+            * 0: the certificate is valid
+            * Other number: the first 2 chars represent the error code in hex (see the full list in `common.h`)
+        * (6): sha1 hash of the input certificate (you can use this value to
+          find the input before mutation in `test_libressl/input`)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+* One way to test is to use `test_libressl/corpora` as input directory and check
+  the files in`test_libressl/diffs'. Currently there are 43 diffs: OpenSSL
+  validates all of them, but LibreSSL rejects and outputs 4 kinds of error code:
+  0x14, 0x6, 0xd, 0xe. // Hidy & JiaYan: can you each check on two kinds of
+  error?
