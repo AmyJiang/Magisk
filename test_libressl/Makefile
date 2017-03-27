@@ -2,7 +2,7 @@ CC=gcc
 CXX=g++
 
 LIBRESSL=../build/libressl
-OPTIONS=-DCONFIG_USE_DER #-DCONFIG_DEBUG
+OPTIONS=-DCONFIG_USE_DER -DCONFIG_DEBUG
 DBGFLAGS=-g -ggdb3
 CFLAGS=-O2 -Wall $(DBGFLAGS) $(OPTIONS)
 
@@ -12,12 +12,12 @@ LD= -L$(LIBRESSL)/lib -lcrypto -Wl,-static -lcrypto -Wl,-Bdynamic
 
 
 PIN=/home/hidy/pin-3.2-81205-gcc-linux/pin
-EXECTRACE=../ExecTrace/obj-intel64/exectrace.so
+EXECTRACE=../misc/ExecTrace_test/obj-intel64/exectrace.so
 
 TRACE_DIR=./traces
 TEST_INPUT_DIR=./input
 
-TEST_CPP=./libressl.cpp
+TEST_CPP=libressl.cpp
 TEST_OBJ=./test_libressl
 
 

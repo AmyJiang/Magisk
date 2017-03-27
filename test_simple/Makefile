@@ -1,5 +1,5 @@
 PIN=/home/hidy/pin-3.2-81205-gcc-linux/pin
-EXECTRACE=../ExecTrace/obj-intel64/exectrace.so
+EXECTRACE=../misc/ExecTrace_test/obj-intel64/exectrace.so
 TRACE_DIR=./traces
 
 TEST_CPP=./test.c
