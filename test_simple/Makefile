@@ -1,4 +1,4 @@
-PIN=/home/amy/repos/pin-3.2-81205-gcc-linux/pin
+PIN=/home/hidy/pin-3.2-81205-gcc-linux/pin
 EXECTRACE=../ExecTrace/obj-intel64/exectrace.so
 TRACE_DIR=./traces
 
