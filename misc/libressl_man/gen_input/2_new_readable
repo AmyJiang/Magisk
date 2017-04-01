@@ -1,0 +1,525 @@
+    0:d=0  hl=4 l=2012 cons: SEQUENCE          
+    4:d=1  hl=4 l=1732 cons: SEQUENCE          
+    8:d=2  hl=2 l=   3 cons: cont [ 0 ]        
+   10:d=3  hl=2 l=   1 prim: INTEGER           :02
+   13:d=2  hl=2 l=  17 prim: INTEGER           :E1ED5903EB799B07436511F65FD7CC7E
+   32:d=2  hl=2 l=  13 cons: SEQUENCE          
+   34:d=3  hl=2 l=   9 prim: OBJECT            :sha256WithRSAEncryption
+   45:d=3  hl=2 l=   0 prim: NULL              
+   47:d=2  hl=3 l= 150 cons: SEQUENCE          
+   50:d=3  hl=2 l=  11 cons: SET               
+   52:d=4  hl=2 l=   9 cons: SEQUENCE          
+   54:d=5  hl=2 l=   3 prim: OBJECT            :countryName
+   59:d=5  hl=2 l=   2 prim: PRINTABLESTRING   :GB
+   63:d=3  hl=2 l=  27 cons: SET               
+   65:d=4  hl=2 l=  25 cons: SEQUENCE          
+   67:d=5  hl=2 l=   3 prim: OBJECT            :stateOrProvinceName
+   72:d=5  hl=2 l=  18 prim: PRINTABLESTRING   :Greater Manchester
+   92:d=3  hl=2 l=  16 cons: SET               
+   94:d=4  hl=2 l=  14 cons: SEQUENCE          
+   96:d=5  hl=2 l=   3 prim: OBJECT            :localityName
+  101:d=5  hl=2 l=   7 prim: PRINTABLESTRING   :Salford
+  110:d=3  hl=2 l=  26 cons: SET               
+  112:d=4  hl=2 l=  24 cons: SEQUENCE          
+  114:d=5  hl=2 l=   3 prim: OBJECT            :organizationName
+  119:d=5  hl=2 l=  17 prim: PRINTABLESTRING   :COMODO CA Limited
+  138:d=3  hl=2 l=  60 cons: SET               
+  140:d=4  hl=2 l=  58 cons: SEQUENCE          
+  142:d=5  hl=2 l=   3 prim: OBJECT            :commonName
+  147:d=5  hl=2 l=  51 prim: PRINTABLESTRING   :COMODO RSA Organization Validation Secure Server CA
+  200:d=2  hl=2 l=  30 cons: SEQUENCE          
+  202:d=3  hl=2 l=  13 prim: UTCTIME           :160418000000Z
+  217:d=3  hl=2 l=  13 prim: UTCTIME           :190418235959Z
+  232:d=2  hl=4 l= 259 cons: SEQUENCE          
+  236:d=3  hl=2 l=  11 cons: SET               
+  238:d=4  hl=2 l=   9 cons: SEQUENCE          
+  240:d=5  hl=2 l=   3 prim: OBJECT            :countryName
+  245:d=5  hl=2 l=   2 prim: PRINTABLESTRING   :US
+  249:d=3  hl=2 l=  14 cons: SET               
+  251:d=4  hl=2 l=  12 cons: SEQUENCE          
+  253:d=5  hl=2 l=   3 prim: OBJECT            :postalCode
+  258:d=5  hl=2 l=   5 prim: PRINTABLESTRING   :80203
+  265:d=3  hl=2 l=  11 cons: SET               
+  267:d=4  hl=2 l=   9 cons: SEQUENCE          
+  269:d=5  hl=2 l=   3 prim: OBJECT            :stateOrProvinceName
+  274:d=5  hl=2 l=   2 prim: PRINTABLESTRING   :CO
+  278:d=3  hl=2 l=  15 cons: SET               
+  280:d=4  hl=2 l=  13 cons: SEQUENCE          
+  282:d=5  hl=2 l=   3 prim: OBJECT            :localityName
+  287:d=5  hl=2 l=   6 prim: PRINTABLESTRING   :Denver
+  295:d=3  hl=2 l=  22 cons: SET               
+  297:d=4  hl=2 l=  20 cons: SEQUENCE          
+  299:d=5  hl=2 l=   3 prim: OBJECT            :streetAddress
+  304:d=5  hl=2 l=  13 prim: PRINTABLESTRING   :1800 Grant St
+  319:d=3  hl=2 l=  31 cons: SET               
+  321:d=4  hl=2 l=  29 cons: SEQUENCE          
+  323:d=5  hl=2 l=   3 prim: OBJECT            :organizationName
+  328:d=5  hl=2 l=  22 prim: PRINTABLESTRING   :University of Colorado
+  352:d=3  hl=2 l=  44 cons: SET               
+  354:d=4  hl=2 l=  42 cons: SEQUENCE          
+  356:d=5  hl=2 l=   3 prim: OBJECT            :organizationalUnitName
+  361:d=5  hl=2 l=  35 prim: PRINTABLESTRING   :University Information Systems (cu)
+  398:d=3  hl=2 l=  41 cons: SET               
+  400:d=4  hl=2 l=  39 cons: SEQUENCE          
+  402:d=5  hl=2 l=   3 prim: OBJECT            :organizationalUnitName
+  407:d=5  hl=2 l=  32 prim: PRINTABLESTRING   :Hosted by University of Colorado
+  441:d=3  hl=2 l=  31 cons: SET               
+  443:d=4  hl=2 l=  29 cons: SEQUENCE          
+  445:d=5  hl=2 l=   3 prim: OBJECT            :organizationalUnitName
+  450:d=5  hl=2 l=  22 prim: PRINTABLESTRING   :Unified Communications
+  474:d=3  hl=2 l=  19 cons: SET               
+  476:d=4  hl=2 l=  17 cons: SEQUENCE          
+  478:d=5  hl=2 l=   3 prim: OBJECT            :commonName
+  483:d=5  hl=2 l=  10 prim: PRINTABLESTRING   :era.cu.edu
+  495:d=2  hl=4 l= 546 cons: SEQUENCE          
+  499:d=3  hl=2 l=  13 cons: SEQUENCE          
+  501:d=4  hl=2 l=   9 prim: OBJECT            :rsaEncryption
+  512:d=4  hl=2 l=   0 prim: NULL              
+  514:d=3  hl=4 l= 527 prim: BIT STRING        
+ 1045:d=2  hl=4 l= 691 cons: cont [ 3 ]        
+ 1049:d=3  hl=4 l= 687 cons: SEQUENCE          
+ 1053:d=4  hl=2 l=  31 cons: SEQUENCE          
+ 1055:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Authority Key Identifier
+ 1060:d=5  hl=2 l=  24 prim: OCTET STRING      [HEX DUMP]:301680149AF32BDACFAD4FB62FBB2A48482A12B71B42C124
+ 1086:d=4  hl=2 l=  29 cons: SEQUENCE          
+ 1088:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Subject Key Identifier
+ 1093:d=5  hl=2 l=  22 prim: OCTET STRING      [HEX DUMP]:041469741DFE3F0B461703BEDA72739AEBB0756459A7
+ 1117:d=4  hl=2 l=  14 cons: SEQUENCE          
+ 1119:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Key Usage
+ 1124:d=5  hl=2 l=   1 prim: BOOLEAN           :255
+ 1127:d=5  hl=2 l=   4 prim: OCTET STRING      [HEX DUMP]:030205A0
+ 1133:d=4  hl=2 l=  12 cons: SEQUENCE          
+ 1135:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Basic Constraints
+ 1140:d=5  hl=2 l=   1 prim: BOOLEAN           :255
+ 1143:d=5  hl=2 l=   2 prim: OCTET STRING      [HEX DUMP]:3000
+ 1147:d=4  hl=2 l=  29 cons: SEQUENCE          
+ 1149:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Extended Key Usage
+ 1154:d=5  hl=2 l=  22 prim: OCTET STRING      [HEX DUMP]:301406082B0601050507030106082B06010505070302
+ 1178:d=4  hl=2 l=  80 cons: SEQUENCE          
+ 1180:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Certificate Policies
+ 1185:d=5  hl=2 l=  73 prim: OCTET STRING      [HEX DUMP]:3047303B060C2B06010401B2310102010304302B302906082B06010505070201161D68747470733A2F2F7365637572652E636F6D6F646F2E636F6D2F4350533008060667810C010202
+ 1260:d=4  hl=2 l=  90 cons: SEQUENCE          
+ 1262:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 CRL Distribution Points
+ 1267:d=5  hl=2 l=  83 prim: OCTET STRING      [HEX DUMP]:3051304FA04DA04B8649687474703A2F2F63726C2E636F6D6F646F63612E636F6D2F434F4D4F444F5253414F7267616E697A6174696F6E56616C69646174696F6E53656375726553657276657243412E63726C
+ 1352:d=4  hl=3 l= 139 cons: SEQUENCE          
+ 1355:d=5  hl=2 l=   8 prim: OBJECT            :Authority Information Access
+ 1365:d=5  hl=2 l= 127 prim: OCTET STRING      [HEX DUMP]:307D305506082B060105050730028649687474703A2F2F6372742E636F6D6F646F63612E636F6D2F434F4D4F444F5253414F7267616E697A6174696F6E56616C69646174696F6E53656375726553657276657243412E637274302406082B060105050730018618687474703A2F2F6F6373702E636F6D6F646F63612E636F6D
+ 1494:d=4  hl=3 l= 243 cons: SEQUENCE          
+ 1497:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Subject Alternative Name
+ 1502:d=5  hl=3 l= 235 prim: OCTET STRING      [HEX DUMP]:3081E8820A6572612E63752E6564758214706572617761707030312E61642E63752E6564758214706572617761707030322E61642E63752E6564758214706572617761707030332E61642E63752E6564758214706572617761707030342E61642E63752E6564758214706572617761707030352E61642E63752E6564758214706572617761707031312E61642E63752E6564758214706572617761707031322E61642E63752E6564758214706572617761707031332E61642E63752E6564758214706572617761707031342E61642E63752E6564758214706572617761707031352E61642E63752E656475
+ 1740:d=1  hl=2 l=  13 cons: SEQUENCE          
+ 1742:d=2  hl=2 l=   9 prim: OBJECT            :sha256WithRSAEncryption
+ 1753:d=2  hl=2 l=   0 prim: NULL              
+ 1755:d=1  hl=4 l= 257 prim: BIT STRING        
+ 2016:d=0  hl=4 l=1078 cons: SEQUENCE          
+ 2020:d=1  hl=4 l= 798 cons: SEQUENCE          
+ 2024:d=2  hl=2 l=   3 cons: cont [ 0 ]        
+ 2026:d=3  hl=2 l=   1 prim: INTEGER           :02
+ 2029:d=2  hl=2 l=   1 prim: INTEGER           :01
+ 2032:d=2  hl=2 l=  13 cons: SEQUENCE          
+ 2034:d=3  hl=2 l=   9 prim: OBJECT            :sha1WithRSAEncryption
+ 2045:d=3  hl=2 l=   0 prim: NULL              
+ 2047:d=2  hl=2 l= 111 cons: SEQUENCE          
+ 2049:d=3  hl=2 l=  11 cons: SET               
+ 2051:d=4  hl=2 l=   9 cons: SEQUENCE          
+ 2053:d=5  hl=2 l=   3 prim: OBJECT            :countryName
+ 2058:d=5  hl=2 l=   2 prim: PRINTABLESTRING   :SE
+ 2062:d=3  hl=2 l=  20 cons: SET               
+ 2064:d=4  hl=2 l=  18 cons: SEQUENCE          
+ 2066:d=5  hl=2 l=   3 prim: OBJECT            :organizationName
+ 2071:d=5  hl=2 l=  11 prim: PRINTABLESTRING   :AddTrust AB
+ 2084:d=3  hl=2 l=  38 cons: SET               
+ 2086:d=4  hl=2 l=  36 cons: SEQUENCE          
+ 2088:d=5  hl=2 l=   3 prim: OBJECT            :organizationalUnitName
+ 2093:d=5  hl=2 l=  29 prim: PRINTABLESTRING   :AddTrust External TTP Network
+ 2124:d=3  hl=2 l=  34 cons: SET               
+ 2126:d=4  hl=2 l=  32 cons: SEQUENCE          
+ 2128:d=5  hl=2 l=   3 prim: OBJECT            :commonName
+ 2133:d=5  hl=2 l=  25 prim: PRINTABLESTRING   :AddTrust External CA Root
+ 2160:d=2  hl=2 l=  30 cons: SEQUENCE          
+ 2162:d=3  hl=2 l=  13 prim: UTCTIME           :000530104838Z
+ 2177:d=3  hl=2 l=  13 prim: UTCTIME           :200530104838Z
+ 2192:d=2  hl=2 l= 111 cons: SEQUENCE          
+ 2194:d=3  hl=2 l=  11 cons: SET               
+ 2196:d=4  hl=2 l=   9 cons: SEQUENCE          
+ 2198:d=5  hl=2 l=   3 prim: OBJECT            :countryName
+ 2203:d=5  hl=2 l=   2 prim: PRINTABLESTRING   :SE
+ 2207:d=3  hl=2 l=  20 cons: SET               
+ 2209:d=4  hl=2 l=  18 cons: SEQUENCE          
+ 2211:d=5  hl=2 l=   3 prim: OBJECT            :organizationName
+ 2216:d=5  hl=2 l=  11 prim: PRINTABLESTRING   :AddTrust AB
+ 2229:d=3  hl=2 l=  38 cons: SET               
+ 2231:d=4  hl=2 l=  36 cons: SEQUENCE          
+ 2233:d=5  hl=2 l=   3 prim: OBJECT            :organizationalUnitName
+ 2238:d=5  hl=2 l=  29 prim: PRINTABLESTRING   :AddTrust External TTP Network
+ 2269:d=3  hl=2 l=  34 cons: SET               
+ 2271:d=4  hl=2 l=  32 cons: SEQUENCE          
+ 2273:d=5  hl=2 l=   3 prim: OBJECT            :commonName
+ 2278:d=5  hl=2 l=  25 prim: PRINTABLESTRING   :AddTrust External CA Root
+ 2305:d=2  hl=4 l= 290 cons: SEQUENCE          
+ 2309:d=3  hl=2 l=  13 cons: SEQUENCE          
+ 2311:d=4  hl=2 l=   9 prim: OBJECT            :rsaEncryption
+ 2322:d=4  hl=2 l=   0 prim: NULL              
+ 2324:d=3  hl=4 l= 271 prim: BIT STRING        
+ 2599:d=2  hl=3 l= 220 cons: cont [ 3 ]        
+ 2602:d=3  hl=3 l= 217 cons: SEQUENCE          
+ 2605:d=4  hl=2 l=  29 cons: SEQUENCE          
+ 2607:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Subject Key Identifier
+ 2612:d=5  hl=2 l=  22 prim: OCTET STRING      [HEX DUMP]:0414ADBD987A34B426F7FAC42654EF03BDE024CB541A
+ 2636:d=4  hl=2 l=  11 cons: SEQUENCE          
+ 2638:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Key Usage
+ 2643:d=5  hl=2 l=   4 prim: OCTET STRING      [HEX DUMP]:03020106
+ 2649:d=4  hl=2 l=  15 cons: SEQUENCE          
+ 2651:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Basic Constraints
+ 2656:d=5  hl=2 l=   1 prim: BOOLEAN           :255
+ 2659:d=5  hl=2 l=   5 prim: OCTET STRING      [HEX DUMP]:30030101FF
+ 2666:d=4  hl=3 l= 153 cons: SEQUENCE          
+ 2669:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Authority Key Identifier
+ 2674:d=5  hl=3 l= 145 prim: OCTET STRING      [HEX DUMP]:30818E8014ADBD987A34B426F7FAC42654EF03BDE024CB541AA173A471306F310B300906035504061302534531143012060355040A130B416464547275737420414231263024060355040B131D41646454727573742045787465726E616C20545450204E6574776F726B312230200603550403131941646454727573742045787465726E616C20434120526F6F74820101
+ 2822:d=1  hl=2 l=  13 cons: SEQUENCE          
+ 2824:d=2  hl=2 l=   9 prim: OBJECT            :sha1WithRSAEncryption
+ 2835:d=2  hl=2 l=   0 prim: NULL              
+ 2837:d=1  hl=4 l= 257 prim: BIT STRING        
+ 3098:d=0  hl=4 l=1396 cons: SEQUENCE          
+ 3102:d=1  hl=4 l=1116 cons: SEQUENCE          
+ 3106:d=2  hl=2 l=   3 cons: cont [ 0 ]        
+ 3108:d=3  hl=2 l=   1 prim: INTEGER           :02
+ 3111:d=2  hl=2 l=  16 prim: INTEGER           :2766EE56EB49F38EABD770A2FC84DE22
+ 3129:d=2  hl=2 l=  13 cons: SEQUENCE          
+ 3131:d=3  hl=2 l=   9 prim: OBJECT            :sha384WithRSAEncryption
+ 3142:d=3  hl=2 l=   0 prim: NULL              
+ 3144:d=2  hl=2 l= 111 cons: SEQUENCE          
+ 3146:d=3  hl=2 l=  11 cons: SET               
+ 3148:d=4  hl=2 l=   9 cons: SEQUENCE          
+ 3150:d=5  hl=2 l=   3 prim: OBJECT            :countryName
+ 3155:d=5  hl=2 l=   2 prim: PRINTABLESTRING   :SE
+ 3159:d=3  hl=2 l=  20 cons: SET               
+ 3161:d=4  hl=2 l=  18 cons: SEQUENCE          
+ 3163:d=5  hl=2 l=   3 prim: OBJECT            :organizationName
+ 3168:d=5  hl=2 l=  11 prim: PRINTABLESTRING   :AddTrust AB
+ 3181:d=3  hl=2 l=  38 cons: SET               
+ 3183:d=4  hl=2 l=  36 cons: SEQUENCE          
+ 3185:d=5  hl=2 l=   3 prim: OBJECT            :organizationalUnitName
+ 3190:d=5  hl=2 l=  29 prim: PRINTABLESTRING   :AddTrust External TTP Network
+ 3221:d=3  hl=2 l=  34 cons: SET               
+ 3223:d=4  hl=2 l=  32 cons: SEQUENCE          
+ 3225:d=5  hl=2 l=   3 prim: OBJECT            :commonName
+ 3230:d=5  hl=2 l=  25 prim: PRINTABLESTRING   :AddTrust External CA Root
+ 3257:d=2  hl=2 l=  30 cons: SEQUENCE          
+ 3259:d=3  hl=2 l=  13 prim: UTCTIME           :000530104838Z
+ 3274:d=3  hl=2 l=  13 prim: UTCTIME           :200530104838Z
+ 3289:d=2  hl=3 l= 133 cons: SEQUENCE          
+ 3292:d=3  hl=2 l=  11 cons: SET               
+ 3294:d=4  hl=2 l=   9 cons: SEQUENCE          
+ 3296:d=5  hl=2 l=   3 prim: OBJECT            :countryName
+ 3301:d=5  hl=2 l=   2 prim: PRINTABLESTRING   :GB
+ 3305:d=3  hl=2 l=  27 cons: SET               
+ 3307:d=4  hl=2 l=  25 cons: SEQUENCE          
+ 3309:d=5  hl=2 l=   3 prim: OBJECT            :stateOrProvinceName
+ 3314:d=5  hl=2 l=  18 prim: PRINTABLESTRING   :Greater Manchester
+ 3334:d=3  hl=2 l=  16 cons: SET               
+ 3336:d=4  hl=2 l=  14 cons: SEQUENCE          
+ 3338:d=5  hl=2 l=   3 prim: OBJECT            :localityName
+ 3343:d=5  hl=2 l=   7 prim: PRINTABLESTRING   :Salford
+ 3352:d=3  hl=2 l=  26 cons: SET               
+ 3354:d=4  hl=2 l=  24 cons: SEQUENCE          
+ 3356:d=5  hl=2 l=   3 prim: OBJECT            :organizationName
+ 3361:d=5  hl=2 l=  17 prim: PRINTABLESTRING   :COMODO CA Limited
+ 3380:d=3  hl=2 l=  43 cons: SET               
+ 3382:d=4  hl=2 l=  41 cons: SEQUENCE          
+ 3384:d=5  hl=2 l=   3 prim: OBJECT            :commonName
+ 3389:d=5  hl=2 l=  34 prim: PRINTABLESTRING   :COMODO RSA Certification Authority
+ 3425:d=2  hl=4 l= 546 cons: SEQUENCE          
+ 3429:d=3  hl=2 l=  13 cons: SEQUENCE          
+ 3431:d=4  hl=2 l=   9 prim: OBJECT            :rsaEncryption
+ 3442:d=4  hl=2 l=   0 prim: NULL              
+ 3444:d=3  hl=4 l= 527 prim: BIT STRING        
+ 3975:d=2  hl=3 l= 244 cons: cont [ 3 ]        
+ 3978:d=3  hl=3 l= 241 cons: SEQUENCE          
+ 3981:d=4  hl=2 l=  31 cons: SEQUENCE          
+ 3983:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Authority Key Identifier
+ 3988:d=5  hl=2 l=  24 prim: OCTET STRING      [HEX DUMP]:30168014ADBD987A34B426F76CC42654EF03BDE024CB541A
+ 4014:d=4  hl=2 l=  29 cons: SEQUENCE          
+ 4016:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Subject Key Identifier
+ 4021:d=5  hl=2 l=  22 prim: OCTET STRING      [HEX DUMP]:0414BBAF7E023DFAA6F13C848EADEE3898ECD93232D4
+ 4045:d=4  hl=2 l=  14 cons: SEQUENCE          
+ 4047:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Key Usage
+ 4052:d=5  hl=2 l=   1 prim: BOOLEAN           :255
+ 4055:d=5  hl=2 l=   4 prim: OCTET STRING      [HEX DUMP]:03020186
+ 4061:d=4  hl=2 l=  15 cons: SEQUENCE          
+ 4063:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Basic Constraints
+ 4068:d=5  hl=2 l=   1 prim: BOOLEAN           :255
+ 4071:d=5  hl=2 l=   5 prim: OCTET STRING      [HEX DUMP]:30030101FF
+ 4078:d=4  hl=2 l=  17 cons: SEQUENCE          
+ 4080:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Certificate Policies
+ 4085:d=5  hl=2 l=  10 prim: OCTET STRING      [HEX DUMP]:300830060604551D2000
+ 4097:d=4  hl=2 l=  68 cons: SEQUENCE          
+ 4099:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 CRL Distribution Points
+ 4104:d=5  hl=2 l=  61 prim: OCTET STRING      [HEX DUMP]:303B3039A037A0358633687474703A2F2F63726C2E7573657274727573742E636F6D2F416464547275737445787465726E616C4341526F6F742E63726C
+ 4167:d=4  hl=2 l=  53 cons: SEQUENCE          
+ 4169:d=5  hl=2 l=   8 prim: OBJECT            :Authority Information Access
+ 4179:d=5  hl=2 l=  41 prim: OCTET STRING      [HEX DUMP]:3027302506082B060105050730018619687474703A2F2F6F6373702E7573657274727573742E636F6D
+ 4222:d=1  hl=2 l=  13 cons: SEQUENCE          
+ 4224:d=2  hl=2 l=   9 prim: OBJECT            :sha384WithRSAEncryption
+ 4235:d=2  hl=2 l=   0 prim: NULL              
+ 4237:d=1  hl=4 l= 257 prim: BIT STRING        
+ 4498:d=0  hl=4 l=1550 cons: SEQUENCE          
+ 4502:d=1  hl=4 l=1014 cons: SEQUENCE          
+ 4506:d=2  hl=2 l=   3 cons: cont [ 0 ]        
+ 4508:d=3  hl=2 l=   1 prim: INTEGER           :02
+ 4511:d=2  hl=2 l=  16 prim: INTEGER           :36825E7FB5A481937EF6D1736BB93CA6
+ 4529:d=2  hl=2 l=  13 cons: SEQUENCE          
+ 4531:d=3  hl=2 l=   9 prim: OBJECT            :sha384WithRSAEncryption
+ 4542:d=3  hl=2 l=   0 prim: NULL              
+ 4544:d=2  hl=3 l= 133 cons: SEQUENCE          
+ 4547:d=3  hl=2 l=  11 cons: SET               
+ 4549:d=4  hl=2 l=   9 cons: SEQUENCE          
+ 4551:d=5  hl=2 l=   3 prim: OBJECT            :countryName
+ 4556:d=5  hl=2 l=   2 prim: PRINTABLESTRING   :GB
+ 4560:d=3  hl=2 l=  27 cons: SET               
+ 4562:d=4  hl=2 l=  25 cons: SEQUENCE          
+ 4564:d=5  hl=2 l=   3 prim: OBJECT            :stateOrProvinceName
+ 4569:d=5  hl=2 l=  18 prim: PRINTABLESTRING   :Greater Manchester
+ 4589:d=3  hl=2 l=  16 cons: SET               
+ 4591:d=4  hl=2 l=  14 cons: SEQUENCE          
+ 4593:d=5  hl=2 l=   3 prim: OBJECT            :localityName
+ 4598:d=5  hl=2 l=   7 prim: PRINTABLESTRING   :Salford
+ 4607:d=3  hl=2 l=  26 cons: SET               
+ 4609:d=4  hl=2 l=  24 cons: SEQUENCE          
+ 4611:d=5  hl=2 l=   3 prim: OBJECT            :organizationName
+ 4616:d=5  hl=2 l=  17 prim: PRINTABLESTRING   :COMODO CA Limited
+ 4635:d=3  hl=2 l=  43 cons: SET               
+ 4637:d=4  hl=2 l=  41 cons: SEQUENCE          
+ 4639:d=5  hl=2 l=   3 prim: OBJECT            :commonName
+ 4644:d=5  hl=2 l=  34 prim: PRINTABLESTRING   :COMODO RSA Certification Authority
+ 4680:d=2  hl=2 l=  30 cons: SEQUENCE          
+ 4682:d=3  hl=2 l=  13 prim: UTCTIME           :140212000000Z
+ 4697:d=3  hl=2 l=  13 prim: UTCTIME           :290211235959Z
+ 4712:d=2  hl=3 l= 150 cons: SEQUENCE          
+ 4715:d=3  hl=2 l=  11 cons: SET               
+ 4717:d=4  hl=2 l=   9 cons: SEQUENCE          
+ 4719:d=5  hl=2 l=   3 prim: OBJECT            :countryName
+ 4724:d=5  hl=2 l=   2 prim: PRINTABLESTRING   :GB
+ 4728:d=3  hl=2 l=  27 cons: SET               
+ 4730:d=4  hl=2 l=  25 cons: SEQUENCE          
+ 4732:d=5  hl=2 l=   3 prim: OBJECT            :stateOrProvinceName
+ 4737:d=5  hl=2 l=  18 prim: PRINTABLESTRING   :Greater Manchester
+ 4757:d=3  hl=2 l=  16 cons: SET               
+ 4759:d=4  hl=2 l=  14 cons: SEQUENCE          
+ 4761:d=5  hl=2 l=   3 prim: OBJECT            :localityName
+ 4766:d=5  hl=2 l=   7 prim: PRINTABLESTRING   :Salford
+ 4775:d=3  hl=2 l=  26 cons: SET               
+ 4777:d=4  hl=2 l=  24 cons: SEQUENCE          
+ 4779:d=5  hl=2 l=   3 prim: OBJECT            :organizationName
+ 4784:d=5  hl=2 l=  17 prim: PRINTABLESTRING   :COMODO CA Limited
+ 4803:d=3  hl=2 l=  60 cons: SET               
+ 4805:d=4  hl=2 l=  58 cons: SEQUENCE          
+ 4807:d=5  hl=2 l=   3 prim: OBJECT            :commonName
+ 4812:d=5  hl=2 l=  51 prim: PRINTABLESTRING   :COMODO RSA Organization Validation Secure Server CA
+ 4865:d=2  hl=4 l= 290 cons: SEQUENCE          
+ 4869:d=3  hl=2 l=  13 cons: SEQUENCE          
+ 4871:d=4  hl=2 l=   9 prim: OBJECT            :rsaEncryption
+ 4882:d=4  hl=2 l=   0 prim: NULL              
+ 4884:d=3  hl=4 l= 271 prim: BIT STRING        
+ 5159:d=2  hl=4 l= 357 cons: cont [ 3 ]        
+ 5163:d=3  hl=4 l= 353 cons: SEQUENCE          
+ 5167:d=4  hl=2 l=  31 cons: SEQUENCE          
+ 5169:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Authority Key Identifier
+ 5174:d=5  hl=2 l=  24 prim: OCTET STRING      [HEX DUMP]:30168014BBAF7E023DFAA6F13C848EADEE3898ECD93232D4
+ 5200:d=4  hl=2 l=  29 cons: SEQUENCE          
+ 5202:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Subject Key Identifier
+ 5207:d=5  hl=2 l=  22 prim: OCTET STRING      [HEX DUMP]:04149AF32BDACFAD4FB62FBB2A48482A12B71B42C124
+ 5231:d=4  hl=2 l=  14 cons: SEQUENCE          
+ 5233:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Key Usage
+ 5238:d=5  hl=2 l=   1 prim: BOOLEAN           :255
+ 5241:d=5  hl=2 l=   4 prim: OCTET STRING      [HEX DUMP]:03020186
+ 5247:d=4  hl=2 l=  18 cons: SEQUENCE          
+ 5249:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Basic Constraints
+ 5254:d=5  hl=2 l=   1 prim: BOOLEAN           :255
+ 5257:d=5  hl=2 l=   8 prim: OCTET STRING      [HEX DUMP]:30060101FF020100
+ 5267:d=4  hl=2 l=  29 cons: SEQUENCE          
+ 5269:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Extended Key Usage
+ 5274:d=5  hl=2 l=  22 prim: OCTET STRING      [HEX DUMP]:301406082B0601050507030106082B06010505070302
+ 5298:d=4  hl=2 l=  27 cons: SEQUENCE          
+ 5300:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Certificate Policies
+ 5305:d=5  hl=2 l=  20 prim: OCTET STRING      [HEX DUMP]:301230060604551D20003008060667810C010202
+ 5327:d=4  hl=2 l=  76 cons: SEQUENCE          
+ 5329:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 CRL Distribution Points
+ 5334:d=5  hl=2 l=  69 prim: OCTET STRING      [HEX DUMP]:30433041A03FA03D863B687474703A2F2F63726C2E636F6D6F646F63612E636F6D2F434F4D4F444F52534143657274696669636174696F6E417574686F726974792E63726C
+ 5405:d=4  hl=2 l= 113 cons: SEQUENCE          
+ 5407:d=5  hl=2 l=   8 prim: OBJECT            :Authority Information Access
+ 5417:d=5  hl=2 l= 101 prim: OCTET STRING      [HEX DUMP]:3063303B06082B06010505073002862F687474703A2F2F6372742E636F6D6F646F63612E636F6D2F434F4D4F444F525341416464547275737443412E637274302406082B060105050730018618687474703A2F2F6F6373702E636F6D6F646F63612E636F6D
+ 5520:d=1  hl=2 l=  13 cons: SEQUENCE          
+ 5522:d=2  hl=2 l=   9 prim: OBJECT            :sha384WithRSAEncryption
+ 5533:d=2  hl=2 l=   0 prim: NULL              
+ 5535:d=1  hl=4 l= 513 prim: BIT STRING        
+ 6052:d=0  hl=4 l=1550 cons: SEQUENCE          
+ 6056:d=1  hl=4 l=1014 cons: SEQUENCE          
+ 6060:d=2  hl=2 l=   3 cons: cont [ 0 ]        
+ 6062:d=3  hl=2 l=   1 prim: INTEGER           :02
+ 6065:d=2  hl=2 l=  16 prim: INTEGER           :36825E7FB5A481937EF6D1736BB93CA6
+ 6083:d=2  hl=2 l=  13 cons: SEQUENCE          
+ 6085:d=3  hl=2 l=   9 prim: OBJECT            :sha384WithRSAEncryption
+ 6096:d=3  hl=2 l=   0 prim: NULL              
+ 6098:d=2  hl=3 l= 133 cons: SEQUENCE          
+ 6101:d=3  hl=2 l=  11 cons: SET               
+ 6103:d=4  hl=2 l=   9 cons: SEQUENCE          
+ 6105:d=5  hl=2 l=   3 prim: OBJECT            :countryName
+ 6110:d=5  hl=2 l=   2 prim: PRINTABLESTRING   :GB
+ 6114:d=3  hl=2 l=  27 cons: SET               
+ 6116:d=4  hl=2 l=  25 cons: SEQUENCE          
+ 6118:d=5  hl=2 l=   3 prim: OBJECT            :stateOrProvinceName
+ 6123:d=5  hl=2 l=  18 prim: PRINTABLESTRING   :Greater Manchester
+ 6143:d=3  hl=2 l=  16 cons: SET               
+ 6145:d=4  hl=2 l=  14 cons: SEQUENCE          
+ 6147:d=5  hl=2 l=   3 prim: OBJECT            :localityName
+ 6152:d=5  hl=2 l=   7 prim: PRINTABLESTRING   :Salford
+ 6161:d=3  hl=2 l=  26 cons: SET               
+ 6163:d=4  hl=2 l=  24 cons: SEQUENCE          
+ 6165:d=5  hl=2 l=   3 prim: OBJECT            :organizationName
+ 6170:d=5  hl=2 l=  17 prim: PRINTABLESTRING   :COMODO CA Limited
+ 6189:d=3  hl=2 l=  43 cons: SET               
+ 6191:d=4  hl=2 l=  41 cons: SEQUENCE          
+ 6193:d=5  hl=2 l=   3 prim: OBJECT            :commonName
+ 6198:d=5  hl=2 l=  34 prim: PRINTABLESTRING   :COMODO RSA Certification Authority
+ 6234:d=2  hl=2 l=  30 cons: SEQUENCE          
+ 6236:d=3  hl=2 l=  13 prim: UTCTIME           :140212000000Z
+ 6251:d=3  hl=2 l=  13 prim: UTCTIME           :290211235959Z
+ 6266:d=2  hl=3 l= 150 cons: SEQUENCE          
+ 6269:d=3  hl=2 l=  11 cons: SET               
+ 6271:d=4  hl=2 l=   9 cons: SEQUENCE          
+ 6273:d=5  hl=2 l=   3 prim: OBJECT            :countryName
+ 6278:d=5  hl=2 l=   2 prim: PRINTABLESTRING   :GB
+ 6282:d=3  hl=2 l=  27 cons: SET               
+ 6284:d=4  hl=2 l=  25 cons: SEQUENCE          
+ 6286:d=5  hl=2 l=   3 prim: OBJECT            :stateOrProvinceName
+ 6291:d=5  hl=2 l=  18 prim: PRINTABLESTRING   :Greater Manchester
+ 6311:d=3  hl=2 l=  16 cons: SET               
+ 6313:d=4  hl=2 l=  14 cons: SEQUENCE          
+ 6315:d=5  hl=2 l=   3 prim: OBJECT            :localityName
+ 6320:d=5  hl=2 l=   7 prim: PRINTABLESTRING   :Salford
+ 6329:d=3  hl=2 l=  26 cons: SET               
+ 6331:d=4  hl=2 l=  24 cons: SEQUENCE          
+ 6333:d=5  hl=2 l=   3 prim: OBJECT            :organizationName
+ 6338:d=5  hl=2 l=  17 prim: PRINTABLESTRING   :COMODO CA Limited
+ 6357:d=3  hl=2 l=  60 cons: SET               
+ 6359:d=4  hl=2 l=  58 cons: SEQUENCE          
+ 6361:d=5  hl=2 l=   3 prim: OBJECT            :commonName
+ 6366:d=5  hl=2 l=  51 prim: PRINTABLESTRING   :COMODO RSA Organization Validation Secure Server CA
+ 6419:d=2  hl=4 l= 290 cons: SEQUENCE          
+ 6423:d=3  hl=2 l=  13 cons: SEQUENCE          
+ 6425:d=4  hl=2 l=   9 prim: OBJECT            :rsaEncryption
+ 6436:d=4  hl=2 l=   0 prim: NULL              
+ 6438:d=3  hl=4 l= 271 prim: BIT STRING        
+ 6713:d=2  hl=4 l= 357 cons: cont [ 3 ]        
+ 6717:d=3  hl=4 l= 353 cons: SEQUENCE          
+ 6721:d=4  hl=2 l=  31 cons: SEQUENCE          
+ 6723:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Authority Key Identifier
+ 6728:d=5  hl=2 l=  24 prim: OCTET STRING      [HEX DUMP]:30168014BBAF7E023DFAA6F13C848EADEE3898ECD93232D4
+ 6754:d=4  hl=2 l=  29 cons: SEQUENCE          
+ 6756:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Subject Key Identifier
+ 6761:d=5  hl=2 l=  22 prim: OCTET STRING      [HEX DUMP]:04149AF32BDACFAD4FB62FBB2A48482A12B71B42C124
+ 6785:d=4  hl=2 l=  14 cons: SEQUENCE          
+ 6787:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Key Usage
+ 6792:d=5  hl=2 l=   1 prim: BOOLEAN           :255
+ 6795:d=5  hl=2 l=   4 prim: OCTET STRING      [HEX DUMP]:03020186
+ 6801:d=4  hl=2 l=  18 cons: SEQUENCE          
+ 6803:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Basic Constraints
+ 6808:d=5  hl=2 l=   1 prim: BOOLEAN           :255
+ 6811:d=5  hl=2 l=   8 prim: OCTET STRING      [HEX DUMP]:30060101FF020100
+ 6821:d=4  hl=2 l=  29 cons: SEQUENCE          
+ 6823:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Extended Key Usage
+ 6828:d=5  hl=2 l=  22 prim: OCTET STRING      [HEX DUMP]:301406082B0601050507030106082B06010505070302
+ 6852:d=4  hl=2 l=  27 cons: SEQUENCE          
+ 6854:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Certificate Policies
+ 6859:d=5  hl=2 l=  20 prim: OCTET STRING      [HEX DUMP]:301230060604551D20003008060667810C010202
+ 6881:d=4  hl=2 l=  76 cons: SEQUENCE          
+ 6883:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 CRL Distribution Points
+ 6888:d=5  hl=2 l=  69 prim: OCTET STRING      [HEX DUMP]:30433041A03FA03D863B687474703A2F2F63726C2E636F6D6F646F63612E636F6D2F434F4D4F444F52534143657274696669636174696F6E417574686F726974792E63726C
+ 6959:d=4  hl=2 l= 113 cons: SEQUENCE          
+ 6961:d=5  hl=2 l=   8 prim: OBJECT            :Authority Information Access
+ 6971:d=5  hl=2 l= 101 prim: OCTET STRING      [HEX DUMP]:3063303B06082B06010505073002862F687474703A2F2F6372742E636F6D6F646F63612E636F6D2F434F4D4F444F525341416464547275737443412E637274302406082B060105050730018618687474703A2F2F6F6373702E636F6D6F646F63612E636F6D
+ 7074:d=1  hl=2 l=  13 cons: SEQUENCE          
+ 7076:d=2  hl=2 l=   9 prim: OBJECT            :sha384WithRSAEncryption
+ 7087:d=2  hl=2 l=   0 prim: NULL              
+ 7089:d=1  hl=4 l= 513 prim: BIT STRING        
+ 7606:d=0  hl=4 l=1396 cons: SEQUENCE          
+ 7610:d=1  hl=4 l=1116 cons: SEQUENCE          
+ 7614:d=2  hl=2 l=   3 cons: cont [ 0 ]        
+ 7616:d=3  hl=2 l=   1 prim: INTEGER           :02
+ 7619:d=2  hl=2 l=  16 prim: INTEGER           :2766EE56EB49F38EABD770A2FC84DE22
+ 7637:d=2  hl=2 l=  13 cons: SEQUENCE          
+ 7639:d=3  hl=2 l=   9 prim: OBJECT            :sha384WithRSAEncryption
+ 7650:d=3  hl=2 l=   0 prim: NULL              
+ 7652:d=2  hl=2 l= 111 cons: SEQUENCE          
+ 7654:d=3  hl=2 l=  11 cons: SET               
+ 7656:d=4  hl=2 l=   9 cons: SEQUENCE          
+ 7658:d=5  hl=2 l=   3 prim: OBJECT            :countryName
+ 7663:d=5  hl=2 l=   2 prim: PRINTABLESTRING   :SE
+ 7667:d=3  hl=2 l=  20 cons: SET               
+ 7669:d=4  hl=2 l=  18 cons: SEQUENCE          
+ 7671:d=5  hl=2 l=   3 prim: OBJECT            :organizationName
+ 7676:d=5  hl=2 l=  11 prim: PRINTABLESTRING   :AddTrust AB
+ 7689:d=3  hl=2 l=  38 cons: SET               
+ 7691:d=4  hl=2 l=  36 cons: SEQUENCE          
+ 7693:d=5  hl=2 l=   3 prim: OBJECT            :organizationalUnitName
+ 7698:d=5  hl=2 l=  29 prim: PRINTABLESTRING   :AddTrust External TTP Network
+ 7729:d=3  hl=2 l=  34 cons: SET               
+ 7731:d=4  hl=2 l=  32 cons: SEQUENCE          
+ 7733:d=5  hl=2 l=   3 prim: OBJECT            :commonName
+ 7738:d=5  hl=2 l=  25 prim: PRINTABLESTRING   :AddTrust External CA Root
+ 7765:d=2  hl=2 l=  30 cons: SEQUENCE          
+ 7767:d=3  hl=2 l=  13 prim: UTCTIME           :000530104838Z
+ 7782:d=3  hl=2 l=  13 prim: UTCTIME           :200530104838Z
+ 7797:d=2  hl=3 l= 133 cons: SEQUENCE          
+ 7800:d=3  hl=2 l=  11 cons: SET               
+ 7802:d=4  hl=2 l=   9 cons: SEQUENCE          
+ 7804:d=5  hl=2 l=   3 prim: OBJECT            :countryName
+ 7809:d=5  hl=2 l=   2 prim: PRINTABLESTRING   :GB
+ 7813:d=3  hl=2 l=  27 cons: SET               
+ 7815:d=4  hl=2 l=  25 cons: SEQUENCE          
+ 7817:d=5  hl=2 l=   3 prim: OBJECT            :stateOrProvinceName
+ 7822:d=5  hl=2 l=  18 prim: PRINTABLESTRING   :Greater Manchester
+ 7842:d=3  hl=2 l=  16 cons: SET               
+ 7844:d=4  hl=2 l=  14 cons: SEQUENCE          
+ 7846:d=5  hl=2 l=   3 prim: OBJECT            :localityName
+ 7851:d=5  hl=2 l=   7 prim: PRINTABLESTRING   :Salford
+ 7860:d=3  hl=2 l=  26 cons: SET               
+ 7862:d=4  hl=2 l=  24 cons: SEQUENCE          
+ 7864:d=5  hl=2 l=   3 prim: OBJECT            :organizationName
+ 7869:d=5  hl=2 l=  17 prim: PRINTABLESTRING   :COMODO CA Limited
+ 7888:d=3  hl=2 l=  43 cons: SET               
+ 7890:d=4  hl=2 l=  41 cons: SEQUENCE          
+ 7892:d=5  hl=2 l=   3 prim: OBJECT            :commonName
+ 7897:d=5  hl=2 l=  34 prim: PRINTABLESTRING   :COMODO RSA Certification Authority
+ 7933:d=2  hl=4 l= 546 cons: SEQUENCE          
+ 7937:d=3  hl=2 l=  13 cons: SEQUENCE          
+ 7939:d=4  hl=2 l=   9 prim: OBJECT            :rsaEncryption
+ 7950:d=4  hl=2 l=   0 prim: NULL              
+ 7952:d=3  hl=4 l= 527 prim: BIT STRING        
+ 8483:d=2  hl=3 l= 244 cons: cont [ 3 ]        
+ 8486:d=3  hl=3 l= 241 cons: SEQUENCE          
+ 8489:d=4  hl=2 l=  31 cons: SEQUENCE          
+ 8491:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Authority Key Identifier
+ 8496:d=5  hl=2 l=  24 prim: OCTET STRING      [HEX DUMP]:30168014ADBD987A34B426F7FAC42654EF03BDE024CB541A
+ 8522:d=4  hl=2 l=  29 cons: SEQUENCE          
+ 8524:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Subject Key Identifier
+ 8529:d=5  hl=2 l=  22 prim: OCTET STRING      [HEX DUMP]:0414BBAF7E023DFAA6F13C848EADEE3898ECD93232D4
+ 8553:d=4  hl=2 l=  14 cons: SEQUENCE          
+ 8555:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Key Usage
+ 8560:d=5  hl=2 l=   1 prim: BOOLEAN           :255
+ 8563:d=5  hl=2 l=   4 prim: OCTET STRING      [HEX DUMP]:03020186
+ 8569:d=4  hl=2 l=  15 cons: SEQUENCE          
+ 8571:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Basic Constraints
+ 8576:d=5  hl=2 l=   1 prim: BOOLEAN           :255
+ 8579:d=5  hl=2 l=   5 prim: OCTET STRING      [HEX DUMP]:30030101FF
+ 8586:d=4  hl=2 l=  17 cons: SEQUENCE          
+ 8588:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Certificate Policies
+ 8593:d=5  hl=2 l=  10 prim: OCTET STRING      [HEX DUMP]:300830060604551D2000
+ 8605:d=4  hl=2 l=  68 cons: SEQUENCE          
+ 8607:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 CRL Distribution Points
+ 8612:d=5  hl=2 l=  61 prim: OCTET STRING      [HEX DUMP]:303B3039A037A0358633687474703A2F2F63726C2E7573657274727573742E636F6D2F416464547275737445787465726E616C4341526F6F742E63726C
+ 8675:d=4  hl=2 l=  53 cons: SEQUENCE          
+ 8677:d=5  hl=2 l=   8 prim: OBJECT            :2.5.4.6.43.6.1.5.5
+ 8687:d=5  hl=2 l=   1 prim: OBJECT DESCRIPTOR 
+Error in encoding
