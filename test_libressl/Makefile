@@ -33,5 +33,21 @@ test: $(TEST_OBJ)
 	-o $(TRACE_DIR)/$(basename $(notdir $(input))).trace \
 	-- $(TEST_OBJ) $(input); )
 
+
+GEN_DIR=./../misc/libressl_man/gen_traces
+GEN_INPUT_DIR=./../misc/libressl_man/gen_input
+
+.PHONY: manual_diverg_gen
+manual_diverg_gen: $(TEST_OBJ)
+	rm -rf $(GEN_DIR)
+	mkdir -p $(GEN_DIR)
+	@$(foreach input, $(wildcard $(GEN_INPUT_DIR)/*), \
+	echo "Running $(input)"; $(PIN) -t $(EXECTRACE) \
+	-o $(GEN_DIR)/$(basename $(notdir $(input))).trace \
+	-- $(TEST_OBJ) $(input); )
+
+
 clean:
-	rm $(TEST_OBJ)
+	rm -rf $(GEN_INPUT_DIR)
+	rm -rf $(GEN_DIR)
+	rm -rf $(TEST_OBJ)

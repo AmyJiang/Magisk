@@ -1,0 +1,80 @@
+Trace number: 0:	
+/home/jiayanhu/magisk/libs/libressl/crypto/asn1/asn1_lib.c:454
+Trace number: 1:	
+/home/jiayanhu/magisk/libs/libressl/crypto/objects/obj_dat.c:692
+Trace number: 2:	
+/home/jiayanhu/magisk/libs/libressl/crypto/asn1/tasn_dec.c:1158
+Trace number: 3:	
+/home/jiayanhu/magisk/libs/libressl/crypto/asn1/asn1_lib.c:454
+Trace number: 4:	
+/home/jiayanhu/magisk/libs/libressl/crypto/asn1/asn1_lib.c:454
+Trace number: 5:	
+/home/jiayanhu/magisk/libs/libressl/crypto/asn1/tasn_dec.c:1158
+Trace number: 6:	
+/home/jiayanhu/magisk/libs/libressl/crypto/x509v3/v3_purp.c:424
+Trace number: 7:	
+/home/jiayanhu/magisk/libs/libressl/crypto/x509v3/v3_purp.c:424
+Trace number: 8:	
+/home/jiayanhu/magisk/libs/libressl/crypto/x509v3/v3_purp.c:424
+Trace number: 9:	
+/home/jiayanhu/magisk/libs/libressl/crypto/asn1/asn1_lib.c:454
+Trace number: 10:	
+/home/jiayanhu/magisk/libs/libressl/crypto/x509v3/v3_purp.c:424
+Trace number: 11:	
+/home/jiayanhu/magisk/libs/libressl/crypto/x509v3/v3_purp.c:857
+Trace number: 12:	
+/home/jiayanhu/magisk/libs/libressl/crypto/x509v3/v3_purp.c:424
+Trace number: 13:	
+/home/jiayanhu/magisk/libs/libressl/crypto/rsa/rsa_sign.c:230
+Trace number: 14:	
+/home/jiayanhu/magisk/libs/libressl/crypto/rsa/rsa_sign.c:230
+Trace number: 15:	
+/home/jiayanhu/magisk/libs/libressl/crypto/rsa/rsa_sign.c:230
+Trace number: 16:	
+/home/jiayanhu/magisk/libs/libressl/crypto/rsa/rsa_sign.c:230
+Trace number: 17:	
+/home/jiayanhu/magisk/libs/libressl/crypto/bn/bn_div.c:303
+Trace number: 18:	
+/home/jiayanhu/magisk/libs/libressl/crypto/rsa/rsa_sign.c:230
+Trace number: 19:	
+/home/jiayanhu/magisk/libs/libressl/crypto/bn/bn_div.c:303
+Trace number: 20:	
+/home/jiayanhu/magisk/libs/libressl/crypto/rsa/rsa_sign.c:230
+Trace number: 21:	
+/home/jiayanhu/magisk/libs/libressl/crypto/asn1/a_time_tm.c:160
+Trace number: 22:	
+/home/jiayanhu/magisk/libs/libressl/crypto/asn1/tasn_dec.c:1158
+Trace number: 23:	
+/home/jiayanhu/magisk/libs/libressl/crypto/asn1/a_time_tm.c:160
+Trace number: 24:	
+/home/jiayanhu/magisk/libs/libressl/crypto/asn1/a_time_tm.c:160
+Trace number: 25:	
+/home/jiayanhu/magisk/libs/libressl/crypto/asn1/asn1_lib.c:173
+Trace number: 26:	
+/home/jiayanhu/magisk/libs/libressl/crypto/asn1/a_time_tm.c:187
+Trace number: 27:	
+/home/jiayanhu/magisk/libs/libressl/crypto/bn/bn_lib.c:176
+Trace number: 28:	
+/home/jiayanhu/magisk/libs/libressl/crypto/asn1/a_time_tm.c:190
+Trace number: 29:	
+/home/jiayanhu/magisk/libs/libressl/crypto/asn1/a_time_tm.c:187
+Trace number: 30:	
+/home/jiayanhu/magisk/libs/libressl/crypto/asn1/a_time_tm.c:190
+Trace number: 31:	
+Trace number: 32:	
+/home/jiayanhu/magisk/libs/libressl/crypto/asn1/tasn_dec.c:1157
+Trace number: 33:	
+/home/jiayanhu/magisk/libs/libressl/crypto/rsa/rsa_sign.c:230
+Trace number: 34:	
+/home/jiayanhu/magisk/libs/libressl/crypto/bn/bn_asm.c:472
+Trace number: 35:	
+/home/jiayanhu/magisk/libs/libressl/crypto/rsa/rsa_sign.c:230
+Trace number: 36:	
+Trace number: 37:	
+/home/jiayanhu/magisk/libs/libressl/crypto/asn1/a_time_tm.c:160
+Trace number: 38:	
+/home/jiayanhu/magisk/libs/libressl/crypto/asn1/a_time_tm.c:160
+Trace number: 39:	
+/home/jiayanhu/magisk/libs/libressl/crypto/asn1/a_time_tm.c:160
+Trace number: 40:	
+/home/jiayanhu/magisk/libs/libressl/crypto/asn1/a_time_tm.c:190

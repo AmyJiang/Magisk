@@ -70,3 +70,44 @@ Usage of ./bin/debugger:
   validates all of them, but LibreSSL rejects and outputs 4 kinds of error code:
   0x14, 0x6, 0xd, 0xe. // Hidy & JiaYan: can you each check on two kinds of
   error?
+  
+### Trick for navigating in vim
+Run
+```
+sudo apt install cscope
+```
+Go to the base dir of the project and run
+```
+cscope -Rb
+```
+Then add the following lines in your .vimrc:
+
+```
+"cscope config
+"set cscopequickfix=s-,c+,d+,i+,t+,e+
+if has("cscope")
+    set csprg=/usr/bin/cscope
+    set csto=1
+    set cst
+    set nocsverb
+    set cspc=0
+    "add any database in current dir
+    if filereadable("cscope.out")
+        cs add cscope.out
+    "else search cscope.out elsewhere
+    else
+       let cscope_file=findfile("<path to magisk>/libs/libressl/cscope.out", ".;")
+        "echo cscope_file
+        if !empty(cscope_file) && filereadable(cscope_file)
+            exe "cs add" cscope_file
+        endif
+     endif
+endif
+
+function! Csc()
+    cscope find c <cword>
+    copen
+endfunction
+command! Csc call Csc()
+```
+Now if you place your cursor on top of a function and type ```:Csc<enter>``` its callers will be displayed.

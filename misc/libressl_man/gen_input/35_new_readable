@@ -1,0 +1,255 @@
+    0:d=0  hl=4 l=1387 cons: SEQUENCE          
+    4:d=1  hl=4 l=1107 cons: SEQUENCE          
+    8:d=2  hl=2 l=   3 cons: cont [ 0 ]        
+   10:d=3  hl=2 l=   1 prim: INTEGER           :02
+   13:d=2  hl=2 l=   8 prim: INTEGER           :438B2B3800ED2C11
+   23:d=2  hl=2 l=  13 cons: SEQUENCE          
+   25:d=3  hl=2 l=   9 prim: OBJECT            :sha256WithRSAEncryption
+   36:d=3  hl=2 l=   0 prim: NULL              
+   38:d=2  hl=3 l= 180 cons: SEQUENCE          
+   41:d=3  hl=2 l=  11 cons: SET               
+   43:d=4  hl=2 l=   9 cons: SEQUENCE          
+   45:d=5  hl=2 l=   3 prim: OBJECT            :countryName
+   50:d=5  hl=2 l=   2 prim: PRINTABLESTRING   :US
+   54:d=3  hl=2 l=  16 cons: SET               
+   56:d=4  hl=2 l=  14 cons: SEQUENCE          
+   58:d=5  hl=2 l=   3 prim: OBJECT            :stateOrProvinceName
+   63:d=5  hl=2 l=   7 prim: PRINTABLESTRING   :Arizona
+   72:d=3  hl=2 l=  19 cons: SET               
+   74:d=4  hl=2 l=  17 cons: SEQUENCE          
+   76:d=5  hl=2 l=   3 prim: OBJECT            :localityName
+   81:d=5  hl=2 l=  10 prim: PRINTABLESTRING   :Scottsdale
+   93:d=3  hl=2 l=  26 cons: SET               
+   95:d=4  hl=2 l=  24 cons: SEQUENCE          
+   97:d=5  hl=2 l=   3 prim: OBJECT            :organizationName
+  102:d=5  hl=2 l=  17 prim: PRINTABLESTRING   :GoDaddy.com, Inc.
+  121:d=3  hl=2 l=  45 cons: SET               
+  123:d=4  hl=2 l=  43 cons: SEQUENCE          
+  125:d=5  hl=2 l=   3 prim: OBJECT            :organizationalUnitName
+  130:d=5  hl=2 l=  36 prim: PRINTABLESTRING   :http://certs.godaddy.com/repository/
+  168:d=3  hl=2 l=  51 cons: SET               
+  170:d=4  hl=2 l=  49 cons: SEQUENCE          
+  172:d=5  hl=2 l=   3 prim: OBJECT            :commonName
+  177:d=5  hl=2 l=  42 prim: PRINTABLESTRING   :Go Daddy Secure Certificate Authority - G2
+  221:d=2  hl=2 l=  30 cons: SEQUENCE          
+  223:d=3  hl=2 l=  13 prim: UTCTIME           :150911214338Z
+  238:d=3  hl=2 l=  13 prim: UTCTIME           :341822390478Z
+  253:d=2  hl=2 l=  55 cons: SEQUENCE          
+  255:d=3  hl=2 l=  33 cons: SET               
+  257:d=4  hl=2 l=  31 cons: SEQUENCE          
+  259:d=5  hl=2 l=   3 prim: OBJECT            :organizationalUnitName
+  264:d=5  hl=2 l=  24 prim: PRINTABLESTRING   :Domain Control Validated
+  290:d=3  hl=2 l=  18 cons: SET               
+  292:d=4  hl=2 l=  16 cons: SEQUENCE          
+  294:d=5  hl=2 l=   3 prim: OBJECT            :commonName
+  299:d=5  hl=2 l=   9 prim: PRINTABLESTRING   :vnasi.org
+  310:d=2  hl=4 l= 290 cons: SEQUENCE          
+  314:d=3  hl=2 l=  13 cons: SEQUENCE          
+  316:d=4  hl=2 l=   9 prim: OBJECT            :rsaEncryption
+  327:d=4  hl=2 l=   0 prim: NULL              
+  329:d=3  hl=4 l= 271 prim: BIT STRING        
+  604:d=2  hl=4 l= 507 cons: cont [ 3 ]        
+  608:d=3  hl=4 l= 503 cons: SEQUENCE          
+  612:d=4  hl=2 l=  12 cons: SEQUENCE          
+  614:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Basic Constraints
+  619:d=5  hl=2 l=   1 prim: BOOLEAN           :255
+  622:d=5  hl=2 l=   2 prim: OCTET STRING      [HEX DUMP]:3000
+  626:d=4  hl=2 l=  29 cons: SEQUENCE          
+  628:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Extended Key Usage
+  633:d=5  hl=2 l=  22 prim: OCTET STRING      [HEX DUMP]:301406082B0601050507030106082B06010505070302
+  657:d=4  hl=2 l=  14 cons: SEQUENCE          
+  659:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Key Usage
+  664:d=5  hl=2 l=   1 prim: BOOLEAN           :255
+  667:d=5  hl=2 l=   4 prim: OCTET STRING      [HEX DUMP]:030205A0
+  673:d=4  hl=2 l=  55 cons: SEQUENCE          
+  675:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 CRL Distribution Points
+  680:d=5  hl=2 l=  48 prim: OCTET STRING      [HEX DUMP]:302E302CA02AA0288626687474703A2F2F63726C2E676F64616464792E636F6D2F676469673273312D3132312E63726C
+  730:d=4  hl=2 l=  83 cons: SEQUENCE          
+  732:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Certificate Policies
+  737:d=5  hl=2 l=  76 prim: OCTET STRING      [HEX DUMP]:304A3048060B6086480186FD6D010717013039303706082B06010505070201162B687474703A2F2F6365727469666963617465732E676F64616464792E636F6D2F7265706F7369746F72792F
+  815:d=4  hl=2 l= 118 cons: SEQUENCE          
+  817:d=5  hl=2 l=   8 prim: OBJECT            :Authority Information Access
+  827:d=5  hl=2 l= 106 prim: OCTET STRING      [HEX DUMP]:3068302406082B060105050730018618687474703A2F2F6F6373702E676F64616464792E636F6D2F304006082B060105050730028634687474703A2F2F6365727469666963617465732E676F64616464792E636F6D2F7265706F7369746F72792F67646967322E637274
+  935:d=4  hl=2 l=  31 cons: SEQUENCE          
+  937:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Authority Key Identifier
+  942:d=5  hl=2 l=  24 prim: OCTET STRING      [HEX DUMP]:3016801440C2BD278ECC348330A233D7FB6CB3F0B42C80CE
+  968:d=4  hl=2 l= 114 cons: SEQUENCE          
+  970:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Subject Alternative Name
+  975:d=5  hl=2 l= 107 prim: OCTET STRING      [HEX DUMP]:30698209766E6173692E6F7267820D7777772E766E6173692E6F7267820E6D61696C2E766E6173692E6F726782166175746F646973636F7665722E766E6173692E6F7267821461637469766573796E632E766E6173692E6F7267820F6D61696C312E766E6173692E6F7267
+ 1084:d=4  hl=2 l=  29 cons: SEQUENCE          
+ 1086:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Subject Key Identifier
+ 1091:d=5  hl=2 l=  22 prim: OCTET STRING      [HEX DUMP]:0414AD908FB030EFDAA46FEAB5E49F701A5A38677FC7
+ 1115:d=1  hl=2 l=  13 cons: SEQUENCE          
+ 1117:d=2  hl=2 l=   9 prim: OBJECT            :sha256WithRSAEncryption
+ 1128:d=2  hl=2 l=   0 prim: NULL              
+ 1130:d=1  hl=4 l= 257 prim: BIT STRING        
+ 1391:d=0  hl=4 l=1232 cons: SEQUENCE          
+ 1395:d=1  hl=4 l= 952 cons: SEQUENCE          
+ 1399:d=2  hl=2 l=   3 cons: cont [ 0 ]        
+ 1401:d=3  hl=2 l=   1 prim: INTEGER           :02
+ 1404:d=2  hl=2 l=   1 prim: INTEGER           :07
+ 1407:d=2  hl=2 l=  13 cons: SEQUENCE          
+ 1409:d=3  hl=2 l=   9 prim: OBJECT            :sha256WithRSAEncryption
+ 1420:d=3  hl=2 l=   0 prim: NULL              
+ 1422:d=2  hl=3 l= 131 cons: SEQUENCE          
+ 1425:d=3  hl=2 l=  11 cons: SET               
+ 1427:d=4  hl=2 l=   9 cons: SEQUENCE          
+ 1429:d=5  hl=2 l=   3 prim: OBJECT            :countryName
+ 1434:d=5  hl=2 l=   2 prim: PRINTABLESTRING   :US
+ 1438:d=3  hl=2 l=  16 cons: SET               
+ 1440:d=4  hl=2 l=  14 cons: SEQUENCE          
+ 1442:d=5  hl=2 l=   3 prim: OBJECT            :stateOrProvinceName
+ 1447:d=5  hl=2 l=   7 prim: PRINTABLESTRING   :Arizona
+ 1456:d=3  hl=2 l=  19 cons: SET               
+ 1458:d=4  hl=2 l=  17 cons: SEQUENCE          
+ 1460:d=5  hl=2 l=   3 prim: OBJECT            :localityName
+ 1465:d=5  hl=2 l=  10 prim: PRINTABLESTRING   :Scottsdale
+ 1477:d=3  hl=2 l=  26 cons: SET               
+ 1479:d=4  hl=2 l=  24 cons: SEQUENCE          
+ 1481:d=5  hl=2 l=   3 prim: OBJECT            :organizationName
+ 1486:d=5  hl=2 l=  17 prim: PRINTABLESTRING   :GoDaddy.com, Inc.
+ 1505:d=3  hl=2 l=  49 cons: SET               
+ 1507:d=4  hl=2 l=  47 cons: SEQUENCE          
+ 1509:d=5  hl=2 l=   3 prim: OBJECT            :commonName
+ 1514:d=5  hl=2 l=  40 prim: PRINTABLESTRING   :Go Daddy Root Certificate Authority - G2
+ 1556:d=2  hl=2 l=  30 cons: SEQUENCE          
+ 1558:d=3  hl=2 l=  13 prim: UTCTIME           :110503070000Z
+ 1573:d=3  hl=2 l=  13 prim: UTCTIME           :310503070000Z
+ 1588:d=2  hl=3 l= 180 cons: SEQUENCE          
+ 1591:d=3  hl=2 l=  11 cons: SET               
+ 1593:d=4  hl=2 l=   9 cons: SEQUENCE          
+ 1595:d=5  hl=2 l=   3 prim: OBJECT            :countryName
+ 1600:d=5  hl=2 l=   2 prim: PRINTABLESTRING   :US
+ 1604:d=3  hl=2 l=  16 cons: SET               
+ 1606:d=4  hl=2 l=  14 cons: SEQUENCE          
+ 1608:d=5  hl=2 l=   3 prim: OBJECT            :stateOrProvinceName
+ 1613:d=5  hl=2 l=   7 prim: PRINTABLESTRING   :Arizona
+ 1622:d=3  hl=2 l=  19 cons: SET               
+ 1624:d=4  hl=2 l=  17 cons: SEQUENCE          
+ 1626:d=5  hl=2 l=   3 prim: OBJECT            :localityName
+ 1631:d=5  hl=2 l=  10 prim: PRINTABLESTRING   :Scottsdale
+ 1643:d=3  hl=2 l=  26 cons: SET               
+ 1645:d=4  hl=2 l=  24 cons: SEQUENCE          
+ 1647:d=5  hl=2 l=   3 prim: OBJECT            :organizationName
+ 1652:d=5  hl=2 l=  17 prim: PRINTABLESTRING   :GoDaddy.com, Inc.
+ 1671:d=3  hl=2 l=  45 cons: SET               
+ 1673:d=4  hl=2 l=  43 cons: SEQUENCE          
+ 1675:d=5  hl=2 l=   3 prim: OBJECT            :organizationalUnitName
+ 1680:d=5  hl=2 l=  36 prim: PRINTABLESTRING   :http://certs.godaddy.com/repository/
+ 1718:d=3  hl=2 l=  51 cons: SET               
+ 1720:d=4  hl=2 l=  49 cons: SEQUENCE          
+ 1722:d=5  hl=2 l=   3 prim: OBJECT            :commonName
+ 1727:d=5  hl=2 l=  42 prim: PRINTABLESTRING   :Go Daddy Secure Certificate Authority - G2
+ 1771:d=2  hl=4 l= 290 cons: SEQUENCE          
+ 1775:d=3  hl=2 l=  13 cons: SEQUENCE          
+ 1777:d=4  hl=2 l=   9 prim: OBJECT            :rsaEncryption
+ 1788:d=4  hl=2 l=   0 prim: NULL              
+ 1790:d=3  hl=4 l= 271 prim: BIT STRING        
+ 2065:d=2  hl=4 l= 282 cons: cont [ 3 ]        
+ 2069:d=3  hl=4 l= 278 cons: SEQUENCE          
+ 2073:d=4  hl=2 l=  15 cons: SEQUENCE          
+ 2075:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Basic Constraints
+ 2080:d=5  hl=2 l=   1 prim: BOOLEAN           :255
+ 2083:d=5  hl=2 l=   5 prim: OCTET STRING      [HEX DUMP]:30030101FF
+ 2090:d=4  hl=2 l=  14 cons: SEQUENCE          
+ 2092:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Key Usage
+ 2097:d=5  hl=2 l=   1 prim: BOOLEAN           :255
+ 2100:d=5  hl=2 l=   4 prim: OCTET STRING      [HEX DUMP]:03020106
+ 2106:d=4  hl=2 l=  29 cons: SEQUENCE          
+ 2108:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Subject Key Identifier
+ 2113:d=5  hl=2 l=  22 prim: OCTET STRING      [HEX DUMP]:041440C2BD278ECC348330A233D7FB6CB3F0B42C80CE
+ 2137:d=4  hl=2 l=  31 cons: SEQUENCE          
+ 2139:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Authority Key Identifier
+ 2144:d=5  hl=2 l=  24 prim: OCTET STRING      [HEX DUMP]:301680143A9A8507106728B6EFF6BD05416E20C194DA0FDE
+ 2170:d=4  hl=2 l=  52 cons: SEQUENCE          
+ 2172:d=5  hl=2 l=   8 prim: OBJECT            :Authority Information Access
+ 2182:d=5  hl=2 l=  40 prim: OCTET STRING      [HEX DUMP]:3026302406082B060105050730018618687474703A2F2F6F6373702E676F64616464792E636F6D2F
+ 2224:d=4  hl=2 l=  53 cons: SEQUENCE          
+ 2226:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 CRL Distribution Points
+ 2231:d=5  hl=2 l=  46 prim: OCTET STRING      [HEX DUMP]:302C302AA028A0268624687474703A2F2F63726C2E676F64616464792E636F6D2F6764726F6F742D67322E63726C
+ 2279:d=4  hl=2 l=  70 cons: SEQUENCE          
+ 2281:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Certificate Policies
+ 2286:d=5  hl=2 l=  63 prim: OCTET STRING      [HEX DUMP]:303D303B0604551D20003033303106082B06010505070201162568747470733A2F2F63657274732E676F64616464792E636F6D2F7265706F7369746F72792F
+ 2351:d=1  hl=2 l=  13 cons: SEQUENCE          
+ 2353:d=2  hl=2 l=   9 prim: OBJECT            :sha256WithRSAEncryption
+ 2364:d=2  hl=2 l=   0 prim: NULL              
+ 2366:d=1  hl=4 l= 257 prim: BIT STRING        
+ 2627:d=0  hl=4 l=1149 cons: SEQUENCE          
+ 2631:d=1  hl=4 l= 869 cons: SEQUENCE          
+ 2635:d=2  hl=2 l=   3 cons: cont [ 0 ]        
+ 2637:d=3  hl=2 l=   1 prim: INTEGER           :02
+ 2640:d=2  hl=2 l=   3 prim: INTEGER           :1BE715
+ 2645:d=2  hl=2 l=  13 cons: SEQUENCE          
+ 2647:d=3  hl=2 l=   9 prim: OBJECT            :sha256WithRSAEncryption
+ 2658:d=3  hl=2 l=   0 prim: NULL              
+ 2660:d=2  hl=2 l=  99 cons: SEQUENCE          
+ 2662:d=3  hl=2 l=  11 cons: SET               
+ 2664:d=4  hl=2 l=   9 cons: SEQUENCE          
+ 2666:d=5  hl=2 l=   3 prim: OBJECT            :countryName
+ 2671:d=5  hl=2 l=   2 prim: PRINTABLESTRING   :US
+ 2675:d=3  hl=2 l=  33 cons: SET               
+ 2677:d=4  hl=2 l=  31 cons: SEQUENCE          
+ 2679:d=5  hl=2 l=   3 prim: OBJECT            :organizationName
+ 2684:d=5  hl=2 l=  24 prim: PRINTABLESTRING   :The Go Daddy Group, Inc.
+ 2710:d=3  hl=2 l=  49 cons: SET               
+ 2712:d=4  hl=2 l=  47 cons: SEQUENCE          
+ 2714:d=5  hl=2 l=   3 prim: OBJECT            :organizationalUnitName
+ 2719:d=5  hl=2 l=  40 prim: PRINTABLESTRING   :Go Daddy Class 2 Certification Authority
+ 2761:d=2  hl=2 l=  30 cons: SEQUENCE          
+ 2763:d=3  hl=2 l=  13 prim: UTCTIME           :140101070000Z
+ 2778:d=3  hl=2 l=  13 prim: UTCTIME           :310530070000Z
+ 2793:d=2  hl=3 l= 131 cons: SEQUENCE          
+ 2796:d=3  hl=2 l=  11 cons: SET               
+ 2798:d=4  hl=2 l=   9 cons: SEQUENCE          
+ 2800:d=5  hl=2 l=   3 prim: OBJECT            :countryName
+ 2805:d=5  hl=2 l=   2 prim: PRINTABLESTRING   :US
+ 2809:d=3  hl=2 l=  16 cons: SET               
+ 2811:d=4  hl=2 l=  14 cons: SEQUENCE          
+ 2813:d=5  hl=2 l=   3 prim: OBJECT            :stateOrProvinceName
+ 2818:d=5  hl=2 l=   7 prim: PRINTABLESTRING   :Arizona
+ 2827:d=3  hl=2 l=  19 cons: SET               
+ 2829:d=4  hl=2 l=  17 cons: SEQUENCE          
+ 2831:d=5  hl=2 l=   3 prim: OBJECT            :localityName
+ 2836:d=5  hl=2 l=  10 prim: PRINTABLESTRING   :Scottsdale
+ 2848:d=3  hl=2 l=  26 cons: SET               
+ 2850:d=4  hl=2 l=  24 cons: SEQUENCE          
+ 2852:d=5  hl=2 l=   3 prim: OBJECT            :organizationName
+ 2857:d=5  hl=2 l=  17 prim: PRINTABLESTRING   :GoDaddy.com, Inc.
+ 2876:d=3  hl=2 l=  49 cons: SET               
+ 2878:d=4  hl=2 l=  47 cons: SEQUENCE          
+ 2880:d=5  hl=2 l=   3 prim: OBJECT            :commonName
+ 2885:d=5  hl=2 l=  40 prim: PRINTABLESTRING   :Go Daddy Root Certificate Authority - G2
+ 2927:d=2  hl=4 l= 290 cons: SEQUENCE          
+ 2931:d=3  hl=2 l=  13 cons: SEQUENCE          
+ 2933:d=4  hl=2 l=   9 prim: OBJECT            :rsaEncryption
+ 2944:d=4  hl=2 l=   0 prim: NULL              
+ 2946:d=3  hl=4 l= 271 prim: BIT STRING        
+ 3221:d=2  hl=4 l= 279 cons: cont [ 3 ]        
+ 3225:d=3  hl=4 l= 275 cons: SEQUENCE          
+ 3229:d=4  hl=2 l=  15 cons: SEQUENCE          
+ 3231:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Basic Constraints
+ 3236:d=5  hl=2 l=   1 prim: BOOLEAN           :255
+ 3239:d=5  hl=2 l=   5 prim: OCTET STRING      [HEX DUMP]:30030101FF
+ 3246:d=4  hl=2 l=  14 cons: SEQUENCE          
+ 3248:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Key Usage
+ 3253:d=5  hl=2 l=   1 prim: BOOLEAN           :255
+ 3256:d=5  hl=2 l=   4 prim: OCTET STRING      [HEX DUMP]:03020106
+ 3262:d=4  hl=2 l=  29 cons: SEQUENCE          
+ 3264:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Subject Key Identifier
+ 3269:d=5  hl=2 l=  22 prim: OCTET STRING      [HEX DUMP]:04143A9A8507106728B6EFF6BD05416E20C194DA0FDE
+ 3293:d=4  hl=2 l=  31 cons: SEQUENCE          
+ 3295:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Authority Key Identifier
+ 3300:d=5  hl=2 l=  24 prim: OCTET STRING      [HEX DUMP]:30168014D2C4B0D291D44C1171B361CB3DA1FEDDA86AD4E3
+ 3326:d=4  hl=2 l=  52 cons: SEQUENCE          
+ 3328:d=5  hl=2 l=   8 prim: OBJECT            :Authority Information Access
+ 3338:d=5  hl=2 l=  40 prim: OCTET STRING      [HEX DUMP]:3026302406082B060105050730018618687474703A2F2F6F6373702E676F64616464792E636F6D2F
+ 3380:d=4  hl=2 l=  50 cons: SEQUENCE          
+ 3382:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 CRL Distribution Points
+ 3387:d=5  hl=2 l=  43 prim: OCTET STRING      [HEX DUMP]:30293027A025A0238621687474703A2F2F63726C2E676F64616464792E636F6D2F6764726F6F742E63726C
+ 3432:d=4  hl=2 l=  70 cons: SEQUENCE          
+ 3434:d=5  hl=2 l=   3 prim: OBJECT            :X509v3 Certificate Policies
+ 3439:d=5  hl=2 l=  63 prim: OCTET STRING      [HEX DUMP]:303D303B0604551D20003033303106082B06010505070201162568747470733A2F2F63657274732E676F64616464792E636F6D2F7265706F7369746F72792F
+ 3504:d=1  hl=2 l=  13 cons: SEQUENCE          
+ 3506:d=2  hl=2 l=   9 prim: OBJECT            :sha256WithRSAEncryption
+ 3517:d=2  hl=2 l=   0 prim: NULL              
+ 3519:d=1  hl=4 l= 257 prim: BIT STRING        
