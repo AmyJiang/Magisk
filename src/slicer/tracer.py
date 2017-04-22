@@ -7,6 +7,8 @@ import pyvex
 import simuvex
 from simuvex import s_options as so
 from slicer import Slicer, SlicerError
+from simprocedures.scanf import scanf_taint
+
 
 log = logging.getLogger("slicer.Tracer")
 log.setLevel('DEBUG')
@@ -19,6 +21,8 @@ class Tracer(object):
         self.binary = binary
         self.argv = argv or [binary]
         log.debug("Command: %s", self.argv)
+
+
         self._setup()
 
         log.debug("Collecting basic block trace...")
@@ -66,30 +70,32 @@ class Tracer(object):
             "addr": write_addr,
             "data": state.inspect.mem_read_expr})
 
-
     def _prepare_paths(self):
+
+        self._hook_taint_procedures(self._project)
+
         add_options = set()
         add_options.add(so.BYPASS_UNSUPPORTED_SYSCALL)
-
         add_options.add(so.UNICORN_HANDLE_TRANSMIT_SYSCALL)
         add_options.add(so.UNICORN)
         # add_options.add(so.CONCRETIZE)
         # add_options.add(so.TRACK_ACTION_HISTORY)
 
-        # fs = {self.argv[1]: simuvex.storage.file.SimFile(self.argv[1], "r")}
+        #print "fs: %s" % self.argv[1]
+        #fs = {self.argv[1]: simuvex.storage.file.SimFile(self.argv[1], "r")}
         entry_state = self._project.factory.entry_state(
             args=self.argv,
             add_options=add_options)
-            # fs=fs,
-            # concrete_fs=True,
-            # chroot=True)
+            #fs=fs,
+            #concrete_fs=True,
+            #chroot=True)
         entry_state.inspect.b('mem_read', when=simuvex.BP_AFTER, action=self._track_reads)
         entry_state.inspect.b('mem_write', when=simuvex.BP_AFTER, action=self._track_writes)
 
         pg = self._project.factory.path_group(
             entry_state,
             immutable=False,
-            save_unsat=False,
+            save_unsat=True,
             hierarchy=False)
 
         if pg.active[0].addr != self.trace[0]:
@@ -99,6 +105,14 @@ class Tracer(object):
             log.debug("Start Address %d", pg.active[0].addr)
         return pg
 
+
+    def _hook_taint_procedures(self, project):
+        self._hooks = {
+            "scanf" : scanf_taint
+        }
+        for k, v in self._hooks.iteritems():
+            project.hook_symbol(k, angr.Hook(v))
+            v.taints = []
 
     def _address_in_plt(self, addr):
         plt = self._project.loader.main_bin.sections_map['.plt']
@@ -116,25 +130,31 @@ class Tracer(object):
     def next_branch(self):
         while len(self._path_group.active) == 1:
             current = self._path_group.active[0]
-            # log.debug("bb: 0x%x, jumpkind: %s", current.addr, current.jumpkind)
+            log.debug("bb: 0x%x, jumpkind: %s", current.addr, current.jumpkind)
 
             if self._bb_cnt >= len(self.trace):
                 return self._path_group
 
             if current.addr == self.trace[self._bb_cnt]:
                 self._bb_cnt += 1
-            elif not self._address_in_binary(current.addr):
+            elif self._project.is_hooked(current.addr) or \
+                not self._address_in_binary(current.addr):
                 while self._address_in_plt(self.trace[self._bb_cnt]):
                     self._bb_cnt += 1
             else:
-                log.error("concrete trace and symbolic trace disagreed")
-                raise TracerError("[%s] dynamic [0x%x], symbolic [0x%x]", \
+                log.error("[%s] dynamic [0x%x], symbolic [0x%x]", \
                                   self.binary, self.trace[self._bb_cnt], current.addr)
+                raise TracerError("concrete trace and symbolic trace disagreed")
 
             self._path = current
             self._previous_addr = current.addr
-#            self._path.trim_history()
             self._path_group = self._path_group.step()
+
+            # preconstrained input?
+            # print "Active: %d, Unsat: %d" % (len(self._path_group.active), len(self._path_group.unsat))
+            self._path_group = self._path_group.stash(from_stash="unsat",
+                                                     to_stash="active")
+            self._path_group = self._path_group.drop(stash="unsat")
 
         return self._path_group
 
@@ -146,9 +166,26 @@ class Tracer(object):
             branches = self.next_branch()
 
             if len(self._path_group.active) > 1:
-                self._path_group = self._path_group.stash_not_addr(
-                    self.trace[self._bb_cnt], to_stash="missed")
+                if self._bb_cnt < len(self.trace):
+                    self._path_group = self._path_group.stash_not_addr(
+                        self.trace[self._bb_cnt], to_stash="missed")
+
+                if len(self._path_group.active) == 0:
+                # hacky way to resolve stop points between VEX and Pin
+                    bbl = self._previous_addr
+                    bbl_size = self._project.factory.block(bbl).size
+                    log.debug("BBL: 0x%x, Size: %d", bbl, bbl_size)
+                    while self._bb_cnt < len(self.trace) and \
+                        self.trace[self._bb_cnt] >= bbl and self.trace[self._bb_cnt] < bbl+bbl_size:
+                        self._bb_cnt += 1
+
+                    if self._bb_cnt < len(self.trace):
+                        self._path_group = self._path_group.stash_addr(
+                        self.trace[self._bb_cnt], from_stash="missed", to_stash="active")
+
                 assert len(self._path_group.active) == 1
+
+
 
         if len(branches.active) == 0:
             if self._bb_cnt < len(self.trace):
@@ -178,12 +215,17 @@ class Tracer(object):
 
 
     def slice(self):
+        print "Taints: %s" % scanf_taint.taints
+        taints = []
+        for _, v in self._hooks.iteritems():
+            taints.extend(v.taints)
+
         target_tmps, target_regs, target_addrs = self._slice_from_last_condition()
 
         try:
             slicer = Slicer(self._project, self._path, \
                             target_tmps, target_regs, target_addrs, \
-                            self._mem_reads, self._mem_writes)
+                            self._mem_reads, self._mem_writes, taints)
             slicer.slice()
         except SlicerError:
             raise TracerError("Slicer failed")
@@ -202,6 +244,3 @@ class Tracer(object):
         p.stdin.close()
         sources = sorted(set(p.stdout.read().splitlines()))
         return sources
-
-
-

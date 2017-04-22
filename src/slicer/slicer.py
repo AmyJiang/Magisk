@@ -24,38 +24,45 @@ class SlicerState(object):
         self.inst = None
         self._mem_reads_iter = reversed(mem_reads)
         self._mem_writes_iter = reversed(mem_writes)
+        self._mem_read = self._mem_reads_iter.next()
+        self._mem_write = self._mem_writes_iter.next()
+
+    def num_of_targets(self):
+        return len(self.targets["tmp"]) + len(self.targets["reg"]) + \
+               len(self.targets["addr"])
+
 
     def concrete_write_addr(self):
          # TODO: same instuctions two write?
-        mem_write = None
-        try:
-            while mem_write is None or mem_write['inst'] != self.inst:
-                mem_write = self._mem_writes_iter.next()
-        except StopIteration:
+        if self.inst is None:
             return None
 
-        return mem_write['addr']
+        try:
+            while self._mem_write['inst'] != self.inst:
+                # print "Mem_write: 0x%x, 0x%x" % (self._mem_write['inst'], self._mem_write['addr'])
+                self._mem_write = self._mem_writes_iter.next()
+            return self._mem_write['addr']
+        except StopIteration:
+            return None
 
     def concrete_read_addr(self):
         # TODO: same instuctions two read?
-        mem_read = None
+        if self.inst is None:
+            return None
+
         try:
-            while mem_read is None or mem_read['inst'] != self.inst:
-                mem_read = self._mem_reads_iter.next()
+            while self._mem_read['inst'] != self.inst:
+                self._mem_read = self._mem_reads_iter.next()
+            return self._mem_read['addr']
         except StopIteration:
             return None
 
-        return mem_read['addr']
-
 
 class Slicer(object):
-    def __init__(self, project, path, target_tmps=None, target_regs=None, target_addrs=None, mem_reads=None, mem_writes=None):
+    def __init__(self, project, path, target_tmps=None, target_regs=None, target_addrs=None, mem_reads=None, mem_writes=None, taints=None):
         self._project = project
         self._path = path
-
-        if target_tmps is None and target_regs is None and target_addrs is None:
-            target_tmps, target_regs, target_addrs = self._slice_from_last_condition()
-
+        self._taints = [] if taints is None else taints
         self._state = SlicerState(target_tmps, target_regs, target_addrs, mem_reads, mem_writes)
 
         # results
@@ -70,7 +77,19 @@ class Slicer(object):
 
             log.debug("State after block [0x%x]" % trace)
             log.debug("Targets: %s" % self._state.targets)
+            if self._state.num_of_targets() == 0:
+                break
 
+
+    def _address_in_taints(self, addr):
+        for s, e in self._taints:
+            if addr >= s and addr <= e:
+                return True
+        return False
+
+    def _address_in_binary(self, addr):
+        mb = self._project.loader.main_bin
+        return mb.get_min_addr() <= addr and addr < mb.get_max_addr()
 
     def _slice_block(self, block):
         # preprocess
@@ -80,12 +99,18 @@ class Slicer(object):
                 ins.append(stmt.addr)
 
         ins_idx = len(ins)-1
-        self._state.inst = ins[ins_idx]
+        if self._address_in_binary(ins[ins_idx]):
+            self._state.inst = ins[ins_idx]
+        else:
+            self._state.inst = None
 
         for stmt in reversed(block.statements):
             if isinstance(stmt, pyvex.stmt.IMark):
                 ins_idx -= 1
-                self._state.inst = ins[ins_idx]
+                if self._address_in_binary(ins[ins_idx]):
+                    self._state.inst = ins[ins_idx]
+                else:
+                    self._state.inst = None
             elif self._backward_handler_stmt(stmt, self._state):
                 self.instructions.add(self._state.inst)
 
@@ -120,7 +145,6 @@ class Slicer(object):
         if isinstance(addr, pyvex.IRExpr.RdTmp):
             concrete_addr = state.concrete_write_addr()
             if concrete_addr:
-                log.debug("Find concrete_addr: %d", concrete_addr)
                 if concrete_addr in state.targets["addr"]:
                     state.targets["addr"].remove(concrete_addr)
                     self._backward_handler_expr(addr, state)
@@ -152,7 +176,10 @@ class Slicer(object):
             self._backward_handler_expr(addr, state)
             concrete_addr = state.concrete_read_addr()
             if concrete_addr:
-                state.targets["addr"].add(concrete_addr)
+                if self._address_in_taints(concrete_addr):
+                    print "Found input in taints %d" % concrete_addr
+                else:
+                    state.targets["addr"].add(concrete_addr)
 
     def _backward_handler_expr_Unop(self, expr, state):
         arg = expr.args[0]
