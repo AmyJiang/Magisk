@@ -1,9 +1,6 @@
-BUILD_LIBS=~/Documents/magisk/build
-SRC_LIBS=~/Documents/magisk/libs
-PATCHES=~/Documents/magisk/patches
+BUILD_LIBS=$GOPATH/builds
+SRC_LIBS=$GOPATH/libs
+PATCHES=$GOPATH/patches
 
 OPENSSL=openssl
 LIBRESSL=libressl
-NQSB=nqsb
-
-
