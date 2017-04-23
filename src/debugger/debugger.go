@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"exectraces"
 	"flag"
 	"fmt"
@@ -13,6 +12,8 @@ import (
 	"os/exec"
 	"os/signal"
 	"path/filepath"
+	"runtime/debug"
+	"strings"
 	"sync/atomic"
 	"syscall"
 	"time"
@@ -33,23 +34,31 @@ type Report struct {
 }
 
 var (
-	flagPin      = flag.String("pin", "pin", "path to pin")
-	flagBin      = flag.String("bin", "", "path to fuzzed binary")
-	flagProcs    = flag.Int("procs", 1, "number of parallel processes")
-	flagInputDir = flag.String("inputdir", ".", "directory of input")
+	flagPin     = flag.String("pin", "pin", "path to pin")
+	flagBin     = flag.String("bin", "", "path to fuzzed binary")
+	flagProcs   = flag.Int("procs", 1, "number of parallel processes")
+	flagWorkDir = flag.String("dir", ".", "path to working directory")
+	flagInput   = flag.String("input", "", "a single input")
+	flagQuery   = flag.String("query", "", "a single query")
 
-	logger = log.New(os.Stderr, "Dbg: ", log.Lshortfile)
+	logger = log.New(os.Stderr, "", 0)
 	traces = exectraces.NewExecTraces()
 
 	statReport uint64
-	statTrace  uint64
+	statInput  uint64
 	statQuery  uint64
+
+	inputDir string
+	queryDir string
+	traceDir string
+	sliceDir string
+	inputs   []string
+	queries  []string
 )
 
 const (
 	bufSize    = 100
 	outputSize = 1 << 24
-	traceTool  = "../ExecTrace/obj-intel64/exectrace.so"
 )
 
 func process(pid int, command *ipc.Command, report *Report) ([]uint64, error) {
@@ -57,7 +66,14 @@ func process(pid int, command *ipc.Command, report *Report) ([]uint64, error) {
 	if err != nil || off != 0 {
 		return nil, err
 	}
-	command.Bin[5] = report.input
+
+	if report.op == QUERY {
+		command.Bin[4] = "1"
+		input := filepath.Base(report.input)
+		command.Bin[6] = filepath.Join(traceDir, input+".trace")
+	}
+
+	command.Bin[9] = report.input
 	cmd := exec.Command(command.Bin[0], command.Bin[1:]...)
 	cmd.ExtraFiles = []*os.File{command.OutFile}
 	cmd.Env = []string{}
@@ -81,27 +97,17 @@ func process(pid int, command *ipc.Command, report *Report) ([]uint64, error) {
 }
 
 func insert(trace []uint64, key string) error {
-	logger.Printf("INSERT %v\n", key)
+	logger.Printf("[INFO]: \tInsert trace of %v\n", key)
 	if err := traces.Insert(trace, key); err != nil {
 		return err
 	}
 	return nil
 }
 
-func query(trace []uint64) error {
-	found, diff := traces.Query(trace)
-	if found {
-		fmt.Println("Found input with same trace")
-	} else {
-		hdiff := fmt.Sprintf("%x", diff)
-		bin := []string{"addr2line", "-e", *flagBin, hdiff}
-		out, err := ipc.RunCommand(bin)
-		if err != nil {
-			return err
-		}
-		fmt.Printf("Div = %v\n", out)
-	}
-	return nil
+func query(trace []uint64) (bool, int) {
+	found, length := traces.Query(trace)
+	logger.Printf("[INFO]: \tQuery trace -- found %v, Length %d\n", found, length)
+	return found, length
 }
 
 func runDebugger() {
@@ -111,6 +117,7 @@ func runDebugger() {
 	// Create worker processes
 	reports := make(chan *Report, bufSize)
 	done := make(chan struct{}, *flagProcs)
+	doneTrace := make(chan struct{}, 1)
 	cmds := make([]*ipc.Command, *flagProcs)
 	for pid := 0; pid < *flagProcs; pid++ {
 		command, err := ipc.MakeCommand(*flagPin, *flagBin, pid)
@@ -137,12 +144,25 @@ func runDebugger() {
 						logger.Printf("Insert trace failed")
 						break
 					}
-					atomic.AddUint64(&statTrace, 1)
+
+					if atomic.AddUint64(&statInput, 1) == uint64(len(inputs)) {
+						doneTrace <- struct{}{}
+					}
+
 				}
 				if report.op == QUERY {
-					if err := query(trace); err != nil {
-						logger.Printf("Query trace failed")
-						break
+					if found, length := query(trace); !found {
+						tracefile := filepath.Join(traceDir, filepath.Base(report.input)+".trace")
+						slicefile := filepath.Join(sliceDir, filepath.Base(report.input)+".slice")
+						bin := []string{"python", "./slicer/slicer.py", *flagBin, tracefile, fmt.Sprint(length), slicefile}
+						cmd := exec.Command(bin[0], bin[1:]...)
+
+						logger.Printf("[INFO]: \tExtracting slice\n")
+						if err := cmd.Run(); err != nil {
+							logger.Printf("[ERROR]: Failed to slice: %s\n", strings.Join(bin, " "))
+						} else {
+							logger.Printf("[INFO]: \tSlice is saved to %s\n", slicefile)
+						}
 					}
 					atomic.AddUint64(&statQuery, 1)
 				}
@@ -151,41 +171,54 @@ func runDebugger() {
 			done <- struct{}{}
 		}()
 	}
-	fmt.Printf("Debugger started (%v processes)\n", *flagProcs)
+	logger.Printf("[INFO]: \tDebugger started (%v processes)\n", *flagProcs)
 
 	// Create server (TODO: RPC/TPC?)
 
-	// Main loop, currently input files from local directory
-	fmt.Printf("Loading input from %v\n", *flagInputDir)
-	files, err := ioutil.ReadDir(*flagInputDir)
-	if err != nil {
-		logger.Panic("failed to read diretory: ", *flagInputDir)
-	}
+	/*
+	 * Main loop, currently get input files from local directory
+	 */
 
+	// Load input
+	if *flagInput != "" {
+		inputs = append(inputs, filepath.Join(*flagWorkDir, *flagInput))
+	} else {
+		files, err := ioutil.ReadDir(inputDir)
+		if err != nil {
+			logger.Panic("failed to read directory: ", inputDir)
+		}
+		for _, f := range files {
+			inputs = append(inputs, filepath.Join(inputDir, f.Name()))
+		}
+	}
+	logger.Printf("[INFO]: \tLoaded %v inputs from %v\n", len(inputs), *flagWorkDir)
+
+	// Load query
+	if *flagQuery != "" {
+		queries = append(queries, filepath.Join(*flagWorkDir, *flagQuery))
+	} else {
+		files, err := ioutil.ReadDir(queryDir)
+		if err != nil {
+			logger.Panic("failed to read directory: ", queryDir)
+		}
+		for _, f := range files {
+			queries = append(queries, filepath.Join(queryDir, f.Name()))
+		}
+	}
+	logger.Printf("[INFO]: \tLoaded %v queries from %v\n", len(queries), *flagWorkDir)
+
+	// main loop, send report to worker processes
 	c := make(chan os.Signal, *flagProcs+1)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
-
-	queries := make(chan string, bufSize)
-	go func() {
-		scanner := bufio.NewScanner(os.Stdin)
-		for scanner.Scan() {
-			queries <- scanner.Text()
-		}
-		close(queries)
-		if err := scanner.Err(); err != nil {
-			logger.Printf("Reading stdin failed")
-			c <- os.Interrupt
-		}
-	}()
-
 	ticker := time.NewTicker(20 * time.Second).C
+	startQuery := false
 	for i := 0; ; i++ {
 		select {
 		case <-ticker:
-			fmt.Printf("Received %v reports, generated %v traces)\n", statReport, atomic.LoadUint64(&statTrace))
+			logger.Printf("[SUMMARY]: \tFinished %v inputs, %v queries\n", atomic.LoadUint64(&statInput), atomic.LoadUint64(&statQuery))
 			break
 		case <-c:
-			fmt.Printf("Shutdowning processes...\n")
+			logger.Printf("[INFO]: \tShutting down processes...\n")
 			close(reports)
 			for j := 0; j < *flagProcs; j++ {
 				cmds[j].Shutdown = true
@@ -193,27 +226,29 @@ func runDebugger() {
 			for j := 0; j < *flagProcs; j++ {
 				<-done
 			}
-			fmt.Printf("Received %v reports, generated %v traces)\n", statReport, atomic.LoadUint64(&statTrace))
-			os.Exit(1)
-			break
-		case q := <-queries:
-			fmt.Printf("Received query for %v\n", q)
-			report := &Report{
-				input:  q,
-				output: 1,
-				op:     QUERY,
-			}
-			reports <- report
-			statReport++
+			logger.Printf("[SUMMARY]: \tFinished %v inputs, %v queries\n", atomic.LoadUint64(&statInput), atomic.LoadUint64(&statQuery))
+			return
+		case <-doneTrace:
+			startQuery = true
 			break
 		default:
-			// load report
-			if statReport < uint64(len(files)) {
-				filename := filepath.Join(*flagInputDir, files[statReport].Name())
+			// process input
+			if statReport < uint64(len(inputs)) {
 				report := &Report{
-					input:  filename,
+					input:  inputs[statReport],
 					output: 1,
 					op:     INSERT,
+				}
+				reports <- report
+				statReport++
+			}
+
+			// process query
+			if startQuery && statReport < uint64(len(inputs)+len(queries)) {
+				report := &Report{
+					input:  queries[statReport-uint64(len(inputs))],
+					output: 1,
+					op:     QUERY,
 				}
 				reports <- report
 				statReport++
@@ -222,10 +257,48 @@ func runDebugger() {
 	}
 }
 
+func setup() error {
+	// set up working directory
+	if *flagInput == "" {
+		inputDir = filepath.Join(*flagWorkDir, "input")
+		if file, err := os.Stat(inputDir); os.IsNotExist(err) || !file.Mode().IsDir() {
+			fmt.Errorf("Must specify a single input, or provide a workdir/input/ directory")
+			return err
+		}
+	}
+	if *flagQuery == "" {
+		queryDir = filepath.Join(*flagWorkDir, "query")
+		if file, err := os.Stat(queryDir); os.IsNotExist(err) || !file.Mode().IsDir() {
+			fmt.Errorf("Must specify a single input, or provide a workdir/input/ directory")
+			return err
+		}
+	}
+
+	traceDir = filepath.Join(*flagWorkDir, "traces")
+	sliceDir = filepath.Join(*flagWorkDir, "slices")
+	if err := os.MkdirAll(traceDir, 0776); err != nil {
+		return err
+	}
+	if err := os.MkdirAll(sliceDir, 0776); err != nil {
+		return err
+	}
+	return nil
+}
+
 func main() {
+	debug.SetGCPercent(50)
 	flag.Parse()
 	if *flagBin == "" {
-		fmt.Errorf("flag binary is required")
+		fmt.Errorf("Must specify target binary")
+		os.Exit(1)
+	}
+	if *flagWorkDir == "" {
+		fmt.Errorf("Must specify work directory")
+		os.Exit(1)
+	}
+
+	if err := setup(); err != nil {
+		fmt.Println(err)
 		os.Exit(1)
 	}
 	runDebugger()
