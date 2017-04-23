@@ -82,7 +82,7 @@ func MakeCommand(pin string, Bin string, pid int) (*Command, error) {
 
 	command := &Command{
 		// TODO(tracetool? concurrently call?)
-		Bin:      []string{pin, "-t", traceTool, "--", Bin, ""},
+		Bin:      []string{pin, "-t", traceTool, "-mem", "0", "-o", "/tmp/exectrace.out", "--", Bin, ""},
 		OutFile:  outf,
 		Out:      outmem,
 		Shutdown: false,
@@ -98,9 +98,9 @@ func MakeCommand(pin string, Bin string, pid int) (*Command, error) {
 	}
 
 	// New link for Binary (?)
-	binCopy2 := command.Bin[4] + pidStr
-	if err := os.Link(command.Bin[4], binCopy2); err == nil || os.IsExist(err) {
-		command.Bin[4] = binCopy2
+	binCopy2 := command.Bin[8] + pidStr
+	if err := os.Link(command.Bin[8], binCopy2); err == nil || os.IsExist(err) {
+		command.Bin[8] = binCopy2
 	} else {
 		return nil, err
 	}
