@@ -94,29 +94,35 @@ func (et *ExecTraces) Insert(prefix []uint64, value string) error {
 	return nil
 }
 
-func (et *ExecTraces) Query(prefix []uint64) (found bool, diff uint64) {
+func (et *ExecTraces) Query(prefix []uint64) (found bool, length int) {
 	et.RLock()
 	defer et.RUnlock()
 
+	length = 0
+	found = false
+
 	node := et.root
 	if node.prefix == nil {
-		return false, 0
+		return
 	}
 
 	for {
 		common := node.longestCommonPrefixLen(prefix)
+		length += common
+
 		prefix = prefix[common:]
 		if len(node.prefix) == common && len(prefix) > 0 {
 			child := node.next(prefix[0])
 			if child == nil {
-				return false, node.prefix[common-1]
+				return
 			}
 			node = child
 		} else {
 			if len(prefix) == 0 {
-				return true, 0
+				found = true
+				return
 			}
-			return false, node.prefix[common-1] // last common address
+			return
 		}
 	}
 }
