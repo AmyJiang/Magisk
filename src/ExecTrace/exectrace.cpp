@@ -86,7 +86,8 @@ void write_output(uint64_t v) {
 VOID PIN_FAST_ANALYSIS_CALL RecordBBL(VOID *ip, UINT32 size) {
   write_output((uint64_t)ip);
   total++;
-  TraceFile << "B" << " " << ip << " " << size << endl;
+  TraceFile << "B"
+            << " " << ip << " " << size << endl;
 }
 
 VOID TraceRoutine(TRACE trace, VOID *v) {
@@ -96,8 +97,8 @@ VOID TraceRoutine(TRACE trace, VOID *v) {
   for (BBL bbl = TRACE_BblHead(trace); BBL_Valid(bbl); bbl = BBL_Next(bbl)) {
 
     BBL_InsertCall(bbl, IPOINT_ANYWHERE, (AFUNPTR)RecordBBL,
-                   IARG_FAST_ANALYSIS_CALL, IARG_INST_PTR,
-                   IARG_UINT32, BBL_Size(bbl), IARG_END);
+                   IARG_FAST_ANALYSIS_CALL, IARG_INST_PTR, IARG_UINT32,
+                   BBL_Size(bbl), IARG_END);
 
     if (!KnobMem)
       continue;
