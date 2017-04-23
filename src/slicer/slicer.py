@@ -1,5 +1,6 @@
 import logging
 import subprocess
+import sys
 
 import angr
 import pyvex
@@ -82,11 +83,12 @@ class Slicer(object):
         self.binary = binary
         self.tracefile = tracefile
 
+        log.debug("Loading binary...")
+        self._project = angr.Project(self.binary, load_options=dict(auto_load_libs=False))
+
         log.debug("Loading trace...")
         self._trace = Trace(tracefile, num_bbl)
 
-        log.debug("Loading binary...")
-        self._project = angr.Project(self.binary, load_options=dict(auto_load_libs=False))
 
         log.debug("Initiating target queue...")
         self._target_q = deque()
@@ -292,21 +294,23 @@ class Slicer(object):
 
 
 if __name__ == "__main__":
+    if len(sys.argv) != 5:
+        print "usage: %s binary tracefile num_bbls slicefile" % sys.argv[0]
+        sys.exit(1)
 
-    binary = "../../test_libressl/test_libressl"
-    tracefile = "../../test_libressl/traces/valid.trace"
-    num_bbls = 481972
 
-#    binary = "../../test_slice/test"
-#    tracefile = "../../test_slice/traces/1.trace"
-#    num_bbls = 40
+    binary = sys.argv[1]        # "../../test_libressl/test_libressl"
+    tracefile = sys.argv[2]     # "../../test_libressl/traces/valid.trace"
+    num_bbls = int(sys.argv[3]) # 481972
+    slicefile = sys.argv[4]
 
     try:
         slicer = Slicer(binary, tracefile, num_bbls)
         slicer.run()
-        print "Lines in slice:"
-        for line in slicer.line_in_slice:
-            print line
+        with open(slicefile, 'w') as f:
+            for line in slicer.line_in_slice:
+                f.write(line)
+                f.write("\n")
     except SlicerError as e:
         print e
 
