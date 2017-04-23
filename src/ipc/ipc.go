@@ -113,7 +113,7 @@ func (command *Command) Close() error {
 	var err1, err2, err3 error
 	err1 = closeMapping(command.OutFile, command.Out)
 	err2 = os.Remove(command.Bin[0])
-	err3 = os.Remove(command.Bin[4])
+	err3 = os.Remove(command.Bin[8])
 	switch {
 	case err1 != nil:
 		return err1
