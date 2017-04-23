@@ -11,11 +11,11 @@ INC= -I$(LIBRESSL)/include
 LD= -L$(LIBRESSL)/lib -lcrypto -Wl,-static -lcrypto -Wl,-Bdynamic
 
 
-PIN=/home/hidy/pin-3.2-81205-gcc-linux/pin
+PIN=$(PIN_ROOT)/pin
 EXECTRACE=../misc/ExecTrace_test/obj-intel64/exectrace.so
 
 TRACE_DIR=./traces
-TEST_INPUT_DIR=./input
+TEST_INPUT_DIR=./simple_input
 
 TEST_CPP=libressl.cpp
 TEST_OBJ=./test_libressl
@@ -32,6 +32,17 @@ test: $(TEST_OBJ)
 	echo "Running $(input)"; $(PIN) -t $(EXECTRACE) \
 	-o $(TRACE_DIR)/$(basename $(notdir $(input))).trace \
 	-- $(TEST_OBJ) $(input); )
+
+.PHONY: trace
+trace: $(TEST_OBJ)
+	rm -rf $(TRACE_DIR)
+	mkdir -p $(TRACE_DIR)
+	@$(foreach input, $(wildcard $(TEST_INPUT_DIR)/*), \
+	echo "Running $(input)"; $(PIN) -t $(EXECTRACE) \
+	-o $(TRACE_DIR)/$(basename $(notdir $(input))).trace -mem 1 \
+	-- $(TEST_OBJ) $(input); )
+
+
 
 
 GEN_DIR=./../misc/libressl_man/gen_traces
@@ -51,3 +62,4 @@ clean:
 	rm -rf $(GEN_INPUT_DIR)
 	rm -rf $(GEN_DIR)
 	rm -rf $(TEST_OBJ)
+	rm -rf traces/* test_libressl
