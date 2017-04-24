@@ -7,13 +7,18 @@ QUERY ?= input/2.txt
 all:
 		$(MAKE) pintool
 		go install ./debugger
+		go install ./displayer
 		$(MAKE) debugger
+		$(MAKE) displayer
 
 pintool:
 		$(MAKE) -C ./ExecTrace
 
 debugger:
 		go build -o ./bin/debugger debugger
+
+displayer:
+		go build -o ./bin/displayer displayer
 
 format:
 		go fmt ./...
