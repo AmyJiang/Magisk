@@ -1,6 +1,6 @@
-OBJ ?=../test_slice/test_slice
+OBJ ?=../test_libressl/test_libressl
 PIN ?=/home/amy/repos/pin-3.2-81205-gcc-linux/pin
-DIR ?=../test_slice
+DIR ?=../test_libressl
 INPUT ?= input/1.txt
 QUERY ?= input/2.txt
 
