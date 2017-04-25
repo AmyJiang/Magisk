@@ -1,12 +1,11 @@
 CC=gcc
 CXX=g++
 
-LIBRESSL=../build/libressl
+LIBRESSL=../builds/libressl
 OPTIONS=-DCONFIG_USE_DER -DCONFIG_DEBUG
 DBGFLAGS=-g -ggdb3
 CFLAGS=-O2 -Wall $(DBGFLAGS) $(OPTIONS)
 
-LIBRESSL=../build/libressl
 INC= -I$(LIBRESSL)/include
 LD= -L$(LIBRESSL)/lib -lcrypto -Wl,-static -lcrypto -Wl,-Bdynamic
 
