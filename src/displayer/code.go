@@ -7,8 +7,8 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
-    "sort"
 )
 
 type File struct {
@@ -25,15 +25,15 @@ type Slice struct {
 type FileArray []*File
 
 func (arr FileArray) Len() int {
-    return len(arr)
+	return len(arr)
 }
 
 func (arr FileArray) Swap(i, j int) {
-    arr[i], arr[j] = arr[j], arr[i]
+	arr[i], arr[j] = arr[j], arr[i]
 }
 
 func (arr FileArray) Less(i, j int) bool {
-    return arr[i].Name < arr[j].Name
+	return arr[i].Name < arr[j].Name
 }
 
 func parseFile(file string) ([][]byte, error) {
@@ -94,8 +94,7 @@ func generateSliceHtml(w io.Writer, slice_file *SliceFile) error {
 
 	}
 
-
-    sort.Sort(FileArray(slice.Files))
+	sort.Sort(FileArray(slice.Files))
 	if err := sliceTemplate.Execute(w, slice); err != nil {
 		return nil
 	}

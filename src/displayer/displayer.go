@@ -82,7 +82,10 @@ func load_slice(idx int) error {
 			logger.Printf("[ERROR] \tline = %v", line)
 			return fmt.Errorf("Unkown slice format")
 		}
-        f := fields[0]
+		f := fields[0]
+		if f == "??" {
+			continue
+		}
 		fields[1] = strings.Split(fields[1], " ")[0]
 		l, err := strconv.ParseInt(fields[1], 10, 32)
 		if err != nil {

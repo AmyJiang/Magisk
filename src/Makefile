@@ -32,7 +32,7 @@ test:
 		../bin/debugger -bin $(OBJ) -pin $(PIN) -dir $(DIR) -input $(INPUT) -query $(QUERY)
 
 testall:
-		../bin/debugger -procs 3 -bin $(OBJ) -pin $(PIN) -dir $(DIR)
+		../bin/debugger -procs 4 -bin $(OBJ) -pin $(PIN) -dir $(DIR)
 
 
 
