@@ -70,6 +70,7 @@ func generateSliceHtml(w io.Writer, slice_file *SliceFile) error {
 			return err
 		}
 
+		sort.Ints(ls)
 		var buf bytes.Buffer
 		cnt := 0
 		for n, l := range lines {
@@ -91,7 +92,6 @@ func generateSliceHtml(w io.Writer, slice_file *SliceFile) error {
 			Body:  template.HTML(buf.String()),
 			Lines: len(ls),
 		})
-
 	}
 
 	sort.Sort(FileArray(slice.Files))
