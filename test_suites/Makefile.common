@@ -1,0 +1,28 @@
+NAME ?= main
+INPUT ?=
+NUM_BBL ?=
+
+##########################################################################
+
+CC = gcc
+CXX = g++
+CFLAGS := -ggdb3 -O0
+
+PWD=$(shell pwd)
+PIN=$(PIN_ROOT)/pin
+EXECTRACE=$(PWD)/../../misc/ExecTrace_test/obj-intel64/exectrace.so
+
+##########################################################################
+
+$(NAME).slice: $(NAME) $(NAME).trace
+	python $(PWD)/../../src/slicer/slicer.py $(NAME) $(NAME).trace $(NUM_BBL) $@
+
+$(NAME).trace: $(NAME)
+	$(PIN) -t $(EXECTRACE) -o $@ -mem 1 -- ./$(NAME) $(INPUT)
+
+$(NAME): $(NAME).cpp
+	$(CXX) $(CFLAGS) -o $@ $^
+
+.PHONY: clean
+clean:
+	rm $(NAME) *.trace *.slice
