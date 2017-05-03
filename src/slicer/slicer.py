@@ -125,7 +125,6 @@ class Slicer(object):
 
     def _set_slice_criterion(self):
         #TODO: other cases?
-
         block = self._get_irsb(self._trace.last_bbl)
         cond = block.vex.statements[-1]
         if not isinstance(cond, pyvex.stmt.Exit):
@@ -134,6 +133,7 @@ class Slicer(object):
         if isinstance(cond.guard, pyvex.expr.RdTmp):
             self._target_q.append(SliceState(len(self._trace.bbls)-1, \
                                              target_tmps=[cond.guard.tmp]))
+        log.debug("Slice criterion: bbl=0x%x, t%d", self._trace.bbls[-1].addr, cond.guard.tmp)
 
 
 
@@ -149,8 +149,10 @@ class Slicer(object):
             self._backward_slice(state)
             state.remove_visited_targets(visited)
             targets = state.targets
+            log.debug("After visited: %s", targets)
 
             if len(targets["tmp"]) + len(targets["reg"]):
+                log.debug("--> new state: bbl_idx = %d, bb=0x%x", state.bbl_idx-1, self._trace.bbls[state.bbl_idx-1].addr)
                 new_state = SliceState(state.bbl_idx-1, target_tmps=targets["tmp"], \
                                        target_regs=targets["reg"])
                 self._target_q.append(new_state)
@@ -158,8 +160,9 @@ class Slicer(object):
             if len(targets["addr"]):
                 for addr in targets["addr"]:
                     idx = self._search_write_to(addr, state.bbl_idx-1)
-                    log.debug("search_write_addr: addr = 0x%x, bbl_idx = %d", addr, idx)
+                    # log.debug("search_write_addr: addr = 0x%x, bbl_idx = %d, bbl=0x%x", addr, idx, self._trace.bbls[idx].addr)
                     if idx >= 0:
+                        log.debug("--> new state: bbl_idx = %d, bb=0x%x, write_addr=0x%x", idx, self._trace.bbls[idx].addr, addr)
                         new_state = SliceState(idx, target_addrs=[addr])
                         self._target_q.append(new_state)
 
@@ -174,6 +177,9 @@ class Slicer(object):
         mb = self._project.loader.main_bin
         return mb.get_min_addr() <= addr and addr < mb.get_max_addr()
 
+    def _address_in_plt(self, addr):
+        plt = self._project.loader.main_bin.sections_map[".plt"]
+        return plt.min_addr <= addr and addr < plt.max_addr
 
     def _search_write_to(self, addr, from_bbl):
         while from_bbl >= 0:
@@ -184,11 +190,48 @@ class Slicer(object):
         return from_bbl
 
 
+    def _backward_slice_plt_stub_strcpy(self, bbl, state):
+        state.targets["tmp"] = set()
+        state.targets["reg"] = set()
+        state.targets["addr"] = set(bbl.ext_calls["args"][1])
+        return True
+
+    def _backward_slice_plt_stub(self, bbl, state):
+        no_trace = set(["printf", "malloc"])
+        stub = self._project.loader.find_plt_stub_name(bbl.addr)
+        log.debug("_slice_plt_stub (%s): %s", stub, bbl.ext_call)
+        assert bbl.ext_call["name"] == stub
+
+        in_slice = False
+        funcname = "_backward_slice_plt_sub_%s" % stub
+        if hasattr(self, funcname):
+            in_slice = getattr(self, funcname)(state)
+        elif stub not in no_trace:
+            # default behavior: slice all arguments
+            state.targets["tmp"] = set()
+            state.targets["reg"] = set()
+            state.targets["addr"] = set(bbl.ext_call["args"])
+            in_slice = True
+
+
+        if in_slice:
+            call = self._trace.bbls[state.bbl_idx-1].call
+            assert call is not None
+            self._inst_in_slice.add(call["ins"])
+
+        return False
+
+
     def _backward_slice(self, state):
         bbl = self._trace.bbls[state.bbl_idx]
+        log.debug("Slice state: block #%d [0x%x], targets: %s", state.bbl_idx, bbl.addr, state.targets)
+
+        if self._address_in_plt(bbl.addr):
+            log.debug("  bbl 0x%x in plt, state: %s", bbl.addr, state.targets)
+            self._backward_slice_plt_stub(bbl, state)
+            return
+
         block = self._get_irsb(bbl)
-
-
         ins = block.instruction_addrs
         ins_idx = len(ins)-1
         state.current_ins = ins[ins_idx]
@@ -200,7 +243,7 @@ class Slicer(object):
             elif self._backward_handler_stmt(stmt, state):
                 self._inst_in_slice.add(ins[ins_idx])
 
-        log.debug("State after block #%d [0x%x], %d targets", state.bbl_idx, bbl.addr, state.num_of_targets)
+        log.debug("State after block #%d [0x%x], targets: %s", state.bbl_idx, bbl.addr, state.targets)
 
 
     def _concrete_write_addr(self, state):
@@ -241,6 +284,8 @@ class Slicer(object):
         addr = stmt.addr
         if isinstance(addr, pyvex.IRExpr.RdTmp):
             concrete_addr = self._concrete_write_addr(state)
+
+            log.debug(" Store: inst = 0x%x, addr = 0x%x", state.current_ins, concrete_addr)
             if concrete_addr and concrete_addr in state.targets["addr"]:
                 state.targets["addr"].remove(concrete_addr)
                 self._backward_handler_expr(addr, state)
@@ -271,6 +316,7 @@ class Slicer(object):
         if isinstance(addr, pyvex.IRExpr.RdTmp):
             self._backward_handler_expr(addr, state)
             concrete_addr = self._concrete_read_addr(state)
+            log.debug(" Load: inst = 0x%x, addr = 0x%x", state.current_ins, concrete_addr)
             if concrete_addr:
                 if self._address_in_taints(concrete_addr):
                     log.info("Load from tainted input %d", concrete_addr)
