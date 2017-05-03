@@ -8,6 +8,8 @@ class BBLRecord(object):
         self.size = size
         self._mem_writes = []
         self._mem_reads = []
+        self._ext_call = None
+        self._call = None
 
     def __repr__(self):
         return "<BBLRecord 0x%x: %d bytes with %d mem_writes and %d mem_reads>" % \
@@ -40,6 +42,22 @@ class BBLRecord(object):
     def add_mem_write(self, record):
         self._mem_writes.append(record)
 
+    def add_ext_call(self, record):
+        self._ext_call = record
+
+    def add_call(self, record):
+        self._call = record
+
+    @property
+    def ext_call(self):
+        return self._ext_call
+
+    @property
+    def call(self):
+        return self._call
+
+
+
 
 class Trace(object):
     def __init__(self, tracefile, num_bbl=None):
@@ -51,10 +69,21 @@ class Trace(object):
             for line in f.readlines():
                 fields = line.split()
                 if fields[0] == 'B':
+                    if int(fields[2]) == 0:
+                        continue
                     bbl_cnt += 1
                     if num_bbl and bbl_cnt > num_bbl:
                         break
                     self._bbls.append(BBLRecord(int(fields[1], 16), int(fields[2])))
+                elif fields[0] == 'E':
+                    record = {
+                        "ins": int(fields[1], 16),
+                        "name": fields[2],
+                        "args": [int(a, 10) for a in fields[3].split(",")]
+                    }
+                    bbl_cnt += 1
+                    self._bbls.append(BBLRecord(int(fields[1], 16), None))
+                    self._bbls[bbl_cnt-1].add_ext_call(record)
                 elif fields[0] == 'T':
                     start = int(fields[1])
                     size = int(fields[2])
@@ -69,6 +98,13 @@ class Trace(object):
                         self._bbls[bbl_cnt-1].add_mem_write(record)
                     elif fields[0] == 'R':
                         self._bbls[bbl_cnt-1].add_mem_read(record)
+                elif fields[0] == 'C':
+                    record = {
+                        "ins": int(fields[1], 16),
+                        "target": int(fields[2], 16)
+                    }
+                    if bbl_cnt > 0:
+                        self._bbls[bbl_cnt-1].add_call(record)
                 else:
                     raise TraceError("Unknown record format")
 
