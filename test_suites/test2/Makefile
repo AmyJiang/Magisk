@@ -1,6 +1,6 @@
 NAME = libcalls
 INPUT = "Hello World"
-NUM_BBL = 36 #40078b
+NUM_BBL = 20 #40078b
 
 include ../Makefile.common
 

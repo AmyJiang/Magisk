@@ -8,13 +8,12 @@
 int main(int argc, char* argv[])
 {
     char *input = (char *) malloc(LENGTH);
-    memset(input, 0, LENGTH);
     strcpy(input, argv[1]);
     printf("%s\n", input);
 
     int l = strlen(input);
     if (l > 10) {
-      printf("%zd\n", l);
+      printf("%d\n", l);
     }
     return 0;
 }
