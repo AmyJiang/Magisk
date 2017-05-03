@@ -41,7 +41,7 @@ var (
 	flagInput   = flag.String("input", "", "a single input")
 	flagQuery   = flag.String("query", "", "a single query")
 
-	logger = log.New(os.Stderr, "", 0)
+	logger = log.New(os.Stdout, "", 0)
 	traces = exectraces.NewExecTraces()
 
 	statReport uint64
@@ -104,9 +104,27 @@ func insert(trace []uint64, key string) error {
 	return nil
 }
 
+func addr2line(diff uint64) error {
+	hdiff := fmt.Sprintf("%x", diff)
+	bin := []string{"addr2line", "-e", *flagBin, hdiff}
+	out, err := ipc.RunCommand(bin)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("[INFO]: \t\tDiv = %v\n", out)
+	return nil
+}
+
 func query(trace []uint64) (bool, int) {
 	found, length := traces.Query(trace)
-	logger.Printf("[INFO]: \tQuery trace -- found %v, Length %d\n", found, length)
+	logger.Printf("[INFO]: \t\tfound %v, Length %d\n", found, length)
+
+	if !found {
+		if err := addr2line(trace[length]); err != nil {
+			logger.Printf("[ERROR]: \t\t%v\n", err)
+		}
+	}
+
 	return found, length
 }
 
@@ -151,6 +169,7 @@ func runDebugger() {
 
 				}
 				if report.op == QUERY {
+					logger.Printf("[INFO]: \tQuery %v", report.input)
 					if found, length := query(trace); !found {
 						tracefile := filepath.Join(traceDir, filepath.Base(report.input)+".trace")
 						slicefile := filepath.Join(sliceDir, filepath.Base(report.input)+".slice")
