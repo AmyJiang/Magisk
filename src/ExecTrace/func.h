@@ -56,7 +56,7 @@ static VOID PIN_FAST_ANALYSIS_CALL RecordBBL(VOID *ip, UINT32 size) {
 
 static VOID RecordExtCall(VOID *ip, const char* name, int count, ...) {
   va_list args;
-  va_start(args, count); 
+  va_start(args, count);
   TraceFile << "E" << " " << ip << " " << name;
   for (int i = 0; i <  count; i++) {
     TraceFile << " " << va_arg(args, ADDRINT);
@@ -65,8 +65,8 @@ static VOID RecordExtCall(VOID *ip, const char* name, int count, ...) {
   TraceFile << "\n";
 }
 
-static VOID RecordCall(VOID *ip, ADDRINT target) {
-  TraceFile << "C" << " " << ip << " " << target << endl;
+static VOID RecordCall(VOID *ip, UINT32 target) {
+  TraceFile << "C" << " " << ip << " " << "0x" << hex << target << dec << endl;
 }
 #endif
 
