@@ -8,7 +8,8 @@
 int main(int argc, char* argv[])
 {
   char *input = argv[1];
-  for (int i = 0; i < strlen(input); i++) {
+  int l = strlen(input);
+  for (int i = 0; i < l; i++) {
     if (!isdigit(input[i])) {
         printf("#%d is not digit\n", i);
         return 0;
