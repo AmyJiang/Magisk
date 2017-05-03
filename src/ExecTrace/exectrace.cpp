@@ -22,7 +22,7 @@ static std::vector<std::string> blacklisted_imgs(blacklisted_imgs_,
                                                  blacklisted_imgs_ +
                                                      sizeof(blacklisted_imgs_) /
                                                          sizeof(std::string));
-std::vector<std::pair<ADDRINT, ADDRINT>> regions;
+std::vector<std::pair<ADDRINT, ADDRINT> > regions;
 
 const int kOutFd = 3;
 
