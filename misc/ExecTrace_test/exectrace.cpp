@@ -18,9 +18,12 @@ KNOB<BOOL> KnobMem(KNOB_MODE_WRITEONCE, "pintool", "mem", "0",
                    "output memory access trace");
 
 static const std::string blacklisted_imgs_[] = {
-    "/lib64/ld-linux-x86-64.so.2", "/usr/lib/x86_64-linux-gnu/libstdc++.so.6",
-    "/lib/x86_64-linux-gnu/libm.so.6", "/lib/x86_64-linux-gnu/libgcc_s.so.1",
-    "/lib/x86_64-linux-gnu/libc.so.6"};
+    "/lib64/ld-linux-x86-64.so.2",
+    "/usr/lib/x86_64-linux-gnu/libstdc++.so.6",
+    "/lib/x86_64-linux-gnu/libm.so.6",
+    "/lib/x86_64-linux-gnu/libgcc_s.so.1",
+    "/lib/x86_64-linux-gnu/libc.so.6",
+    "[vdso]"};
 
 static std::vector<std::string> blacklisted_imgs(blacklisted_imgs_,
                                                  blacklisted_imgs_ +
@@ -55,22 +58,101 @@ static VOID PIN_FAST_ANALYSIS_CALL RecordBBL(VOID *ip, UINT32 size) {
           << " " << ip << " " << size << endl;
 }
 
+VOID MallocBefore(VOID *ip, ADDRINT size) {
+  outFile << "E"
+          << " " << ip << " "
+          << "malloc " << size << endl;
+}
+
+VOID MemcpyBefore(VOID *ip, ADDRINT dest, ADDRINT src, ADDRINT size) {
+  outFile << "E"
+          << " " << ip << " "
+          << "memcpy"
+          << " " << dest << "," << src << "," << size << endl;
+  outFile << "R"
+          << " " << ip << " "
+          << "0x" << hex << src << " " << dec << size << " #memcpy" << endl;
+  outFile << "W"
+          << " " << ip << " "
+          << "0x" << hex << dest << " " << dec << size << " #memcpy" << endl;
+}
+
+VOID StrcpyBefore(VOID *ip, ADDRINT dest, ADDRINT src) {
+  outFile << "E"
+          << " " << ip << " "
+          << "strcpy"
+          << " " << dest << "," << src << endl;
+  INT32 size = strlen((const char *)src);
+  outFile << "R"
+          << " " << ip << " "
+          << "0x" << hex << src << " " << dec << size << " #strcpy" << endl;
+  outFile << "W"
+          << " " << ip << " "
+          << "0x" << hex << dest << " " << dec << size << " #strcpy" << endl;
+}
+
+VOID StrlenBefore(VOID *ip, ADDRINT src) {
+  outFile << "E"
+          << " " << ip << " "
+          << "strlen"
+          << " " << src << endl;
+}
+
 VOID ImageRoutine(IMG img, VOID *v) {
   std::string name = IMG_Name(img);
-  if (!IMG_IsMainExecutable(img)) {
-    return;
-  }
+  std::cout << "[Image Routine: " << name << "(" << hex << IMG_HighAddress(img)
+            << "-" << IMG_LowAddress(img) << dec << ")]\n";
+
   if (std::find(blacklisted_imgs.begin(), blacklisted_imgs.end(), name) !=
-      blacklisted_imgs.end()) {
+          blacklisted_imgs.end() ||
+      !IMG_IsMainExecutable(img)) {
     return;
   }
 
-  std::cout << "[Image Routine: " << name << "]\n";
-  MemoryRegion region;
-  region.base = IMG_LowAddress(img);
-  region.size = IMG_HighAddress(img) - IMG_LowAddress(img);
-  region.filename = name;
-  regions.push_back(make_pair(IMG_LowAddress(img), IMG_HighAddress(img)));
+  for (SEC sec = IMG_SecHead(img); SEC_Valid(sec); sec = SEC_Next(sec)) {
+    if (SEC_IsExecutable(sec) && SEC_Name(sec) != ".plt") {
+      regions.push_back(
+          make_pair(SEC_Address(sec), SEC_Address(sec) + SEC_Size(sec)));
+    }
+  }
+
+  // hook special external functions
+  RTN mallocRtn = RTN_FindByName(img, "malloc@plt");
+  if (RTN_Valid(mallocRtn)) {
+    RTN_Open(mallocRtn);
+    RTN_InsertCall(mallocRtn, IPOINT_BEFORE, (AFUNPTR)MallocBefore,
+                   IARG_INST_PTR, IARG_UINT32, RTN_Size(mallocRtn),
+                   IARG_FUNCARG_CALLSITE_VALUE, 0, IARG_END);
+    RTN_Close(mallocRtn);
+  }
+
+  RTN strlenRtn = RTN_FindByName(img, "strlen@plt");
+  if (RTN_Valid(strlenRtn)) {
+    RTN_Open(strlenRtn);
+    RTN_InsertCall(strlenRtn, IPOINT_BEFORE, (AFUNPTR)StrlenBefore,
+                   IARG_INST_PTR, IARG_FUNCARG_CALLSITE_VALUE, 0, IARG_END);
+    RTN_Close(strlenRtn);
+  }
+
+  RTN memcpyRtn = RTN_FindByName(img, "memcpy@plt");
+  if (RTN_Valid(memcpyRtn)) {
+    RTN_Open(memcpyRtn);
+    RTN_InsertCall(memcpyRtn, IPOINT_BEFORE, (AFUNPTR)MemcpyBefore,
+                   IARG_INST_PTR, IARG_FUNCARG_CALLSITE_VALUE, 0,
+                   IARG_FUNCARG_CALLSITE_VALUE, 1, IARG_FUNCARG_CALLSITE_VALUE,
+                   2, IARG_END);
+    RTN_Close(memcpyRtn);
+  }
+
+  RTN strcpyRtn = RTN_FindByName(img, "strcpy@plt");
+  if (RTN_Valid(strcpyRtn)) {
+    RTN_Open(strcpyRtn);
+    RTN_InsertCall(strcpyRtn, IPOINT_BEFORE, (AFUNPTR)StrcpyBefore,
+                   IARG_INST_PTR, IARG_FUNCARG_CALLSITE_VALUE, 0,
+                   IARG_FUNCARG_CALLSITE_VALUE, 1, IARG_FUNCARG_CALLSITE_VALUE,
+                   2, IARG_END);
+    RTN_Close(strcpyRtn);
+  }
 }
 
 BOOL ValidAddr(ADDRINT addr) {
@@ -85,12 +167,27 @@ BOOL ValidAddr(ADDRINT addr) {
 VOID Syscall_entry(THREADID thread_id, CONTEXT *ctx, SYSCALL_STANDARD std,
                    void *v) {
   UINT64 start, size;
-  if (!KnobMem) return;
+  if (!KnobMem)
+    return;
   if (PIN_GetSyscallNumber(ctx, std) == __NR_read) {
     start = static_cast<UINT64>((PIN_GetSyscallArgument(ctx, std, 1)));
-    size =  static_cast<UINT64>((PIN_GetSyscallArgument(ctx, std, 2)));
+    size = static_cast<UINT64>((PIN_GetSyscallArgument(ctx, std, 2)));
     RecordTaint(start, size);
   }
+}
+
+const string *Target2String(ADDRINT target) {
+  string name = RTN_FindNameByAddress(target);
+  if (name == "")
+    return new string("???");
+  else
+    return new string(name);
+}
+
+VOID RecordCall(VOID *ip, ADDRINT target) {
+  outFile << "C"
+          << " " << ip << " "
+          << "0x" << hex << target << dec << endl;
 }
 
 VOID TraceRoutine(TRACE trace, VOID *v) {
@@ -100,17 +197,28 @@ VOID TraceRoutine(TRACE trace, VOID *v) {
 
   for (BBL bbl = TRACE_BblHead(trace); BBL_Valid(bbl); bbl = BBL_Next(bbl)) {
     BBL_InsertCall(bbl, IPOINT_ANYWHERE, (AFUNPTR)RecordBBL,
-                   IARG_FAST_ANALYSIS_CALL, IARG_INST_PTR,
-                   IARG_UINT32, BBL_Size(bbl), IARG_END);
+                   IARG_FAST_ANALYSIS_CALL, IARG_INST_PTR, IARG_UINT32,
+                   BBL_Size(bbl), IARG_END);
 
     if (!KnobMem)
       continue;
 
-    for (INS ins = BBL_InsHead(bbl); INS_Valid(ins); ins = INS_Next(ins)) {
+    // instruments function call
+    INS tail = BBL_InsTail(bbl);
+    if (INS_IsCall(tail)) {
+      if (INS_IsDirectBranchOrCall(tail)) {
+        const ADDRINT target = INS_DirectBranchOrCallTargetAddress(tail);
+        INS_InsertCall(tail, IPOINT_BEFORE, (AFUNPTR)RecordCall, IARG_INST_PTR,
+                       IARG_UINT32, target, IARG_END);
+      } else {
+        INS_InsertCall(tail, IPOINT_BEFORE, (AFUNPTR)RecordCall, IARG_INST_PTR,
+                       IARG_BRANCH_TARGET_ADDR, IARG_END);
+      }
+    }
 
+    for (INS ins = BBL_InsHead(bbl); INS_Valid(ins); ins = INS_Next(ins)) {
       // instruments loads using a predicated call, i.e.
       // the call happens iff the load will be actually executed
-
       if (INS_IsMemoryRead(ins) && INS_IsStandardMemop(ins)) {
         INS_InsertPredicatedCall(
             ins, IPOINT_BEFORE, (AFUNPTR)RecordMem, IARG_INST_PTR, IARG_UINT32,
@@ -156,6 +264,7 @@ INT32 Usage() {
 
 int main(int argc, char *argv[]) {
   PIN_InitSymbols();
+
   if (PIN_Init(argc, argv))
     return Usage();
 
