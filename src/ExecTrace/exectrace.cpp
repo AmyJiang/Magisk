@@ -1,16 +1,7 @@
-#include <fstream>
-#include <iomanip>
-#include <iostream>
-#include <stdlib.h>
-#include <string.h>
-#include <string>
-#include <sys/mman.h>
-#include <unistd.h>
-#include <vector>
+#include "func.h"
+#include "hooks.h"
 
-#include "pin.H"
-
-std::ofstream TraceFile;
+extern std::ofstream TraceFile;
 
 KNOB<string> KnobOutputFile(KNOB_MODE_WRITEONCE, "pintool", "o",
                             "exectrace.out",
@@ -20,9 +11,12 @@ KNOB<BOOL> KnobMem(KNOB_MODE_WRITEONCE, "pintool", "mem", "0",
                    "output memory access trace");
 
 static const std::string blacklisted_imgs_[] = {
-    "/lib64/ld-linux-x86-64.so.2", "/usr/lib/x86_64-linux-gnu/libstdc++.so.6",
-    "/lib/x86_64-linux-gnu/libm.so.6", "/lib/x86_64-linux-gnu/libgcc_s.so.1",
-    "/lib/x86_64-linux-gnu/libc.so.6"};
+    "/lib64/ld-linux-x86-64.so.2",
+    "/usr/lib/x86_64-linux-gnu/libstdc++.so.6",
+    "/lib/x86_64-linux-gnu/libm.so.6",
+    "/lib/x86_64-linux-gnu/libgcc_s.so.1",
+    "/lib/x86_64-linux-gnu/libc.so.6",
+    "[vdso]"};
 
 static std::vector<std::string> blacklisted_imgs(blacklisted_imgs_,
                                                  blacklisted_imgs_ +
@@ -31,37 +25,26 @@ static std::vector<std::string> blacklisted_imgs(blacklisted_imgs_,
 std::vector<std::pair<ADDRINT, ADDRINT>> regions;
 
 const int kOutFd = 3;
-const int kMaxOutput = 1 << 24;
-uint64_t *output_data = NULL;
-uint64_t *output_pos = NULL;
-uint64_t total = 0;
-
-static VOID RecordMem(VOID *ip, CHAR r, VOID *addr, INT32 size) {
-  TraceFile << r << " " << ip << " " << addr << " " << size << endl;
-}
-
-static VOID *WriteAddr;
-static INT32 WriteSize;
-
-static VOID RecordWriteAddrSize(VOID *addr, INT32 size) {
-  WriteAddr = addr;
-  WriteSize = size;
-}
-
-static VOID RecordMemWrite(VOID *ip) {
-  RecordMem(ip, 'W', WriteAddr, WriteSize);
-}
 
 VOID ImageRoutine(IMG img, VOID *v) {
   std::string name = IMG_Name(img);
-  if (!IMG_IsMainExecutable(img)) {
-    return;
-  }
+  std::cout << "[Image Routine: " << name << "(" << hex << IMG_HighAddress(img)
+            << "-" << IMG_LowAddress(img) << dec << ")]\n";
+
   if (std::find(blacklisted_imgs.begin(), blacklisted_imgs.end(), name) !=
-      blacklisted_imgs.end()) {
+          blacklisted_imgs.end() ||
+      !IMG_IsMainExecutable(img)) {
     return;
   }
-  regions.push_back(make_pair(IMG_LowAddress(img), IMG_HighAddress(img)));
+
+  for (SEC sec = IMG_SecHead(img); SEC_Valid(sec); sec = SEC_Next(sec)) {
+    if (SEC_IsExecutable(sec) && SEC_Name(sec) != ".plt") {
+      regions.push_back(
+          make_pair(SEC_Address(sec), SEC_Address(sec) + SEC_Size(sec)));
+    }
+  }
+
+  HookImage(img);
 }
 
 BOOL ValidAddr(ADDRINT addr) {
@@ -71,23 +54,6 @@ BOOL ValidAddr(ADDRINT addr) {
     }
   }
   return false;
-}
-
-void write_output(uint64_t v) {
-  if (output_pos < output_data ||
-      (char *)output_pos >= (char *)output_data + kMaxOutput) {
-    std::cerr << "output overflowed" << std::endl;
-    return;
-  }
-  *output_pos = v;
-  output_pos++;
-}
-
-VOID PIN_FAST_ANALYSIS_CALL RecordBBL(VOID *ip, UINT32 size) {
-  write_output((uint64_t)ip);
-  total++;
-  TraceFile << "B"
-            << " " << ip << " " << size << endl;
 }
 
 VOID TraceRoutine(TRACE trace, VOID *v) {
@@ -102,6 +68,19 @@ VOID TraceRoutine(TRACE trace, VOID *v) {
 
     if (!KnobMem)
       continue;
+
+    // instruments function call
+    INS tail = BBL_InsTail(bbl);
+    if (INS_IsCall(tail)) {
+      if (INS_IsDirectBranchOrCall(tail)) {
+        const ADDRINT target = INS_DirectBranchOrCallTargetAddress(tail);
+        INS_InsertCall(tail, IPOINT_BEFORE, (AFUNPTR)RecordCall, IARG_INST_PTR,
+                       IARG_UINT32, target, IARG_END);
+      } else {
+        INS_InsertCall(tail, IPOINT_BEFORE, (AFUNPTR)RecordCall, IARG_INST_PTR,
+                       IARG_BRANCH_TARGET_ADDR, IARG_END);
+      }
+    }
 
     for (INS ins = BBL_InsHead(bbl); INS_Valid(ins); ins = INS_Next(ins)) {
 
