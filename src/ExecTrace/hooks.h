@@ -29,6 +29,12 @@ VOID StrlenBefore(VOID *ip, ADDRINT src) {
   RecordExtCall(ip, "strlen", 1, src);
 }
 
+VOID FreadBefore(VOID *ip, ADDRINT ptr, ADDRINT size, ADDRINT nmemb) {
+  RecordTaint(ip, ptr, size * nmemb);
+}
+
+
+
 VOID HookImage(IMG img) {
   // hook special external functions
   RTN mallocRtn = RTN_FindByName(img, "malloc@plt");
@@ -67,7 +73,18 @@ VOID HookImage(IMG img) {
                    2, IARG_END);
     RTN_Close(strcpyRtn);
   }
+
+  RTN freadRtn = RTN_FindByName(img, "fread@plt");
+  if (RTN_Valid(freadRtn)) {
+    RTN_Open(freadRtn);
+    RTN_InsertCall(freadRtn, IPOINT_BEFORE, (AFUNPTR)FreadBefore,
+                   IARG_INST_PTR, IARG_FUNCARG_CALLSITE_VALUE, 0,
+                   IARG_FUNCARG_CALLSITE_VALUE, 1, IARG_FUNCARG_CALLSITE_VALUE,
+                   2, IARG_END);
+    RTN_Close(freadRtn);
+  }
 }
+
 
 
 

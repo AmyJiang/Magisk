@@ -68,5 +68,12 @@ static VOID RecordExtCall(VOID *ip, const char* name, int count, ...) {
 static VOID RecordCall(VOID *ip, UINT32 target) {
   TraceFile << "C" << " " << ip << " " << "0x" << hex << target << dec << endl;
 }
+
+
+static VOID RecordTaint(VOID *ip, UINT64 start, UINT64 size) {
+  TraceFile << "T" << " "  << ip << " " << start << " " << size << endl;
+}
+
+
 #endif
 
