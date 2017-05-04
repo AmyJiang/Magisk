@@ -120,7 +120,7 @@ func query(trace []uint64) (bool, int) {
 	logger.Printf("[INFO]: \t\tfound %v, Length %d\n", found, length)
 
 	if !found {
-		if err := addr2line(trace[length]); err != nil {
+		if err := addr2line(trace[length-1]); err != nil {
 			logger.Printf("[ERROR]: \t\t%v\n", err)
 		}
 	}
@@ -231,6 +231,7 @@ func runDebugger() {
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	ticker := time.NewTicker(20 * time.Second).C
 	startQuery := false
+	doneQuery := make(chan struct{}, 1)
 	for i := 0; ; i++ {
 		select {
 		case <-ticker:
@@ -242,6 +243,13 @@ func runDebugger() {
 			for j := 0; j < *flagProcs; j++ {
 				cmds[j].Shutdown = true
 			}
+			for j := 0; j < *flagProcs; j++ {
+				<-done
+			}
+			logger.Printf("[SUMMARY]: \tFinished %v inputs, %v queries\n", atomic.LoadUint64(&statInput), atomic.LoadUint64(&statQuery))
+			return
+        case <-doneQuery:
+			close(reports)
 			for j := 0; j < *flagProcs; j++ {
 				<-done
 			}
@@ -272,6 +280,9 @@ func runDebugger() {
 				reports <- report
 				statReport++
 			}
+			if statReport == uint64(len(inputs)+len(queries)) {
+                doneQuery <- struct{}{}
+            }
 		}
 	}
 }
