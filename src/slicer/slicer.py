@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import logging
 import subprocess
 import sys
@@ -105,17 +107,17 @@ class Slicer(object):
     @property
     def line_in_slice(self):
         if self._line_in_slice is None:
-            self._line_in_slice = self._inst_to_line()
+            self._line_in_slice = self._inst_to_line(self._inst_in_slice)
         return self._line_in_slice
 
 
-    def _inst_to_line(self):
+    def _inst_to_line(self, inst_in_slice):
         args = ["addr2line", "-e", self.binary]
         p = subprocess.Popen(
             args,
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE)
-        p.stdin.write("\n".join([hex(i) for i in self._inst_in_slice]))
+        p.stdin.write("\n".join([hex(i) for i in inst_in_slice]))
         p.stdin.close()
         return sorted(set(p.stdout.read().splitlines()))
 
@@ -134,6 +136,8 @@ class Slicer(object):
             self._target_q.append(SliceState(len(self._trace.bbls)-1, \
                                              target_tmps=[cond.guard.tmp]))
         log.debug("Slice criterion: bbl=0x%x, t%d", self._trace.bbls[-1].addr, cond.guard.tmp)
+
+        self.slice_criterion = self._inst_to_line([block.instruction_addrs[-1]])[0]
 
 
 
@@ -168,8 +172,8 @@ class Slicer(object):
 
 
     def _address_in_taints(self, addr):
-        for s, l in self._trace.taints:
-            if addr >= s and addr < s + l:
+        for r in self._trace.taints:
+            if addr >= r["start"] and addr < r["start"] + r["size"]:
                 return True
         return False
 
@@ -354,6 +358,8 @@ if __name__ == "__main__":
         slicer = Slicer(binary, tracefile, num_bbls)
         slicer.run()
         with open(slicefile, 'w') as f:
+            f.write(slicer.slice_criterion)
+            f.write("\n")
             for line in slicer.line_in_slice:
                 f.write(line)
                 f.write("\n")
