@@ -84,10 +84,6 @@ class Trace(object):
                     bbl_cnt += 1
                     self._bbls.append(BBLRecord(int(fields[1], 16), None))
                     self._bbls[bbl_cnt-1].add_ext_call(record)
-                elif fields[0] == 'T':
-                    start = int(fields[1])
-                    size = int(fields[2])
-                    self._taints.append((start, size))
                 elif fields[0] == 'W' or fields[0] == 'R':
                     record = {
                         "ins": int(fields[1], 16),
@@ -105,6 +101,12 @@ class Trace(object):
                     }
                     if bbl_cnt > 0:
                         self._bbls[bbl_cnt-1].add_call(record)
+                elif fields[0] == 'T':
+                    self._taints.append({
+                        "ins": int(fields[1], 16),
+                        "start": int(fields[2], 10),
+                        "size": int(fields[3], 10)
+                    })
                 else:
                     raise TraceError("Unknown record format")
 
