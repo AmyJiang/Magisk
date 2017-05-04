@@ -19,7 +19,10 @@ type Command struct {
 const (
 	bufSize    = 100
 	outputSize = 1 << 24
-	traceTool  = "./ExecTrace/obj-intel64/exectrace.so"
+)
+
+var (
+	traceTool  = os.Getenv("GOPATH") + "/src/ExecTrace/obj-intel64/exectrace.so"
 )
 
 func createMapping(size int) (f *os.File, mem []byte, err error) {
