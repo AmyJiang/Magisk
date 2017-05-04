@@ -1,23 +1,19 @@
-diff -aruNp libressl-2.4.0/crypto/rsa/rsa_sign.c libressl-2.4.0-new/crypto/rsa/rsa_sign.c
---- libressl-2.4.0/crypto/rsa/rsa_sign.c	2016-05-30 12:05:30.000000000 -0400
-+++ libressl-2.4.0-new/crypto/rsa/rsa_sign.c	2017-03-25 16:32:17.499981305 -0400
-@@ -180,6 +180,7 @@ int_rsa_verify(int dtype, const unsigned
- 	if (i <= 0)
- 		goto err;
+diff -ur libressl-2.4.0/crypto/asn1/a_verify.c libressl-2.4.0-new/crypto/asn1/a_verify.c
+--- libressl-2.4.0/crypto/asn1/a_verify.c	2016-05-30 12:05:30.000000000 -0400
++++ libressl-2.4.0-new/crypto/asn1/a_verify.c	2017-05-03 22:03:27.016553083 -0400
+@@ -156,12 +156,15 @@
+ 	explicit_bzero(buf_in, (unsigned int)inl);
+ 	free(buf_in);
  
 +#ifndef FUZZER_DISABLE_SIGNCHECK
- 	/* Special case: SSL signature */
- 	if (dtype == NID_md5_sha1) {
- 		if (i != SSL_SIG_LENGTH || memcmp(s, m, SSL_SIG_LENGTH))
-@@ -233,6 +234,11 @@ int_rsa_verify(int dtype, const unsigned
- 		} else
- 			ret = 1;
+ 	if (EVP_DigestVerifyFinal(&ctx, signature->data,
+ 	    (size_t)signature->length) <= 0) {
+ 		ASN1err(ASN1_F_ASN1_ITEM_VERIFY, ERR_R_EVP_LIB);
+ 		ret = 0;
+ 		goto err;
  	}
 +#endif
-+#ifdef FUZZER_DISABLE_SIGNCHECK
-+    ret = 1;
-+#endif
 +
- err:
- 	if (sig != NULL)
- 		X509_SIG_free(sig);
+ 	/* we don't need to zero the 'ctx' because we just checked
+ 	 * public information */
+ 	/* memset(&ctx,0,sizeof(ctx)); */
