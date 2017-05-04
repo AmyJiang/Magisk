@@ -29,7 +29,7 @@ pushd ${SRC_LIBS}/${OPENSSL} >/dev/null
     # there is an issue with multiple builds in openssl
     make depend > /dev/null 2>&1
     echo -e "\t\t - Compiling"
-    make #> /dev/null  2>&1
+    make > /dev/null  2>&1
     echo -e "\t\t - Installing"
     make install > /dev/null 2>&1
     # clean up for next install
