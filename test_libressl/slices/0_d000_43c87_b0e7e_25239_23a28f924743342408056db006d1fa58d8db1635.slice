@@ -1,167 +1,70 @@
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_add.c:111
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_add.c:128 (discriminator 1)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_add.c:171
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_add.c:192
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_add.c:193
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_add.c:194
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_add.c:199
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_add.c:200
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_add.c:205
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_add.c:206
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_add.c:208 (discriminator 2)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_add.c:261
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_add.c:307
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_asm.c:105
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_asm.c:114
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_asm.c:114 (discriminator 4)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_asm.c:115 (discriminator 4)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_asm.c:75
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_asm.c:76
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_asm.c:84
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:226
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:235
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:238
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:269
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:276
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:285
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:291
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:294
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:304
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:311
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:320
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:322
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:353
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:359
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:368
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:371
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:377
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:378
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:431
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:435
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:446
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:461
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:466
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_ctx.c:469
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_gcd.c:236
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_gcd.c:249
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_gcd.c:258
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_gcd.c:260
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_gcd.c:262
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_gcd.c:268
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_gcd.c:335
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_gcd.c:339
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_gcd.c:499
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_gcd.c:507
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_gcd.c:522
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:251
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:255
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:261
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:284
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:319
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:328
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:390
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:394
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:401
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:452
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:461 (discriminator 1)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:465
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:466
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:469 (discriminator 3)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:470 (discriminator 3)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:473 (discriminator 3)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:474 (discriminator 3)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:580
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:587
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:599 (discriminator 1)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:606
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:608
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:615 (discriminator 6)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_lib.c:616
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_mod.c:178
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_mod.c:187
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_mod.c:193
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_mul.c:1082 (discriminator 1)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_mul.c:1084
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_mul.c:1085
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_mul.c:1102
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_mul.c:1126
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_mul.c:1131
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_mul.c:941
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_mul.c:975
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_shift.c:100
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_shift.c:111
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_shift.c:112
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_shift.c:119
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_shift.c:125
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_shift.c:126
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_shift.c:127 (discriminator 1)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/bn/bn_shift.c:127 (discriminator 4)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_ameth.c:169
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_ameth.c:173
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_curve.c:3190
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_curve.c:3218
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_curve.c:3223
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_curve.c:3247
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_curve.c:3261
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_curve.c:3270
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_cvt.c:111
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_cvt.c:144
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_key.c:417
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_key.c:419
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_lib.c:112
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_lib.c:165
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_lib.c:205
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_lib.c:234
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_lib.c:241
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_lib.c:243
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_lib.c:274
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_lib.c:288
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_lib.c:312
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_lib.c:313
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ec/ec_lib.c:88
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ecdsa/ecs_ossl.c:332
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ecdsa/ecs_ossl.c:337
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ecdsa/ecs_ossl.c:338
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ecdsa/ecs_ossl.c:339
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ecdsa/ecs_ossl.c:340
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ecdsa/ecs_ossl.c:341
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ecdsa/ecs_ossl.c:342
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ecdsa/ecs_ossl.c:348
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ecdsa/ecs_ossl.c:361
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ecdsa/ecs_ossl.c:372
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/ecdsa/ecs_ossl.c:382
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/evp/digest.c:250
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/evp/digest.c:257
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/evp/digest.c:277
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/evp/digest.c:304
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/evp/m_sha1.c:224
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/evp/m_sha1.c:225
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/evp/m_sigver.c:182
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/evp/m_sigver.c:188
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512-elf-x86_64.S:10
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512-elf-x86_64.S:11
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512-elf-x86_64.S:12
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512-elf-x86_64.S:15
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512-elf-x86_64.S:17
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512-elf-x86_64.S:1725
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512-elf-x86_64.S:1730
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512-elf-x86_64.S:1731
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512-elf-x86_64.S:1741
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512-elf-x86_64.S:1742
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512-elf-x86_64.S:18
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512-elf-x86_64.S:7
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512-elf-x86_64.S:8
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512-elf-x86_64.S:9
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512.c:125
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512.c:131
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512.c:139 (discriminator 3)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512.c:141 (discriminator 3)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512.c:143 (discriminator 3)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512.c:144 (discriminator 3)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512.c:145 (discriminator 3)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512.c:146 (discriminator 3)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512.c:147 (discriminator 3)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512.c:148 (discriminator 3)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512.c:149 (discriminator 3)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512.c:150 (discriminator 3)
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/sha/sha512.c:98
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/a_time_tm.c:134
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/a_time_tm.c:159
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/a_time_tm.c:160
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/asn1_lib.c:375
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/asn1_lib.c:386
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/asn1_lib.c:391
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/asn1_lib.c:422
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/asn1_lib.c:427
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/asn1_lib.c:431
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_dec.c:131
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_dec.c:133
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_dec.c:156
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_dec.c:232
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_dec.c:357
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_dec.c:360
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_dec.c:385
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_dec.c:389
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_dec.c:471
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_dec.c:532
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_dec.c:545
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_dec.c:649
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_dec.c:670
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_dec.c:781
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_dec.c:787
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_dec.c:804
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_dec.c:910
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_dec.c:920
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_new.c:129
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_new.c:171
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_new.c:177
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_new.c:177 (discriminator 2)
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_new.c:178
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_new.c:179
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_new.c:246
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_new.c:247
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_new.c:278
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_new.c:304
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_new.c:342
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_new.c:345
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_new.c:346
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_new.c:86
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_new.c:87
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_new.c:92
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_utl.c:205
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_utl.c:210
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_utl.c:215
+/home/amy/repos/magisk/libs/libressl/crypto/stack/stack.c:121
+/home/amy/repos/magisk/libs/libressl/crypto/stack/stack.c:123
+/home/amy/repos/magisk/libs/libressl/crypto/stack/stack.c:127
+/home/amy/repos/magisk/libs/libressl/crypto/stack/stack.c:129
+/home/amy/repos/magisk/libs/libressl/crypto/stack/stack.c:140
+/home/amy/repos/magisk/libs/libressl/crypto/stack/stack.c:153
+/home/amy/repos/magisk/libs/libressl/crypto/stack/stack.c:231
+/home/amy/repos/magisk/libs/libressl/crypto/stack/stack.c:232
+/home/amy/repos/magisk/libs/libressl/crypto/stack/stack.c:304
+/home/amy/repos/magisk/libs/libressl/crypto/stack/stack.c:307
+/home/amy/repos/magisk/libs/libressl/crypto/x509/x509_vfy.c:1492
+/home/amy/repos/magisk/libs/libressl/crypto/x509/x509_vfy.c:1502
+/home/amy/repos/magisk/libs/libressl/crypto/x509/x509_vfy.c:1545
+/home/amy/repos/magisk/libs/libressl/crypto/x509/x509_vfy.c:158
+/home/amy/repos/magisk/libs/libressl/crypto/x509/x509_vfy.c:1599
+/home/amy/repos/magisk/libs/libressl/crypto/x509/x509_vfy.c:1604
+/home/amy/repos/magisk/libs/libressl/crypto/x509/x509_vfy.c:1615
+/home/amy/repos/magisk/libs/libressl/crypto/x509/x509_vfy.c:1617
+/home/amy/repos/magisk/libs/libressl/crypto/x509/x509_vfy.c:1618
+/home/amy/repos/magisk/libs/libressl/crypto/x509/x509_vfy.c:1648
+/home/amy/repos/magisk/libs/libressl/crypto/x509/x509_vfy.c:1661
+/home/amy/repos/magisk/libs/libressl/crypto/x509/x509_vfy.c:178
+/home/amy/repos/magisk/libs/libressl/crypto/x509/x509_vfy.c:374
+/home/amy/repos/magisk/test_libressl/libressl.cpp:159

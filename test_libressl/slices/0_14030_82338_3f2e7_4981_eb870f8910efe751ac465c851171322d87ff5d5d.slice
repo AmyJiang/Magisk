@@ -1,2 +1,13 @@
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/asn1/asn1_lib.c:453
-/home/amy/Documents/Spring2017/OS/magisk/libs/libressl/crypto/asn1/asn1_lib.c:454
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/a_octet.c:71
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/a_octet.c:72
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/asn1_lib.c:375
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/asn1_lib.c:386
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/asn1_lib.c:391
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/asn1_lib.c:422
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/asn1_lib.c:427
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/asn1_lib.c:431
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/asn1_lib.c:448
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/asn1_lib.c:453
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/asn1_lib.c:454
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_dec.c:902
+/home/amy/repos/magisk/libs/libressl/crypto/asn1/tasn_dec.c:920
