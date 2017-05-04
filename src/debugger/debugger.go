@@ -40,8 +40,10 @@ var (
 	flagWorkDir = flag.String("dir", ".", "path to working directory")
 	flagInput   = flag.String("input", "", "a single input")
 	flagQuery   = flag.String("query", "", "a single query")
+	flagSlice   = flag.Bool("slice", false, "call slicer if the flag is set")
+	flagLog     = flag.Bool("log", false, "print log")
 
-	logger = log.New(os.Stdout, "", 0)
+	logger = log.New(os.Stderr, "", log.Ldate|log.Ltime)
 	traces = exectraces.NewExecTraces()
 
 	statReport uint64
@@ -111,7 +113,7 @@ func addr2line(diff uint64) error {
 	if err != nil {
 		return err
 	}
-	fmt.Printf("[INFO]: \t\tDiv = %v\n", out)
+	logger.Printf("[INFO]: \t\tLast Common BBL = %v\n", out)
 	return nil
 }
 
@@ -146,12 +148,15 @@ func runDebugger() {
 
 		pid := pid
 		rt := rand.Int31n(1000)
+		logger.Printf("[INFO]: \tCreated worker %v", pid)
 		go func() {
 			time.Sleep(time.Duration(rt) * time.Millisecond)
 			for report := range reports {
 				if command.Shutdown {
 					break
 				}
+				input := filepath.Base(report.input)
+				logger.Printf("[INFO]: \tCreating trace: %v", input)
 				trace, err := process(pid, command, report)
 				if err != nil {
 					logger.Printf("Process %v exited: %v\n", pid, err)
@@ -169,18 +174,22 @@ func runDebugger() {
 
 				}
 				if report.op == QUERY {
-					logger.Printf("[INFO]: \tQuery %v", report.input)
+					logger.Printf("[INFO]: \tQuerying %v", report.input)
 					if found, length := query(trace); !found {
-						tracefile := filepath.Join(traceDir, filepath.Base(report.input)+".trace")
-						slicefile := filepath.Join(sliceDir, filepath.Base(report.input)+".slice")
-						bin := []string{"python", "./slicer/slicer.py", *flagBin, tracefile, fmt.Sprint(length), slicefile}
-						cmd := exec.Command(bin[0], bin[1:]...)
+						fmt.Printf("%v:%v:%v\n", input, found, length)
 
-						logger.Printf("[INFO]: \tExtracting slice\n")
-						if err := cmd.Run(); err != nil {
-							logger.Printf("[ERROR]: Failed to slice: %s\n", strings.Join(bin, " "))
-						} else {
-							logger.Printf("[INFO]: \tSlice is saved to %s\n", slicefile)
+						if *flagSlice {
+							tracefile := filepath.Join(traceDir, input+".trace")
+							slicefile := filepath.Join(sliceDir, input+".slice")
+							bin := []string{os.Getenv("GOPATH") + "/src/slicer/slicer.py", cmds[pid].Bin[8], tracefile, fmt.Sprint(length), slicefile}
+							cmd := exec.Command(bin[0], bin[1:]...)
+
+							logger.Printf("[INFO]: \tExtracting slice\n")
+							if err := cmd.Run(); err != nil {
+								logger.Printf("[ERROR]: Failed to slice: %s\n", strings.Join(bin, " "))
+							} else {
+								logger.Printf("[INFO]: \tSlice is saved to %s\n", slicefile)
+							}
 						}
 					}
 					atomic.AddUint64(&statQuery, 1)
@@ -248,11 +257,13 @@ func runDebugger() {
 			}
 			logger.Printf("[SUMMARY]: \tFinished %v inputs, %v queries\n", atomic.LoadUint64(&statInput), atomic.LoadUint64(&statQuery))
 			return
-        case <-doneQuery:
+		case <-doneQuery:
 			close(reports)
+			logger.Printf("[INFO]: \tWaiting for query results")
 			for j := 0; j < *flagProcs; j++ {
 				<-done
 			}
+
 			logger.Printf("[SUMMARY]: \tFinished %v inputs, %v queries\n", atomic.LoadUint64(&statInput), atomic.LoadUint64(&statQuery))
 			return
 		case <-doneTrace:
@@ -281,8 +292,8 @@ func runDebugger() {
 				statReport++
 			}
 			if statReport == uint64(len(inputs)+len(queries)) {
-                doneQuery <- struct{}{}
-            }
+				doneQuery <- struct{}{}
+			}
 		}
 	}
 }
@@ -325,6 +336,9 @@ func main() {
 	if *flagWorkDir == "" {
 		fmt.Errorf("Must specify work directory")
 		os.Exit(1)
+	}
+	if !*flagLog {
+		logger.SetOutput(ioutil.Discard)
 	}
 
 	if err := setup(); err != nil {
