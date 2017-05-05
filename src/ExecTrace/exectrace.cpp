@@ -1,7 +1,7 @@
 #include "func.h"
 #include "hooks.h"
 
-extern std::ofstream TraceFile;
+extern std::FILE *TraceFile;
 
 KNOB<string> KnobOutputFile(KNOB_MODE_WRITEONCE, "pintool", "o",
                             "exectrace.out",
@@ -9,6 +9,10 @@ KNOB<string> KnobOutputFile(KNOB_MODE_WRITEONCE, "pintool", "o",
 
 KNOB<BOOL> KnobMem(KNOB_MODE_WRITEONCE, "pintool", "mem", "0",
                    "output memory access trace");
+
+KNOB<BOOL>
+    KnobMagisk(KNOB_MODE_WRITEONCE, "pintool", "magisk", "0",
+               "used with magisk debugger (write bbl trace to shared memroy)");
 
 static const std::string blacklisted_imgs_[] = {
     "/lib64/ld-linux-x86-64.so.2",
@@ -28,8 +32,8 @@ const int kOutFd = 3;
 
 VOID ImageRoutine(IMG img, VOID *v) {
   std::string name = IMG_Name(img);
-  std::cout << "[Image Routine: " << name << "(" << hex << IMG_HighAddress(img)
-            << "-" << IMG_LowAddress(img) << dec << ")]\n";
+  dbg_printf("[Image Routine: %s (%lx-%lx)]\n", name.c_str(),
+             IMG_HighAddress(img), IMG_LowAddress(img));
 
   if (std::find(blacklisted_imgs.begin(), blacklisted_imgs.end(), name) !=
           blacklisted_imgs.end() ||
@@ -44,7 +48,9 @@ VOID ImageRoutine(IMG img, VOID *v) {
     }
   }
 
-  HookImage(img);
+  if (KnobMem) {
+    HookImage(img);
+  }
 }
 
 BOOL ValidAddr(ADDRINT addr) {
@@ -61,58 +67,66 @@ VOID TraceRoutine(TRACE trace, VOID *v) {
     return;
 
   for (BBL bbl = TRACE_BblHead(trace); BBL_Valid(bbl); bbl = BBL_Next(bbl)) {
-
-    BBL_InsertCall(bbl, IPOINT_ANYWHERE, (AFUNPTR)RecordBBL,
-                   IARG_FAST_ANALYSIS_CALL, IARG_INST_PTR, IARG_UINT32,
-                   BBL_Size(bbl), IARG_END);
+    // Write bbl record to shared memory
+    if (KnobMagisk) {
+      BBL_InsertCall(bbl, IPOINT_ANYWHERE, (AFUNPTR)WriteOutput,
+                     IARG_FAST_ANALYSIS_CALL, IARG_INST_PTR, IARG_UINT32,
+                     BBL_Size(bbl), IARG_END);
+    } else {
+      BBL_InsertCall(bbl, IPOINT_ANYWHERE, (AFUNPTR)RecordBBL,
+                     IARG_FAST_ANALYSIS_CALL, IARG_INST_PTR, IARG_UINT32,
+                     BBL_Size(bbl), IARG_END);
+    }
 
     if (!KnobMem)
       continue;
 
     // instruments function call
+    /*
     INS tail = BBL_InsTail(bbl);
     if (INS_IsCall(tail)) {
       if (INS_IsDirectBranchOrCall(tail)) {
         const ADDRINT target = INS_DirectBranchOrCallTargetAddress(tail);
-        INS_InsertCall(tail, IPOINT_BEFORE, (AFUNPTR)RecordCall, IARG_INST_PTR,
-                       IARG_UINT32, target, IARG_END);
-      } else {
-        INS_InsertCall(tail, IPOINT_BEFORE, (AFUNPTR)RecordCall, IARG_INST_PTR,
-                       IARG_BRANCH_TARGET_ADDR, IARG_END);
+        INS_InsertCall(tail, IPOINT_BEFORE,
+    (AFUNPTR)RecordCall,IARG_FAST_ANALYSIS_CALL,
+        IARG_INST_PTR, IARG_UINT32, target, IARG_END);
       }
     }
+    */
 
     for (INS ins = BBL_InsHead(bbl); INS_Valid(ins); ins = INS_Next(ins)) {
 
       // instruments loads using a predicated call, i.e.
       // the call happens iff the load will be actually executed
-
       if (INS_IsMemoryRead(ins) && INS_IsStandardMemop(ins)) {
-        INS_InsertPredicatedCall(
-            ins, IPOINT_BEFORE, (AFUNPTR)RecordMem, IARG_INST_PTR, IARG_UINT32,
-            'R', IARG_MEMORYREAD_EA, IARG_MEMORYREAD_SIZE, IARG_END);
+        INS_InsertPredicatedCall(ins, IPOINT_BEFORE, (AFUNPTR)RecordMem,
+                                 IARG_FAST_ANALYSIS_CALL, IARG_INST_PTR,
+                                 IARG_UINT32, 'R', IARG_MEMORYREAD_EA,
+                                 IARG_MEMORYREAD_SIZE, IARG_END);
       }
 
       if (INS_HasMemoryRead2(ins) && INS_IsStandardMemop(ins)) {
-        INS_InsertPredicatedCall(
-            ins, IPOINT_BEFORE, (AFUNPTR)RecordMem, IARG_INST_PTR, IARG_UINT32,
-            'R', IARG_MEMORYREAD2_EA, IARG_MEMORYREAD_SIZE, IARG_END);
+        INS_InsertPredicatedCall(ins, IPOINT_BEFORE, (AFUNPTR)RecordMem,
+                                 IARG_FAST_ANALYSIS_CALL, IARG_INST_PTR,
+                                 IARG_UINT32, 'R', IARG_MEMORYREAD2_EA,
+                                 IARG_MEMORYREAD_SIZE, IARG_END);
       }
 
       // instruments stores using a predicated call, i.e.
       // the call happens iff the store will be actually executed
       if (INS_IsMemoryWrite(ins) && INS_IsStandardMemop(ins)) {
-        INS_InsertPredicatedCall(
-            ins, IPOINT_BEFORE, (AFUNPTR)RecordWriteAddrSize,
-            IARG_MEMORYWRITE_EA, IARG_MEMORYWRITE_SIZE, IARG_END);
+        INS_InsertPredicatedCall(ins, IPOINT_BEFORE,
+                                 (AFUNPTR)RecordWriteAddrSize,
+                                 IARG_FAST_ANALYSIS_CALL, IARG_MEMORYWRITE_EA,
+                                 IARG_MEMORYWRITE_SIZE, IARG_END);
 
         if (INS_HasFallThrough(ins)) {
           INS_InsertCall(ins, IPOINT_AFTER, (AFUNPTR)RecordMemWrite,
-                         IARG_INST_PTR, IARG_END);
+                         IARG_FAST_ANALYSIS_CALL, IARG_INST_PTR, IARG_END);
         }
         if (INS_IsBranchOrCall(ins)) {
           INS_InsertCall(ins, IPOINT_TAKEN_BRANCH, (AFUNPTR)RecordMemWrite,
-                         IARG_INST_PTR, IARG_END);
+                         IARG_FAST_ANALYSIS_CALL, IARG_INST_PTR, IARG_END);
         }
       }
     }
@@ -120,8 +134,11 @@ VOID TraceRoutine(TRACE trace, VOID *v) {
 }
 
 VOID Fini(INT32 code, VOID *v) {
-  *output_data = total;
-  TraceFile.close();
+  if (KnobMagisk) {
+    *output_data = total;
+  }
+
+  std::fclose(TraceFile);
 }
 
 INT32 Usage() {
@@ -143,15 +160,16 @@ void output_init() {
 }
 
 int main(int argc, char *argv[]) {
-  output_init();
-
   PIN_InitSymbols();
   if (PIN_Init(argc, argv))
     return Usage();
 
-  if (KnobMem) {
-    TraceFile.open(KnobOutputFile.Value().c_str());
+  if (KnobMagisk) {
+    dbg_printf("KnobMagisk: on\n");
+    output_init();
   }
+
+  TraceFile = std::fopen(KnobOutputFile.Value().c_str(), "w");
 
   IMG_AddInstrumentFunction(ImageRoutine, 0);
 
