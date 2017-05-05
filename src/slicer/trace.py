@@ -6,41 +6,41 @@ class BBLRecord(object):
     def __init__(self, addr, size):
         self.addr = addr
         self.size = size
-        self._mem_writes = []
-        self._mem_reads = []
+        self.mem_writes = []
+        self.mem_reads = []
         self._ext_call = None
         self._call = None
 
     def __repr__(self):
         return "<BBLRecord 0x%x: %d bytes with %d mem_writes and %d mem_reads>" % \
-            (self.addr, self.size, len(self._mem_writes), len(self._mem_reads))
+            (self.addr, self.size, len(self.mem_writes), len(self.mem_reads))
 
 
     def has_write_to(self, addr):
-        for mem in self._mem_writes:
+        for mem in self.mem_writes:
             if mem["addr"] == addr:
                 return True
         return False
 
 
     def write_addr(self, ins):
-        for mem in self._mem_writes:
+        for mem in self.mem_writes:
             if mem["ins"] == ins:
                 return mem["addr"]
         return None
 
 
     def read_addr(self, ins):
-        for mem in self._mem_reads:
+        for mem in self.mem_reads:
             if mem["ins"] == ins:
                 return mem["addr"]
         return None
 
     def add_mem_read(self, record):
-        self._mem_reads.append(record)
+        self.mem_reads.append(record)
 
     def add_mem_write(self, record):
-        self._mem_writes.append(record)
+        self.mem_writes.append(record)
 
     def add_ext_call(self, record):
         self._ext_call = record
