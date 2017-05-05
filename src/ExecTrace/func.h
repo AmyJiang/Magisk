@@ -1,9 +1,12 @@
 #ifndef __FUNC_H
 #define __FUNC_H
 
+#include <assert.h>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <sstream>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <string>
@@ -13,15 +16,22 @@
 
 #include "pin.H"
 
-std::ofstream TraceFile;
+//#define DEBUG
+#ifdef DEBUG
+#define dbg_printf(...) fprintf(stderr, __VA_ARGS__)
+#else
+#define dbg_printf(...)
+#endif
+
+// std::ofstream TraceFile;
+std::FILE *TraceFile;
 
 const int kMaxOutput = 1 << 24;
 uint64_t *output_data = NULL;
 uint64_t *output_pos = NULL;
 uint64_t total = 0;
 
-
-void write_output(uint64_t v) {
+void inline write_output(uint64_t v) {
   if (output_pos < output_data ||
       (char *)output_pos >= (char *)output_data + kMaxOutput) {
     std::cerr << "output overflowed" << std::endl;
@@ -31,49 +41,55 @@ void write_output(uint64_t v) {
   output_pos++;
 }
 
-static VOID RecordMem(VOID *ip, CHAR r, VOID *addr, INT32 size) {
-  TraceFile << r << " " << ip << " " << addr << " " << size << endl;
+static VOID PIN_FAST_ANALYSIS_CALL RecordMem(VOID *ip, CHAR r, VOID *addr,
+                                             UINT32 size) {
+  fprintf(TraceFile, "%c %lx %lx %d\n", r, (uint64_t)ip, (uint64_t)addr, size);
 }
 
 static VOID *WriteAddr;
-static INT32 WriteSize;
+static UINT32 WriteSize;
 
-static VOID RecordWriteAddrSize(VOID *addr, INT32 size) {
+static VOID PIN_FAST_ANALYSIS_CALL RecordWriteAddrSize(VOID *addr,
+                                                       UINT32 size) {
   WriteAddr = addr;
   WriteSize = size;
 }
 
-static VOID RecordMemWrite(VOID *ip) {
-  RecordMem(ip, 'W', WriteAddr, WriteSize);
+static VOID PIN_FAST_ANALYSIS_CALL RecordMemWrite(VOID *ip) {
+  fprintf(TraceFile, "%c %lx %lx %d\n", 'W', (uint64_t)ip, (uint64_t)WriteAddr,
+          WriteSize);
+}
+
+static VOID PIN_FAST_ANALYSIS_CALL WriteOutput(VOID *ip, UINT32 size) {
+  write_output((uint64_t)ip);
+  total++;
+  fprintf(TraceFile, "%c %lx %d\n", 'B', (uint64_t)ip, size);
 }
 
 static VOID PIN_FAST_ANALYSIS_CALL RecordBBL(VOID *ip, UINT32 size) {
-  write_output((uint64_t)ip);
-  total++;
-  TraceFile << "B"
-          << " " << ip << " " << size << endl;
+  fprintf(TraceFile, "%c %lx %d\n", 'B', (uint64_t)ip, size);
 }
 
-static VOID RecordExtCall(VOID *ip, const char* name, int count, ...) {
+/*
+static VOID PIN_FAST_ANALYSIS_CALL RecordCall(VOID *ip, UINT32 target) {
+  fprintf(TraceFile, "%c %lx %x\n", 'C', (uint64_t)ip, target);
+}
+*/
+
+static VOID RecordExtCall(VOID *ip, const char *name, int count, ...) {
   va_list args;
   va_start(args, count);
-  TraceFile << "E" << " " << ip << " " << name;
-  for (int i = 0; i <  count; i++) {
-    TraceFile << " " << va_arg(args, ADDRINT);
+
+  fprintf(TraceFile, "%c %lx %s", 'E', (uint64_t)ip, name);
+  for (int i = 0; i < count; i++) {
+    fprintf(TraceFile, "  %ld", va_arg(args, uint64_t));
   }
   va_end(args);
-  TraceFile << "\n";
+  fprintf(TraceFile, "\n");
 }
 
-static VOID RecordCall(VOID *ip, UINT32 target) {
-  TraceFile << "C" << " " << ip << " " << "0x" << hex << target << dec << endl;
+static inline VOID RecordTaint(VOID *ip, UINT64 start, UINT64 size) {
+  fprintf(TraceFile, "%c %lx %ld %ld\n", 'T', (uint64_t)ip, start, size);
 }
-
-
-static VOID RecordTaint(VOID *ip, UINT64 start, UINT64 size) {
-  TraceFile << "T" << " "  << ip << " " << start << " " << size << endl;
-}
-
 
 #endif
-

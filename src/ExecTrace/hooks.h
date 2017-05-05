@@ -11,8 +11,8 @@ VOID MallocBefore(VOID *ip, ADDRINT size) {
 VOID MemcpyBefore(VOID *ip, ADDRINT dest, ADDRINT src, ADDRINT size) {
   RecordBBL(ip, 0);
   RecordExtCall(ip, "memcpy", 3, dest, src, size);
-  RecordMem(ip, 'R', (VOID*)src, size);
-  RecordMem(ip, 'W', (VOID*)dest, size);
+  RecordMem(ip, 'R', (VOID *)src, size);
+  RecordMem(ip, 'W', (VOID *)dest, size);
 }
 
 VOID StrcpyBefore(VOID *ip, ADDRINT dest, ADDRINT src) {
@@ -20,8 +20,8 @@ VOID StrcpyBefore(VOID *ip, ADDRINT dest, ADDRINT src) {
 
   RecordBBL(ip, 0);
   RecordExtCall(ip, "strcpy", 2, dest, src);
-  RecordMem(ip, 'R', (VOID*)src, size);
-  RecordMem(ip, 'W', (VOID*)dest, size);
+  RecordMem(ip, 'R', (VOID *)src, size);
+  RecordMem(ip, 'W', (VOID *)dest, size);
 }
 
 VOID StrlenBefore(VOID *ip, ADDRINT src) {
@@ -32,8 +32,6 @@ VOID StrlenBefore(VOID *ip, ADDRINT src) {
 VOID FreadBefore(VOID *ip, ADDRINT ptr, ADDRINT size, ADDRINT nmemb) {
   RecordTaint(ip, ptr, size * nmemb);
 }
-
-
 
 VOID HookImage(IMG img) {
   // hook special external functions
@@ -77,15 +75,11 @@ VOID HookImage(IMG img) {
   RTN freadRtn = RTN_FindByName(img, "fread@plt");
   if (RTN_Valid(freadRtn)) {
     RTN_Open(freadRtn);
-    RTN_InsertCall(freadRtn, IPOINT_BEFORE, (AFUNPTR)FreadBefore,
-                   IARG_INST_PTR, IARG_FUNCARG_CALLSITE_VALUE, 0,
-                   IARG_FUNCARG_CALLSITE_VALUE, 1, IARG_FUNCARG_CALLSITE_VALUE,
-                   2, IARG_END);
+    RTN_InsertCall(freadRtn, IPOINT_BEFORE, (AFUNPTR)FreadBefore, IARG_INST_PTR,
+                   IARG_FUNCARG_CALLSITE_VALUE, 0, IARG_FUNCARG_CALLSITE_VALUE,
+                   1, IARG_FUNCARG_CALLSITE_VALUE, 2, IARG_END);
     RTN_Close(freadRtn);
   }
 }
-
-
-
 
 #endif
