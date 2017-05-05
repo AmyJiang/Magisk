@@ -87,7 +87,7 @@ func MakeCommand(pin string, Bin string, pid int) (*Command, error) {
 
 	command := &Command{
 		// TODO(tracetool? concurrently call?)
-		Bin:      []string{pin, "-t", traceTool, "-mem", "0", "-o", "/tmp/exectrace.out", "--", Bin, ""},
+		Bin:      []string{pin, "-t", traceTool, "-mem", "0", "-magisk", "1", "-o", "/tmp/exectrace.out", "--", Bin, ""},
 		OutFile:  outf,
 		Out:      outmem,
 		Shutdown: false,
@@ -99,15 +99,15 @@ func MakeCommand(pin string, Bin string, pid int) (*Command, error) {
 	if err := os.Link(command.Bin[0], binCopy1); err == nil || os.IsExist(err) {
 		command.Bin[0] = binCopy1
 	} else {
-		return nil, err
+		return nil, fmt.Errorf("failed to create %v", binCopy1)
 	}
 
 	// New link for Binary (?)
-	binCopy2 := command.Bin[8] + pidStr
-	if err := os.Link(command.Bin[8], binCopy2); err == nil || os.IsExist(err) {
-		command.Bin[8] = binCopy2
+	binCopy2 := command.Bin[10] + pidStr
+	if err := os.Link(command.Bin[10], binCopy2); err == nil || os.IsExist(err) {
+		command.Bin[10] = binCopy2
 	} else {
-		return nil, err
+		return nil, fmt.Errorf("failed to create %v", binCopy2)
 	}
 
 	outf = nil
@@ -118,7 +118,7 @@ func (command *Command) Close() error {
 	var err1, err2, err3 error
 	err1 = closeMapping(command.OutFile, command.Out)
 	err2 = os.Remove(command.Bin[0])
-	err3 = os.Remove(command.Bin[8])
+	err3 = os.Remove(command.Bin[10])
 	switch {
 	case err1 != nil:
 		return err1
@@ -141,8 +141,9 @@ func RunCommand(bin []string) (string, error) {
 }
 
 func RunCommandAsync(bin []string, timeout time.Duration) error {
+	var stderr bytes.Buffer
 	cmd := exec.Command(bin[0], bin[1:]...)
-	cmd.Stderr = ioutil.Discard
+	cmd.Stderr = &stderr
 	cmd.Stdout = ioutil.Discard
 
 	if err := cmd.Start(); err != nil {
@@ -160,8 +161,9 @@ func RunCommandAsync(bin []string, timeout time.Duration) error {
 		}
 		return fmt.Errorf("process killed as timeout reached %s")
 	case err := <-done:
-		return err
+		if err != nil {
+			return fmt.Errorf("process failed: %v", stderr.String())
+		}
 	}
-
 	return nil
 }
