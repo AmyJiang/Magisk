@@ -7,16 +7,24 @@ import sys
 import traceback
 import logging
 import shutil
-
+from progressbar import ProgressBar, Percentage, Bar, ETA
 
 MAGISK = os.environ["GOPATH"]
+
+logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s',
+                    filename='./slice.log',
+                    filemode='w')
+log = logging.getLogger("analyze_log")
+log.setLevel('DEBUG')
+
+
 
 def rmdir(d):
     if os.path.exists(d):
         shutil.rmtree(d)
 
 
-def generate_slice(result_dir, out_dir, diffs, driver, batch=10):
+def generate_slice(result_dir, out_dir, diffs, driver, batch=20):
     global MAGISK
 
     input_d = out_dir + "/input"
@@ -24,7 +32,9 @@ def generate_slice(result_dir, out_dir, diffs, driver, batch=10):
     output = ""
 
     print "Generating Slice"
-    for idx in range(0, len(diffs), batch):
+    pbar = ProgressBar(widgets=[Percentage(), ' ', Bar(), ' ',  ETA()],
+                       maxval=diffs)
+    for idx in pbar(range(0, len(diffs), batch)):
         rmdir(input_d)
         rmdir(query_d)
         os.mkdir(input_d)
@@ -42,12 +52,13 @@ def generate_slice(result_dir, out_dir, diffs, driver, batch=10):
             "-procs", "2",
             "-slice"
         ]
-        print "\tRunning #%d-#%d" % (idx, idx+batch if idx+batch < len(diffs) else len(diffs)-1)
-        print "\t", " ".join(pargs)
-        p = subprocess.Popen(pargs)
-        out, _ = p.communicate()
+        #print "\tRunning #%d-#%d" % (idx, idx+batch if idx+batch < len(diffs) else len(diffs)-1)
+        p = subprocess.Popen(pargs, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        out, err = p.communicate()
         if out:
             output += out
+        if err.strip():
+            log.debug(err)
 
     rmdir(input_d)
     rmdir(query_d)
