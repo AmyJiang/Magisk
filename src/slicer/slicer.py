@@ -96,6 +96,9 @@ class Slicer(object):
         self._target_q = deque()
         self._set_slice_criterion()
 
+        log.debug("Fixing lost memory loads...")
+        self._fix_lost_loads()
+
         # results
         self._inst_in_slice = set()
         self._line_in_slice = None
@@ -139,6 +142,14 @@ class Slicer(object):
 
         self.slice_criterion = self._inst_to_line([block.instruction_addrs[-1]])[0]
 
+
+
+    def _fix_lost_loads(self):
+        # size take into account?
+        stores = set()
+        for bbl in self._trace.bbls:
+            stores |= set([store["addr"] for store in bbl.mem_writes])
+            bbl.mem_reads = [load for load in bbl.mem_reads if load["addr"] in stores]
 
 
     def run(self):
@@ -203,7 +214,7 @@ class Slicer(object):
     def _backward_slice_plt_stub(self, bbl, state):
         no_trace = set(["printf", "malloc"])
         stub = self._project.loader.find_plt_stub_name(bbl.addr)
-        log.debug("_slice_plt_stub (%s): %s", stub, bbl.ext_call)
+        log.info("_slice_plt_stub (%s): %s", stub, bbl.ext_call)
         assert bbl.ext_call["name"] == stub
 
         in_slice = False
@@ -215,6 +226,7 @@ class Slicer(object):
             state.targets["tmp"] = set()
             state.targets["reg"] = set()
             state.targets["addr"] = set(bbl.ext_call["args"])
+            state.targets["addr"] = set()
             in_slice = True
 
 
