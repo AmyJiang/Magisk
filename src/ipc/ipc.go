@@ -4,9 +4,11 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"os/exec"
 	"syscall"
+	"time"
 )
 
 type Command struct {
@@ -22,7 +24,7 @@ const (
 )
 
 var (
-	traceTool  = os.Getenv("GOPATH") + "/src/ExecTrace/obj-intel64/exectrace.so"
+	traceTool = os.Getenv("GOPATH") + "/src/ExecTrace/obj-intel64/exectrace.so"
 )
 
 func createMapping(size int) (f *os.File, mem []byte, err error) {
@@ -136,4 +138,30 @@ func RunCommand(bin []string) (string, error) {
 	cmd.Stdout = &buf
 	err := cmd.Run()
 	return string(buf.Bytes()), err
+}
+
+func RunCommandAsync(bin []string, timeout time.Duration) error {
+	cmd := exec.Command(bin[0], bin[1:]...)
+	cmd.Stderr = ioutil.Discard
+	cmd.Stdout = ioutil.Discard
+
+	if err := cmd.Start(); err != nil {
+		return err
+	}
+	done := make(chan error, 1)
+	go func() {
+		done <- cmd.Wait()
+	}()
+
+	select {
+	case <-time.After(timeout):
+		if err := cmd.Process.Kill(); err != nil {
+			log.Fatal("failed to kill: ", err)
+		}
+		return fmt.Errorf("process killed as timeout reached %s")
+	case err := <-done:
+		return err
+	}
+
+	return nil
 }
