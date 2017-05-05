@@ -183,7 +183,6 @@ func runDebugger() {
 							bin := []string{os.Getenv("GOPATH") + "/src/slicer/slicer.py", cmds[pid].Bin[8], tracefile, fmt.Sprint(length), slicefile}
 							logger.Printf("[INFO]: \tExtracting slice\n")
 							if err := ipc.RunCommandAsync(bin, 2*time.Minute); err != nil {
-								logger.Printf("[ERROR]: \tFailed to slice %s: %s\n", input, err)
 								fmt.Fprintf(os.Stderr, "[ERROR]: %s.slice: %s\n", input, err)
 							} else {
 								logger.Printf("[INFO]: \tSlice is saved to %s\n", slicefile)

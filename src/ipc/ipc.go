@@ -142,7 +142,8 @@ func RunCommand(bin []string) (string, error) {
 
 func RunCommandAsync(bin []string, timeout time.Duration) error {
 	cmd := exec.Command(bin[0], bin[1:]...)
-	cmd.Stderr = ioutil.Discard
+	var stderr bytes.Buffer
+	cmd.Stderr = &stderr
 	cmd.Stdout = ioutil.Discard
 
 	if err := cmd.Start(); err != nil {
@@ -160,7 +161,9 @@ func RunCommandAsync(bin []string, timeout time.Duration) error {
 		}
 		return fmt.Errorf("process killed as timeout reached %s")
 	case err := <-done:
-		return err
+		if err != nil {
+			return fmt.Errorf("slicer failed: %s", stderr.String())
+		}
 	}
 
 	return nil
