@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"exectraces"
 	"flag"
 	"fmt"
@@ -42,7 +43,7 @@ var (
 	flagSlice   = flag.Bool("slice", false, "call slicer if the flag is set")
 	flagLog     = flag.Bool("log", false, "print log")
 
-	logger = log.New(os.Stderr, "", log.Ldate|log.Ltime)
+	Logger = log.New(os.Stderr, "", log.Ldate|log.Ltime)
 	traces = exectraces.NewExecTraces()
 
 	statReport uint64
@@ -71,23 +72,25 @@ func process(pid int, command *ipc.Command, report *Report) ([]uint64, error) {
 	if report.op == QUERY {
 		command.Bin[4] = "1"
 		input := filepath.Base(report.input)
-		command.Bin[6] = filepath.Join(traceDir, input+".trace")
+		command.Bin[8] = filepath.Join(traceDir, input+".trace")
 	}
 
-	command.Bin[9] = report.input
+	command.Bin[11] = report.input
+	Logger.Printf("[INFO]: \tRuning process: %v\n", command.Bin)
 	cmd := exec.Command(command.Bin[0], command.Bin[1:]...)
 	cmd.ExtraFiles = []*os.File{command.OutFile}
 	cmd.Env = []string{}
 	// required or not?
+	var stderr bytes.Buffer
 	cmd.Stdout = ioutil.Discard // os.Stdout
-	cmd.Stderr = ioutil.Discard // os.Stdout
+	cmd.Stderr = &stderr
 
 	cmd.SysProcAttr = &syscall.SysProcAttr{
 		Setpgid: true,
 		Pgid:    0,
 	}
 	if err := cmd.Run(); err != nil {
-		return nil, fmt.Errorf("failed to start tracer binary: %v", err)
+		return nil, fmt.Errorf("failed to start tracer binary: %v", stderr.String())
 	}
 
 	out := ((*[1 << 24]uint64)(unsafe.Pointer(&command.Out[0])))[:len(command.Out)/int(unsafe.Sizeof(uint64(0)))]
@@ -98,7 +101,7 @@ func process(pid int, command *ipc.Command, report *Report) ([]uint64, error) {
 }
 
 func insert(trace []uint64, key string) error {
-	logger.Printf("[INFO]: \tInsert trace of %v\n", key)
+	Logger.Printf("[INFO]: \tInsert trace of %v\n", key)
 	if err := traces.Insert(trace, key); err != nil {
 		return err
 	}
@@ -112,17 +115,17 @@ func addr2line(diff uint64) error {
 	if err != nil {
 		return err
 	}
-	logger.Printf("[INFO]: \t\tLast Common BBL = %v\n", out)
+	Logger.Printf("[INFO]: \t\tLast Common BBL = %v\n", out)
 	return nil
 }
 
 func query(trace []uint64) (bool, int) {
 	found, length := traces.Query(trace)
-	logger.Printf("[INFO]: \t\tfound %v, Length %d\n", found, length)
+	Logger.Printf("[INFO]: \t\tfound %v, Length %d\n", found, length)
 
 	if !found {
 		if err := addr2line(trace[length-1]); err != nil {
-			logger.Printf("[ERROR]: \t\t%v\n", err)
+			Logger.Printf("[ERROR]: \t\t%v\n", err)
 		}
 	}
 
@@ -147,7 +150,7 @@ func runDebugger() {
 
 		pid := pid
 		rt := rand.Int31n(1000)
-		logger.Printf("[INFO]: \tCreated worker %v", pid)
+		Logger.Printf("[INFO]: \tCreated worker %v", pid)
 		go func() {
 			time.Sleep(time.Duration(rt) * time.Millisecond)
 			for report := range reports {
@@ -155,15 +158,17 @@ func runDebugger() {
 					break
 				}
 				input := filepath.Base(report.input)
-				logger.Printf("[INFO]: \tCreating trace: %v", input)
+				Logger.Printf("[INFO]: \tCreating trace: %v", input)
 				trace, err := process(pid, command, report)
 				if err != nil {
-					logger.Printf("Process %v exited: %v\n", pid, err)
+					atomic.AddUint64(&statInput, 1)
+					fmt.Fprintf(os.Stderr, "[ERROR]: %s.trace: %v\n", input, err)
 					break
 				}
 				if report.op == INSERT {
 					if err := insert(trace, report.input); err != nil {
-						logger.Printf("Insert trace failed")
+						fmt.Fprintf(os.Stderr, "[ERROR]: %s.trace: %v\n", input, err)
+						atomic.AddUint64(&statInput, 1)
 						break
 					}
 
@@ -173,20 +178,19 @@ func runDebugger() {
 
 				}
 				if report.op == QUERY {
-					logger.Printf("[INFO]: \tQuerying %v", report.input)
+					Logger.Printf("[INFO]: \tQuerying %v", report.input)
 					if found, length := query(trace); !found {
 						fmt.Printf("%v:%v:%v\n", input, found, length)
 
 						if *flagSlice {
 							tracefile := filepath.Join(traceDir, input+".trace")
 							slicefile := filepath.Join(sliceDir, input+".slice")
-							bin := []string{os.Getenv("GOPATH") + "/src/slicer/slicer.py", cmds[pid].Bin[8], tracefile, fmt.Sprint(length), slicefile}
-							logger.Printf("[INFO]: \tExtracting slice\n")
+							bin := []string{os.Getenv("GOPATH") + "/src/slicer/slicer.py", cmds[pid].Bin[10], tracefile, fmt.Sprint(length), slicefile}
+							Logger.Printf("[INFO]: \tExtracting slice\n")
 							if err := ipc.RunCommandAsync(bin, 2*time.Minute); err != nil {
-								logger.Printf("[ERROR]: \tFailed to slice %s: %s\n", input, err)
 								fmt.Fprintf(os.Stderr, "[ERROR]: %s.slice: %s\n", input, err)
 							} else {
-								logger.Printf("[INFO]: \tSlice is saved to %s\n", slicefile)
+								Logger.Printf("[INFO]: \tSlice is saved to %s\n", slicefile)
 							}
 						}
 					}
@@ -197,7 +201,7 @@ func runDebugger() {
 			done <- struct{}{}
 		}()
 	}
-	logger.Printf("[INFO]: \tDebugger started (%v processes)\n", *flagProcs)
+	Logger.Printf("[INFO]: \tDebugger started (%v processes)\n", *flagProcs)
 
 	// Create server (TODO: RPC/TPC?)
 
@@ -211,13 +215,13 @@ func runDebugger() {
 	} else {
 		files, err := ioutil.ReadDir(inputDir)
 		if err != nil {
-			logger.Panic("failed to read directory: ", inputDir)
+			Logger.Panic("failed to read directory: ", inputDir)
 		}
 		for _, f := range files {
 			inputs = append(inputs, filepath.Join(inputDir, f.Name()))
 		}
 	}
-	logger.Printf("[INFO]: \tLoaded %v inputs from %v\n", len(inputs), *flagWorkDir)
+	Logger.Printf("[INFO]: \tLoaded %v inputs from %v\n", len(inputs), *flagWorkDir)
 
 	// Load query
 	if *flagQuery != "" {
@@ -225,13 +229,13 @@ func runDebugger() {
 	} else {
 		files, err := ioutil.ReadDir(queryDir)
 		if err != nil {
-			logger.Panic("failed to read directory: ", queryDir)
+			Logger.Panic("failed to read directory: ", queryDir)
 		}
 		for _, f := range files {
 			queries = append(queries, filepath.Join(queryDir, f.Name()))
 		}
 	}
-	logger.Printf("[INFO]: \tLoaded %v queries from %v\n", len(queries), *flagWorkDir)
+	Logger.Printf("[INFO]: \tLoaded %v queries from %v\n", len(queries), *flagWorkDir)
 
 	// main loop, send report to worker processes
 	c := make(chan os.Signal, *flagProcs+1)
@@ -242,10 +246,10 @@ func runDebugger() {
 	for i := 0; ; i++ {
 		select {
 		case <-ticker:
-			logger.Printf("[SUMMARY]: \tFinished %v inputs, %v queries\n", atomic.LoadUint64(&statInput), atomic.LoadUint64(&statQuery))
+			Logger.Printf("[SUMMARY]: \tFinished %v inputs, %v queries\n", atomic.LoadUint64(&statInput), atomic.LoadUint64(&statQuery))
 			break
 		case <-c:
-			logger.Printf("[INFO]: \tShutting down processes...\n")
+			Logger.Printf("[INFO]: \tShutting down processes...\n")
 			close(reports)
 			for j := 0; j < *flagProcs; j++ {
 				cmds[j].Shutdown = true
@@ -253,16 +257,16 @@ func runDebugger() {
 			for j := 0; j < *flagProcs; j++ {
 				<-done
 			}
-			logger.Printf("[SUMMARY]: \tFinished %v inputs, %v queries\n", atomic.LoadUint64(&statInput), atomic.LoadUint64(&statQuery))
+			Logger.Printf("[SUMMARY]: \tFinished %v inputs, %v queries\n", atomic.LoadUint64(&statInput), atomic.LoadUint64(&statQuery))
 			return
 		case <-doneQuery:
 			close(reports)
-			logger.Printf("[INFO]: \tWaiting for query results")
+			Logger.Printf("[INFO]: \tWaiting for query results")
 			for j := 0; j < *flagProcs; j++ {
 				<-done
 			}
 
-			logger.Printf("[SUMMARY]: \tFinished %v inputs, %v queries\n", atomic.LoadUint64(&statInput), atomic.LoadUint64(&statQuery))
+			Logger.Printf("[SUMMARY]: \tFinished %v inputs, %v queries\n", atomic.LoadUint64(&statInput), atomic.LoadUint64(&statQuery))
 			return
 		case <-doneTrace:
 			startQuery = true
@@ -337,7 +341,7 @@ func main() {
 		os.Exit(1)
 	}
 	if !*flagLog {
-		logger.SetOutput(ioutil.Discard)
+		Logger.SetOutput(ioutil.Discard)
 	}
 
 	if err := setup(); err != nil {
