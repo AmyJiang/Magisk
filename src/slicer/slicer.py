@@ -332,8 +332,8 @@ class Slicer(object):
         if isinstance(addr, pyvex.IRExpr.RdTmp):
             self._backward_handler_expr(addr, state)
             concrete_addr = self._concrete_read_addr(state)
-            log.debug(" Load: inst = 0x%x, addr = 0x%x", state.current_ins, concrete_addr)
             if concrete_addr:
+            	log.debug(" Load: inst = 0x%x, addr = 0x%x", state.current_ins, concrete_addr)
                 if self._address_in_taints(concrete_addr):
                     log.info("Load from tainted input %d", concrete_addr)
                 else:
