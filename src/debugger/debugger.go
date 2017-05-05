@@ -13,7 +13,6 @@ import (
 	"os/signal"
 	"path/filepath"
 	"runtime/debug"
-	"strings"
 	"sync/atomic"
 	"syscall"
 	"time"
@@ -182,11 +181,10 @@ func runDebugger() {
 							tracefile := filepath.Join(traceDir, input+".trace")
 							slicefile := filepath.Join(sliceDir, input+".slice")
 							bin := []string{os.Getenv("GOPATH") + "/src/slicer/slicer.py", cmds[pid].Bin[8], tracefile, fmt.Sprint(length), slicefile}
-							cmd := exec.Command(bin[0], bin[1:]...)
-
 							logger.Printf("[INFO]: \tExtracting slice\n")
-							if err := cmd.Run(); err != nil {
-								logger.Printf("[ERROR]: Failed to slice: %s\n", strings.Join(bin, " "))
+							if err := ipc.RunCommandAsync(bin, 2*time.Minute); err != nil {
+								logger.Printf("[ERROR]: \tFailed to slice %s: %s\n", input, err)
+								fmt.Fprintf(os.Stderr, "[ERROR]: %s.slice: %s\n", input, err)
 							} else {
 								logger.Printf("[INFO]: \tSlice is saved to %s\n", slicefile)
 							}
@@ -328,6 +326,7 @@ func setup() error {
 
 func main() {
 	debug.SetGCPercent(50)
+	debug.FreeOSMemory()
 	flag.Parse()
 	if *flagBin == "" {
 		fmt.Errorf("Must specify target binary")
