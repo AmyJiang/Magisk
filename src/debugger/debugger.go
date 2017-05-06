@@ -179,19 +179,17 @@ func runDebugger() {
 				}
 				if report.op == QUERY {
 					Logger.Printf("[INFO]: \tQuerying %v", report.input)
-					if found, length := query(trace); !found {
-						fmt.Printf("%v:%v:%v\n", input, found, length)
-
-						if *flagSlice {
-							tracefile := filepath.Join(traceDir, input+".trace")
-							slicefile := filepath.Join(sliceDir, input+".slice")
-							bin := []string{os.Getenv("GOPATH") + "/src/slicer/slicer.py", cmds[pid].Bin[10], tracefile, fmt.Sprint(length), slicefile}
-							Logger.Printf("[INFO]: \tExtracting slice\n")
-							if err := ipc.RunCommandAsync(bin, 2*time.Minute); err != nil {
-								fmt.Fprintf(os.Stderr, "[ERROR]: %s.slice: %s\n", input, err)
-							} else {
-								Logger.Printf("[INFO]: \tSlice is saved to %s\n", slicefile)
-							}
+					found, length := query(trace)
+					fmt.Printf("%v:%v:%v\n", input, found, length)
+					if !found && *flagSlice {
+						tracefile := filepath.Join(traceDir, input+".trace")
+						slicefile := filepath.Join(sliceDir, input+".slice")
+						bin := []string{os.Getenv("GOPATH") + "/src/slicer/slicer.py", cmds[pid].Bin[10], tracefile, fmt.Sprint(length), slicefile}
+						Logger.Printf("[INFO]: \tExtracting slice\n")
+						if err := ipc.RunCommandAsync(bin, 2*time.Minute); err != nil {
+							fmt.Fprintf(os.Stderr, "[ERROR]: %s.slice: %s\n", input, err)
+						} else {
+							Logger.Printf("[INFO]: \tSlice is saved to %s\n", slicefile)
 						}
 					}
 					atomic.AddUint64(&statQuery, 1)
