@@ -23,7 +23,7 @@ def cert_chain_asn1info(cert, sslbin):
     pargs = [
         sslbin,
         "asn1parse",
-        "-dump",
+#        "-dump",
         "-inform",
         "DER",
         "-in",
@@ -38,13 +38,33 @@ def cert_chain_asn1info(cert, sslbin):
 
 def diff_asn1parse(after, before, sslbin):
     output = ""
-    output += "\n\n####asn1parse output diff\n"
+    output += "\n\n#### asn1parse output diff\n"
     output += "\n```\n"
-    diff = difflib.Differ().compare(cert_chain_asn1info(before, sslbin).splitlines(),
-                                    cert_chain_asn1info(after, sslbin).splitlines())
-    output += ''.join(line for line in diff if not line.startswith(' '))
+
+    diff = difflib.context_diff(cert_chain_asn1info(before, sslbin).splitlines(),
+                                cert_chain_asn1info(after, sslbin).splitlines())
+    output += '\n'.join(diff) #line for line in diff if not line.startswith(' '))
     output += "\n```\n"
     return output
+
+def show_diff(seqm):
+    """Unify operations between two compared strings
+    seqm is a difflib.SequenceMatcher instance whose a & b are strings"""
+    output= []
+    for opcode, a0, a1, b0, b1 in seqm.get_opcodes():
+        if opcode == 'equal':
+            output.append(seqm.a[a0:a1])
+        elif opcode == 'insert':
+            output.append("<ins>" + seqm.b[b0:b1] + "</ins>")
+        elif opcode == 'delete':
+            output.append("<del>" + seqm.a[a0:a1] + "</del>")
+        elif opcode == 'replace':
+            raise NotImplementedError, "what to do with 'replace' opcode?"
+        else:
+            raise RuntimeError, "unexpected opcode"
+    return ''.join(output)
+
+
 
 def reproduce_diff(cert, driver, num):
     errno = os.path.basename(cert).split("_")[num]
@@ -70,14 +90,19 @@ def reproduce_diff(cert, driver, num):
 
 
 def diff_driver_output(after, before, llist):
+    # only output test_libressl result
     output = ""
-    output += "\n\n####Driver output\n"
+    output += "\n\n#### Driver output\n"
+    output += "Diff:"
+    output += "\n```\n"
+    output += reproduce_diff(after, llist[1], 1)
+    output += "\n```\n"
 
-    for i, lib in enumerate(llist):
-        output += "\n\n#####Driver: " + lib + "\n"
-        output += "\n```\n"
-        output += reproduce_diff(after, lib, i)
-        output += "\n```\n"
+    output += "Before mutation:"
+    output += "\n```\n"
+    output += reproduce_diff(before, llist[1], 1)
+    output += "\n```\n"
+
     return output
 
 
@@ -107,9 +132,10 @@ def analyze(result_dir, ca, llist, blist, outdir):
         after_f = os.path.join(result_dir, after)
         before_f = os.path.join(result_dir, before)
         output = ""
-        output += "###File: " + after_f + "\n\n"
-        output += "Before Mutation: " + before_f + "\n\n"
+        output += "### File: " + os.path.basename(after_f) + "\n\n"
+        output += "Before Mutation: " + os.path.basename(before_f) + "\n\n"
         output += diff_driver_output(after_f, before_f, llist)
+
         output += diff_asn1parse(after_f, before_f, blist[0])
 
         write_output(output, outdir, after)
@@ -118,7 +144,6 @@ def analyze(result_dir, ca, llist, blist, outdir):
 def write_output(output, outdir, cert):
     outf = os.path.join(outdir, cert) + ".md"
     with open(outf, "w") as f:
-        f.write("Analysis\n======================\n\n")
         f.write(output)
 
 
