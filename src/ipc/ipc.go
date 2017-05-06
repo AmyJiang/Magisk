@@ -162,7 +162,7 @@ func RunCommandAsync(bin []string, timeout time.Duration) error {
 		return fmt.Errorf("process killed as timeout reached %s")
 	case err := <-done:
 		if err != nil {
-			return fmt.Errorf("process failed: %v", stderr.String())
+			return fmt.Errorf("slicer failed: %s", stderr.String())
 		}
 	}
 	return nil
