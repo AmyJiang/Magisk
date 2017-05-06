@@ -1,104 +1,73 @@
 #!/usr/bin/python
+# Required: export PYTHONPATH=/home/amy/repos/magisk/src/slicer:$PYTHONPATH
 
 import argparse
 import os
 import subprocess
-import sys
-import traceback
-import logging
-import shutil
+from threading import Timer
 from progressbar import ProgressBar, Percentage, Bar, ETA
 
 MAGISK = os.environ["GOPATH"]
+TIMEOUT = 60.0
 
-logging.basicConfig(format='%(asctime)s %(levelname)-8s %(message)s',
-                    filename='./slice.log',
-                    filemode='w')
-log = logging.getLogger("analyze_log")
-log.setLevel('DEBUG')
-
+def update_output(outf, output):
+    with open(outf, 'a') as f:
+        f.write(output)
 
 
-def rmdir(d):
-    if os.path.exists(d):
-        shutil.rmtree(d)
+def generate_slice(result_dir, driver, start_bbls):
+    trace_dir = os.path.join(result_dir, "traces")
+    slice_dir = os.path.join(result_dir, "slices")
+    LOG_F = os.path.join(slice_dir, "slice.log")
 
+    if not os.path.exists(slice_dir):
+        os.makedirs(slice_dir)
 
-def generate_slice(result_dir, out_dir, diffs, driver, batch=20):
-    global MAGISK
+    print "Generating Slice..."
+    pbar = ProgressBar(widgets=[Percentage(), ' ', Bar(), ' ', ETA()],
+                       maxval=start_bbls)
 
-    input_d = out_dir + "/input"
-    query_d = out_dir + "/query"
-    output = ""
+    kill = lambda process: process.kill()
 
-    print "Generating Slice"
-    pbar = ProgressBar(widgets=[Percentage(), ' ', Bar(), ' ',  ETA()],
-                       maxval=diffs)
-    for idx in pbar(range(0, len(diffs), batch)):
-        rmdir(input_d)
-        rmdir(query_d)
-        os.mkdir(input_d)
-        os.mkdir(query_d)
-
-        for q, i in diffs[idx:idx+batch]:
-            shutil.copy2(result_dir + "/" + i, input_d)
-            shutil.copy2(result_dir + "/" + q, query_d)
-
+    for trace, num_bbl in pbar(start_bbls):
         pargs = [
-            os.path.join(MAGISK, "bin/debugger"),
-            "-bin", driver,
-            "-pin", os.path.join(os.environ["PIN_ROOT"], "pin"),
-            "-dir", out_dir,
-            "-procs", "2",
-            "-slice"
+            os.path.join(MAGISK, "src/slicer/slicer.py"),
+            os.path.abspath(driver), #bin
+            os.path.abspath(os.path.join(trace_dir, trace.strip()+".trace")), #trace
+            num_bbl,
+            os.path.abspath(os.path.join(slice_dir, trace.strip()+".slice")), #trace
         ]
-        #print "\tRunning #%d-#%d" % (idx, idx+batch if idx+batch < len(diffs) else len(diffs)-1)
         p = subprocess.Popen(pargs, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        out, err = p.communicate()
-        if out:
-            output += out
-        if err.strip():
-            log.debug(err)
+        timer = Timer(TIMEOUT, kill, [p])
+        try:
+            timer.start()
+            _, err = p.communicate()
+        finally:
+            timer.cancel()
+            update_output(LOG_F, err)
 
-    rmdir(input_d)
-    rmdir(query_d)
-    return output
+def parse_summary(sum_f):
+    # parse the summary file, each line of the file is in the format:
+    # input_name:[true|false]:num_of_bbl(to start slicing)
+    start_bbls = []
+    with open(sum_f, 'r') as inf:
+        for line in inf.readlines():
+            fields = line.strip().split(":")
+            if len(fields) < 3 or fields[1] != 'false':
+                continue
+            start_bbls.append((fields[0], fields[2]))
+    print 'Parsed summary: %d trace' % len(start_bbls)
+    return start_bbls
 
-
-def analyze(result_dir, llist, out_dir):
-    before_mutations = dict()
-    diffs = []
-    if not os.path.exists(out_dir) or not os.path.isdir(out_dir):
-        os.makedirs(out_dir)
-
-    for f in os.listdir(result_dir):
-        if "BeforeMutation" in f:
-            h = f.strip().split("_")[0]
-            before_mutations[h] = f
-
-    for f in os.listdir(result_dir):
-        if "BeforeMutation" not in f:
-            h = f.strip().split("_")[-1]
-            if h in before_mutations:
-                diffs.append((f, before_mutations[h]))
-
-    generate_slice(result_dir, out_dir, diffs, llist[0])
+def analyze(result_dir, driver):
+    SUM_F = os.path.join(result_dir, "trace.summary")
+    start_bbls = parse_summary(SUM_F)
+    generate_slice(result_dir, driver, start_bbls)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--dir", required=True,
-                        help="directory containing results")
-    parser.add_argument("-o", "--out_dir", default="analysis/",
-                        help="output directory")
+                        help="directory containing traces (and summary)")
     args = parser.parse_args()
 
-    lib_list = [
-        os.path.join(MAGISK, "ssl/drivers/test_libressl"),
-        os.path.join(MAGISK, "ssl/drivers/test_openssl"),
-    ]
-
-    analyze(args.dir,
-            lib_list,
-            args.out_dir)
-
-
+    analyze(args.dir, os.path.join(MAGISK, "ssl/drivers/test_libressl"))
