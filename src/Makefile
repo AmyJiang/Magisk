@@ -1,8 +1,8 @@
 OBJ ?=../test_libressl/test_libressl
 PIN ?=$(PIN_ROOT)/pin
 DIR ?=../test_libressl
-INPUT ?= input/1.txt
-QUERY ?= input/2.txt
+INPUT ?= simple_input/valid
+QUERY ?= simple_input/invalid
 
 all:
 		$(MAKE) pintool
@@ -29,11 +29,10 @@ clean:
 		rm -rf ./bin/
 
 test:
-		../bin/debugger -bin $(OBJ) -pin $(PIN) -dir $(DIR) -input $(INPUT) -query $(QUERY)
+		../bin/debugger -bin $(OBJ) -pin $(PIN) -dir $(DIR) -input $(INPUT) -query $(QUERY) -log -slice
 
 testall:
-		../bin/debugger -procs 4 -bin $(OBJ) -pin $(PIN) -dir $(DIR)
-
+		../bin/debugger -procs 4 -bin $(OBJ) -pin $(PIN) -dir $(DIR) -log -slice
 
 
 
