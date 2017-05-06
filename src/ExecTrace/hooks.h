@@ -82,4 +82,49 @@ VOID HookImage(IMG img) {
   }
 }
 
+VOID HookImage_bblonly(IMG img) {
+  // hook special external functions
+  RTN mallocRtn = RTN_FindByName(img, "malloc@plt");
+  if (RTN_Valid(mallocRtn)) {
+    RTN_Open(mallocRtn);
+    RTN_InsertCall(mallocRtn, IPOINT_BEFORE, (AFUNPTR)WriteOutput,
+                   IARG_INST_PTR, IARG_UINT32, 0, IARG_END);
+    RTN_Close(mallocRtn);
+  }
+
+  RTN strlenRtn = RTN_FindByName(img, "strlen@plt");
+  if (RTN_Valid(strlenRtn)) {
+    RTN_Open(strlenRtn);
+    RTN_InsertCall(strlenRtn, IPOINT_BEFORE, (AFUNPTR)WriteOutput,
+                   IARG_INST_PTR, IARG_UINT32, 0, IARG_END);
+    RTN_Close(strlenRtn);
+  }
+
+  RTN memcpyRtn = RTN_FindByName(img, "memcpy@plt");
+  if (RTN_Valid(memcpyRtn)) {
+    RTN_Open(memcpyRtn);
+    RTN_InsertCall(memcpyRtn, IPOINT_BEFORE, (AFUNPTR)WriteOutput,
+                   IARG_INST_PTR, IARG_UINT32, 0, IARG_END);
+    RTN_Close(memcpyRtn);
+  }
+
+  RTN strcpyRtn = RTN_FindByName(img, "strcpy@plt");
+  if (RTN_Valid(strcpyRtn)) {
+    RTN_Open(strcpyRtn);
+    RTN_InsertCall(strcpyRtn, IPOINT_BEFORE, (AFUNPTR)WriteOutput,
+                   IARG_INST_PTR, IARG_UINT32, 0, IARG_END);
+    RTN_Close(strcpyRtn);
+  }
+
+  RTN freadRtn = RTN_FindByName(img, "fread@plt");
+  if (RTN_Valid(freadRtn)) {
+    RTN_Open(freadRtn);
+    RTN_InsertCall(freadRtn, IPOINT_BEFORE, (AFUNPTR)WriteOutput,
+                   IARG_INST_PTR, IARG_UINT32, 0, IARG_END);
+    RTN_Close(freadRtn);
+  }
+}
+
+
+
 #endif

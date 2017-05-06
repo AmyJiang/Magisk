@@ -63,7 +63,6 @@ static VOID PIN_FAST_ANALYSIS_CALL RecordMemWrite(VOID *ip) {
 static VOID PIN_FAST_ANALYSIS_CALL WriteOutput(VOID *ip, UINT32 size) {
   write_output((uint64_t)ip);
   total++;
-  fprintf(TraceFile, "%c %lx %d\n", 'B', (uint64_t)ip, size);
 }
 
 static VOID PIN_FAST_ANALYSIS_CALL RecordBBL(VOID *ip, UINT32 size) {

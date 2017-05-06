@@ -48,9 +48,12 @@ VOID ImageRoutine(IMG img, VOID *v) {
     }
   }
 
+  /*
   if (KnobMem) {
     HookImage(img);
-  }
+  } else {
+    HookImage_bblonly(img);
+  }*/
 }
 
 BOOL ValidAddr(ADDRINT addr) {
@@ -72,16 +75,15 @@ VOID TraceRoutine(TRACE trace, VOID *v) {
       BBL_InsertCall(bbl, IPOINT_ANYWHERE, (AFUNPTR)WriteOutput,
                      IARG_FAST_ANALYSIS_CALL, IARG_INST_PTR, IARG_UINT32,
                      BBL_Size(bbl), IARG_END);
-    } else {
-      BBL_InsertCall(bbl, IPOINT_ANYWHERE, (AFUNPTR)RecordBBL,
-                     IARG_FAST_ANALYSIS_CALL, IARG_INST_PTR, IARG_UINT32,
-                     BBL_Size(bbl), IARG_END);
     }
 
     if (!KnobMem)
       continue;
 
-    // instruments function call
+    BBL_InsertCall(bbl, IPOINT_ANYWHERE, (AFUNPTR)RecordBBL,
+                   IARG_FAST_ANALYSIS_CALL, IARG_INST_PTR, IARG_UINT32,
+                   BBL_Size(bbl), IARG_END);
+
     /*
     INS tail = BBL_InsTail(bbl);
     if (INS_IsCall(tail)) {
