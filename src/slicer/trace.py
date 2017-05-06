@@ -79,7 +79,7 @@ class Trace(object):
                     record = {
                         "ins": int(fields[1], 16),
                         "name": fields[2],
-                        "args": [int(a, 10) for a in fields[3].split(",")]
+                        "args": [int(a, 10) for a in fields[3:]]
                     }
                     bbl_cnt += 1
                     self._bbls.append(BBLRecord(int(fields[1], 16), None))

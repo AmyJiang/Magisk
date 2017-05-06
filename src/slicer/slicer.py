@@ -22,7 +22,7 @@ class SliceState(object):
         self.bbl_idx = bbl_idx
 
         if not target_tmps and not target_regs and not target_addrs:
-            log.error("Must specify at least one of the following:"
+            log.debug("Must specify at least one of the following:"
                       "target temps, target registers, and/or target memory addresses")
             raise SlicerError("Empty target state")
 
@@ -133,7 +133,7 @@ class Slicer(object):
         block = self._get_irsb(self._trace.last_bbl)
         cond = block.vex.statements[-1]
         if not isinstance(cond, pyvex.stmt.Exit):
-            log.error("Last statement is not a condition exit: %s", cond)
+            log.debug("Last statement is not a condition exit: last_bbl %x", self._trace.last_bbl.addr)
             raise SlicerError("Must slice from a conditional exit")
         if isinstance(cond.guard, pyvex.expr.RdTmp):
             self._target_q.append(SliceState(len(self._trace.bbls)-1, \
@@ -376,5 +376,5 @@ if __name__ == "__main__":
                 f.write(line)
                 f.write("\n")
     except SlicerError as e:
-        print e
+        sys.stderr.write("Error: %s" % e)
 
