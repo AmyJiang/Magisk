@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"html/template"
 	"io"
 	"io/ioutil"
@@ -74,13 +75,18 @@ func generateSliceHtml(w io.Writer, slice_file *SliceFile) error {
 		var buf bytes.Buffer
 		cnt := 0
 		for n, l := range lines {
+			lnum := fmt.Sprintf("%5d", n+1)
 			if cnt < len(ls) && n == ls[cnt]-1 {
+				buf.Write([]byte(lnum))
+				buf.Write([]byte("\t"))
 				buf.Write([]byte("<span class='in_slice'>"))
 				buf.Write(l)
 				buf.Write([]byte("</span>\n"))
 				cnt++
 			} else {
 				// buf.Write([]byte("<span class='not_in_slice'>"))
+				buf.Write([]byte(lnum))
+				buf.Write([]byte("\t"))
 				buf.Write(l)
 				buf.Write([]byte("\n"))
 				//				buf.Write([]byte("</span>\n"))
